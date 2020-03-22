@@ -6,9 +6,11 @@ public class GMScript : MonoBehaviour
 {
 
 	public GameObject[] PartyMembers;
+	public Sprite[] OrderSprites;
 	private bool noRepeat = true;
 	private static int partySize = 4;
-	private string[] PartyMemberOrder =  new string[partySize];
+	private string[] PartyMemberOrder = new string[partySize];
+	private int[] OrderNumbers = new int[partySize];
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +66,11 @@ public class GMScript : MonoBehaviour
 			if(PartyMemberOrder[i] == null)
 			{
 				PartyMemberOrder[i] = member.name;
+
+				string[] nameParse = PartyMemberOrder[i].Split(' ');
+				int partyNumber = int.Parse(nameParse[2]);
+				OrderNumbers[i] = partyNumber;
+
 				i = partySize;
 			}
 		}
@@ -80,8 +87,10 @@ public class GMScript : MonoBehaviour
 				{
 					if(j < partySize-1){
 						PartyMemberOrder[j] = PartyMemberOrder[j+1];
+						OrderNumbers[j] = OrderNumbers[j+1];
 					} else {
 						PartyMemberOrder[j] = null;
+						OrderNumbers[j] = 0;
 					}
 				}
 
@@ -92,14 +101,39 @@ public class GMScript : MonoBehaviour
 
 	void OutputParty(){
 
+		//RESET ORDER DISPLAY
     	for(int i = 0; i < partySize; i++)
 		{
-			if(PartyMemberOrder[i] != null)
+
+			PartyMembers[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+
+			//FOR DEBUGGING
+			if(OrderNumbers[i] != 0)
 			{
-				print(PartyMemberOrder[i]);
-			} else {
-				print("Empty.");
+
+				//print(OrderNumbers[i]);
+
 			}
+
+		}
+
+		for(int i = 0; i < partySize; i++)
+		{
+
+			for(int j = 1; j <= partySize; j++)
+			{
+
+				//DISPLAYS ORDER ABOVE IF NUMBER IS PRESENT (1-4)
+				//ADD OUTPUT FOR DEBUGGIN IF NECESSARY
+				if(OrderNumbers[i] == j)
+				{
+
+					PartyMembers[OrderNumbers[i]-1].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = OrderSprites[i];
+
+				}
+
+			}
+
 		}
 
     }
