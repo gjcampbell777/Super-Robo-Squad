@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 617295557}
   m_Layer: 0
   m_Name: Party Member 2
-  m_TagString: Untagged
+  m_TagString: Party
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 1394857172}
   m_Layer: 0
   m_Name: Party Member 3
-  m_TagString: Untagged
+  m_TagString: Party
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1058,7 +1058,7 @@ GameObject:
   - component: {fileID: 1935397211}
   m_Layer: 0
   m_Name: Party Member 4
-  m_TagString: Untagged
+  m_TagString: Party
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1187,7 +1187,7 @@ GameObject:
   - component: {fileID: 2058067576}
   m_Layer: 0
   m_Name: Party Member 1
-  m_TagString: Untagged
+  m_TagString: Party
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

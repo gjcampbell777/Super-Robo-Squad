@@ -32,16 +32,26 @@ public class GMScript : MonoBehaviour
 		    RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
 		    if (hit.collider != null) {
-		    	CheckParty(hit.collider.gameObject);
 
-		    	if(noRepeat)
+
+		    	if(hit.collider.gameObject.tag == "Party")
 		    	{
-		    		AddMember(hit.collider.gameObject);
-		    	} else {
-		    		RemoveMember(hit.collider.gameObject);
+		    		CheckParty(hit.collider.gameObject);
+
+			    	if(noRepeat)
+			    	{
+			    		AddMember(hit.collider.gameObject);
+			    	} else {
+			    		RemoveMember(hit.collider.gameObject);
+			    	}
+
+			    	OutputParty();
 		    	}
 
-		    	OutputParty();
+		    	if(hit.collider.gameObject.tag == "Attack")
+		    	{
+		    		
+		    	}
 
 			}
         }
