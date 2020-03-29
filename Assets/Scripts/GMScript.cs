@@ -50,7 +50,9 @@ public class GMScript : MonoBehaviour
 
 		    	if(hit.collider.gameObject.tag == "Attack")
 		    	{
-		    		
+
+		    		StartCoroutine(AttackParty());
+
 		    	}
 
 			}
@@ -134,7 +136,7 @@ public class GMScript : MonoBehaviour
 			{
 
 				//DISPLAYS ORDER ABOVE IF NUMBER IS PRESENT (1-4)
-				//ADD OUTPUT FOR DEBUGGIN IF NECESSARY
+				//ADD OUTPUT FOR DEBUGGING IF NECESSARY
 				if(OrderNumbers[i] == j)
 				{
 
@@ -143,6 +145,41 @@ public class GMScript : MonoBehaviour
 				}
 
 			}
+
+		}
+
+    }
+
+    IEnumerator AttackParty()
+    {
+
+    	// RUNS ATTACK ANIMATION BASED ON PARTY ORDER
+    	for(int i = 0; i < partySize; i++)
+		{
+
+			if(OrderNumbers[i] != 0)
+			{
+
+				PartyMembers[OrderNumbers[i]-1].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+				Animator attack = PartyMembers[OrderNumbers[i]-1].transform.GetComponent<Animator>();
+				attack.SetTrigger("AttackTrigger");
+
+				yield return new WaitForSeconds(
+					attack.GetCurrentAnimatorStateInfo(0).length
+					+attack.GetCurrentAnimatorStateInfo(0).normalizedTime);
+			}
+
+			// CLEAN UP IN CASE ANYTHING IS MISSED
+			OrderNumbers[i] = 0;
+			PartyMemberOrder[i] = null;
+
+		}
+
+		// CLEAN UP IN CASE ANYTHING IS MISSED
+		for(int i = 0; i < partySize; i++)
+		{
+
+			PartyMembers[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
 
 		}
 
