@@ -11,11 +11,93 @@ public class GMScript : MonoBehaviour
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
+	private int[] PartyColours = new int[partySize];
+
+	enum Colours {
+		Red, Yellow, Blue, Grey,
+		Orange, Green, Purple, 
+		Black, White,
+		Pink, Brown, Lime
+	}
+
+	Colours robotColour;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+     
+    	robotColour = Colours.Red;
+
+    	PartyColours[0] = Random.Range(0, 12);
+    	PartyColours[1] = Random.Range(0, 12);
+    	PartyColours[2] = Random.Range(0, 12);
+    	PartyColours[3] = Random.Range(0, 12);
+
+    	for(int i = 0; i < partySize; i++)
+		{
+
+			//SETTING AND OUTPUT OF ROBOT COLOUR
+			robotColour = (Colours)PartyColours[i];
+			print(robotColour);
+
+			switch(robotColour)
+			{
+			case Colours.Red:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(1, 0, 0, 1);
+				break;
+			case Colours.Yellow:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(1, 1, 0, 1);
+				break;
+			case Colours.Blue:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(0, 0, 1, 1);
+				break;
+			case Colours.Grey:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(0.5f, 0.5f, 0.5f, 1);
+				break;
+			case Colours.Orange:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(1, 0.5f, 0, 1);
+				break;
+			case Colours.Green:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(0, 1, 0, 1);
+				break;
+			case Colours.Purple:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(0.5f, 0, 1, 1);
+				break;
+			case Colours.Black:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(0, 0, 0, 1);
+				break;
+			case Colours.White:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(1, 1, 1, 1);
+				break;
+			case Colours.Pink:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(1, 0, 0.5f, 1);
+				break;
+			case Colours.Brown:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(0.4f, 0.2f, 0, 1);
+				break;
+			case Colours.Lime:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(0.2f, 1, 0.2f, 1);
+				break;
+			default:
+				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
+				= new Color(1, 1, 1, 1);
+				break;
+			}
+
+		}
+
     }
 
     // Update is called once per frame
@@ -51,7 +133,7 @@ public class GMScript : MonoBehaviour
 		    	if(hit.collider.gameObject.tag == "Attack")
 		    	{
 
-		    		StartCoroutine(AttackParty());
+		    		StartCoroutine(AttackParty(robotColour));
 
 		    	}
 
@@ -150,7 +232,7 @@ public class GMScript : MonoBehaviour
 
     }
 
-    IEnumerator AttackParty()
+    IEnumerator AttackParty(Colours robotColour)
     {
 
     	// RUNS ATTACK ANIMATION BASED ON PARTY ORDER
@@ -167,6 +249,10 @@ public class GMScript : MonoBehaviour
 				yield return new WaitForSeconds(
 					attack.GetCurrentAnimatorStateInfo(0).length
 					+attack.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+				//SETTING AND OUTPUT OF ROBOT COLOUR
+				robotColour = (Colours)PartyColours[OrderNumbers[i]-1];
+				//print(robotColour);
 			}
 
 			// CLEAN UP IN CASE ANYTHING IS MISSED
