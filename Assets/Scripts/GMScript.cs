@@ -7,6 +7,8 @@ public class GMScript : MonoBehaviour
 
 	public GameObject[] PartyMembers;
 	public Sprite[] OrderSprites;
+	public GameObject EnemyRobot;
+	public GameObject Hit;
 	private bool noRepeat = true;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
@@ -38,7 +40,7 @@ public class GMScript : MonoBehaviour
 
 			//SETTING AND OUTPUT OF ROBOT COLOUR
 			robotColour = (Colours)PartyColours[i];
-			print(robotColour);
+			//print(robotColour);
 
 			switch(robotColour)
 			{
@@ -249,6 +251,22 @@ public class GMScript : MonoBehaviour
 				yield return new WaitForSeconds(
 					attack.GetCurrentAnimatorStateInfo(0).length
 					+attack.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+				Hit.transform.GetComponent<SpriteRenderer>().color = 
+					PartyMembers[OrderNumbers[i]-1].transform.GetComponent<SpriteRenderer>().color;
+
+				attack.SetTrigger("AttackTrigger");
+				Hit.SetActive(true);
+
+				Animator hit = Hit.transform.GetComponent<Animator>();
+				hit.SetTrigger("HitTrigger");
+
+				yield return new WaitForSeconds(
+					hit.GetCurrentAnimatorStateInfo(0).length
+					+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+				Hit.SetActive(false);
+				hit.SetTrigger("HitTrigger");
 
 				//SETTING AND OUTPUT OF ROBOT COLOUR
 				robotColour = (Colours)PartyColours[OrderNumbers[i]-1];
