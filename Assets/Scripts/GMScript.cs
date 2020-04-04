@@ -10,7 +10,15 @@ public class GMScript : MonoBehaviour
 	public GameObject EnemyRobot;
 	public GameObject Hit;
 	public GameObject EnemyHit;
+
 	private bool noRepeat = true;
+	private bool gameover = false;
+	private bool victory = false;
+	private int partyHealth = 16;
+	private int enemyHealth = 16;
+	private int partyAttack = 1;
+	private int enemyAttack = 4;
+	private int enemyColour = 0;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
@@ -46,8 +54,10 @@ public class GMScript : MonoBehaviour
 
 		}
 
+		enemyColour = Random.Range(0, 12);
+
 		EnemyRobot.transform.GetComponent<SpriteRenderer>().color =
-			SetColour(Random.Range(0, 12));
+			SetColour(enemyColour);
 
     }
 
@@ -90,6 +100,32 @@ public class GMScript : MonoBehaviour
 
 			}
         }
+
+        if(partyHealth <= 0 && gameover == false)
+        {
+
+        	for(int i = 0; i < partySize; i++)
+			{
+		    	Destroy(GameObject.FindWithTag("Party"));
+		    }
+
+		    print("The Super Robo Squad has been destroyed! Try again!");
+
+		    gameover = true;
+
+        }
+
+        if(enemyHealth <= 0 && victory == false)
+        {
+
+		    Destroy(GameObject.FindWithTag("Enemy"));
+
+		    print("The enemy robot has been destroyed! Congrats!");
+
+		    victory = true;
+
+        }
+
     }
 
     void CheckParty(GameObject member)
@@ -220,6 +256,9 @@ public class GMScript : MonoBehaviour
 				//SETTING AND OUTPUT OF ROBOT COLOUR
 				robotColour = (Colours)PartyColours[OrderNumbers[i]-1];
 				//print(robotColour);
+
+				//PARTY MEMEBER ATTACKING ENEMY
+				DamageParty(partyAttack, robotColour);
 			}
 
 			// CLEAN UP IN CASE ANYTHING IS MISSED
@@ -244,17 +283,17 @@ public class GMScript : MonoBehaviour
     {
 
     	// RUNS ATTACK ANIMATION OF ENEMY
-		Animator enemyAttack = EnemyRobot.transform.GetComponent<Animator>();
-		enemyAttack.SetTrigger("AttackTrigger");
+		Animator enemyAttackAnim = EnemyRobot.transform.GetComponent<Animator>();
+		enemyAttackAnim.SetTrigger("AttackTrigger");
 
 		yield return new WaitForSeconds(
-			enemyAttack.GetCurrentAnimatorStateInfo(0).length
-			+enemyAttack.GetCurrentAnimatorStateInfo(0).normalizedTime);
+			enemyAttackAnim.GetCurrentAnimatorStateInfo(0).length
+			+enemyAttackAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
 		EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
 			EnemyRobot.transform.GetComponent<SpriteRenderer>().color;
 
-		enemyAttack.SetTrigger("AttackTrigger");
+		enemyAttackAnim.SetTrigger("AttackTrigger");
 		EnemyHit.SetActive(true);
 
 		Animator hit = EnemyHit.transform.GetComponent<Animator>();
@@ -267,7 +306,32 @@ public class GMScript : MonoBehaviour
 		EnemyHit.SetActive(false);
 		hit.SetTrigger("HitTrigger");
 
-		//OUTPUT OF ENEMY ATTACK
+		//ENEMY ATTACKING PARTY
+		DamageEnemy(enemyAttack, (Colours)enemyColour);
+
+    }
+
+    void DamageParty(int partyAttack, Colours partyMember)
+    {
+
+    	int modifier = 1;
+    	int modifiedAttack = partyAttack * modifier;
+
+    	enemyHealth -= modifiedAttack;
+    	print(partyMember + " robot attacked for " + modifiedAttack);
+    	print("Enemy robot health is now: " + enemyHealth + " HP");
+
+    }
+
+    void DamageEnemy(int enemyAttack, Colours enemyColour)
+    {
+
+    	int modifier = 1;
+    	int modifiedAttack = enemyAttack * modifier;
+
+    	partyHealth -= modifiedAttack;
+    	print(enemyColour + " enemy robot attacked for " + modifiedAttack);
+    	print("Party health is now: " + partyHealth + " HP");
 
     }
 
