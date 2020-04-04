@@ -9,6 +9,7 @@ public class GMScript : MonoBehaviour
 	public Sprite[] OrderSprites;
 	public GameObject EnemyRobot;
 	public GameObject Hit;
+	public GameObject EnemyHit;
 	private bool noRepeat = true;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
@@ -39,66 +40,14 @@ public class GMScript : MonoBehaviour
 		{
 
 			//SETTING AND OUTPUT OF ROBOT COLOUR
-			robotColour = (Colours)PartyColours[i];
+			PartyMembers[i].transform.GetComponent<SpriteRenderer>().color =
+				SetColour(PartyColours[i]);
 			//print(robotColour);
 
-			switch(robotColour)
-			{
-			case Colours.Red:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(1, 0, 0, 1);
-				break;
-			case Colours.Yellow:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(1, 1, 0, 1);
-				break;
-			case Colours.Blue:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(0, 0, 1, 1);
-				break;
-			case Colours.Grey:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(0.5f, 0.5f, 0.5f, 1);
-				break;
-			case Colours.Orange:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(1, 0.5f, 0, 1);
-				break;
-			case Colours.Green:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(0, 1, 0, 1);
-				break;
-			case Colours.Purple:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(0.5f, 0, 1, 1);
-				break;
-			case Colours.Black:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(0, 0, 0, 1);
-				break;
-			case Colours.White:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(1, 1, 1, 1);
-				break;
-			case Colours.Pink:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(1, 0, 0.5f, 1);
-				break;
-			case Colours.Brown:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(0.4f, 0.2f, 0, 1);
-				break;
-			case Colours.Lime:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(0.2f, 1, 0.2f, 1);
-				break;
-			default:
-				PartyMembers[i].transform.GetComponent<SpriteRenderer>().color
-				= new Color(1, 1, 1, 1);
-				break;
-			}
-
 		}
+
+		EnemyRobot.transform.GetComponent<SpriteRenderer>().color =
+			SetColour(Random.Range(0, 12));
 
     }
 
@@ -286,6 +235,103 @@ public class GMScript : MonoBehaviour
 			PartyMembers[i].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
 
 		}
+
+		StartCoroutine(AttackEnemy());
+
+    }
+
+    IEnumerator AttackEnemy()
+    {
+
+    	// RUNS ATTACK ANIMATION OF ENEMY
+		Animator enemyAttack = EnemyRobot.transform.GetComponent<Animator>();
+		enemyAttack.SetTrigger("AttackTrigger");
+
+		yield return new WaitForSeconds(
+			enemyAttack.GetCurrentAnimatorStateInfo(0).length
+			+enemyAttack.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+		EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
+			EnemyRobot.transform.GetComponent<SpriteRenderer>().color;
+
+		enemyAttack.SetTrigger("AttackTrigger");
+		EnemyHit.SetActive(true);
+
+		Animator hit = EnemyHit.transform.GetComponent<Animator>();
+		hit.SetTrigger("HitTrigger");
+
+		yield return new WaitForSeconds(
+			hit.GetCurrentAnimatorStateInfo(0).length
+			+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+		EnemyHit.SetActive(false);
+		hit.SetTrigger("HitTrigger");
+
+		//OUTPUT OF ENEMY ATTACK
+
+    }
+
+    Color SetColour(int robotColour)
+    {
+    	Color colourValue = new Color(1, 1, 1, 1);
+
+    	switch((Colours)robotColour)
+			{
+			case Colours.Red:
+				colourValue
+				= new Color(1, 0, 0, 1);
+				break;
+			case Colours.Yellow:
+				colourValue
+				= new Color(1, 1, 0, 1);
+				break;
+			case Colours.Blue:
+				colourValue
+				= new Color(0, 0, 1, 1);
+				break;
+			case Colours.Grey:
+				colourValue
+				= new Color(0.5f, 0.5f, 0.5f, 1);
+				break;
+			case Colours.Orange:
+				colourValue
+				= new Color(1, 0.5f, 0, 1);
+				break;
+			case Colours.Green:
+				colourValue
+				= new Color(0, 1, 0, 1);
+				break;
+			case Colours.Purple:
+				colourValue
+				= new Color(0.5f, 0, 1, 1);
+				break;
+			case Colours.Black:
+				colourValue
+				= new Color(0, 0, 0, 1);
+				break;
+			case Colours.White:
+				colourValue
+				= new Color(1, 1, 1, 1);
+				break;
+			case Colours.Pink:
+				colourValue
+				= new Color(1, 0, 0.5f, 1);
+				break;
+			case Colours.Brown:
+				colourValue
+				= new Color(0.4f, 0.2f, 0, 1);
+				break;
+			case Colours.Lime:
+				colourValue
+				= new Color(0.2f, 1, 0.2f, 1);
+				break;
+			default:
+				colourValue
+				= new Color(1, 1, 1, 1);
+				break;
+			}
+
+    	return colourValue;
 
     }
 
