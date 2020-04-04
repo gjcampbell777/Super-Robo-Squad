@@ -10,8 +10,10 @@ public class GMScript : MonoBehaviour
 	public GameObject EnemyRobot;
 	public GameObject Hit;
 	public GameObject EnemyHit;
+	public GameObject Sheild;
 
 	private bool noRepeat = true;
+	private bool sheild = false;
 	private bool gameover = false;
 	private bool victory = false;
 	private int partyHealth = 16;
@@ -230,6 +232,7 @@ public class GMScript : MonoBehaviour
 			{
 
 				PartyMembers[OrderNumbers[i]-1].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+
 				Animator attack = PartyMembers[OrderNumbers[i]-1].transform.GetComponent<Animator>();
 				attack.SetTrigger("AttackTrigger");
 
@@ -237,21 +240,64 @@ public class GMScript : MonoBehaviour
 					attack.GetCurrentAnimatorStateInfo(0).length
 					+attack.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-				Hit.transform.GetComponent<SpriteRenderer>().color = 
+				attack.SetTrigger("AttackTrigger");
+
+				print(PartyColours[OrderNumbers[i]-1]);
+
+				//CHECKING IF AN "ATTACK" OR "NON-ATTACK" ROBOT IS GOING
+				if(((Colours)PartyColours[OrderNumbers[i]-1] != Colours.Grey && 
+					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.Green && 
+					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.Lime)
+					&& sheild != true)
+				{
+
+					Hit.transform.GetComponent<SpriteRenderer>().color = 
 					PartyMembers[OrderNumbers[i]-1].transform.GetComponent<SpriteRenderer>().color;
 
-				attack.SetTrigger("AttackTrigger");
-				Hit.SetActive(true);
+					Hit.SetActive(true);
 
-				Animator hit = Hit.transform.GetComponent<Animator>();
-				hit.SetTrigger("HitTrigger");
+					Animator hit = Hit.transform.GetComponent<Animator>();
+					hit.SetTrigger("HitTrigger");
 
-				yield return new WaitForSeconds(
-					hit.GetCurrentAnimatorStateInfo(0).length
-					+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+					yield return new WaitForSeconds(
+						hit.GetCurrentAnimatorStateInfo(0).length
+						+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-				Hit.SetActive(false);
-				hit.SetTrigger("HitTrigger");
+					Hit.SetActive(false);
+					hit.SetTrigger("HitTrigger");
+				
+				} 
+
+				//GREY ROBOT (SHEILD) IS GOING
+				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.Grey){
+
+					sheild = true;
+					Sheild.transform.GetComponent<SpriteRenderer>().color = 
+					PartyMembers[OrderNumbers[i]-1].transform.GetComponent<SpriteRenderer>().color;
+					Sheild.SetActive(true);
+
+				} 
+
+				//GREEN/LIME ROBOT (HEALTH) IS GOING
+				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.Green || 
+					(Colours)PartyColours[OrderNumbers[i]-1] == Colours.Lime){
+
+					EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
+					PartyMembers[OrderNumbers[i]-1].transform.GetComponent<SpriteRenderer>().color;
+
+					EnemyHit.SetActive(true);
+
+					Animator hit = EnemyHit.transform.GetComponent<Animator>();
+					hit.SetTrigger("HitTrigger");
+
+					yield return new WaitForSeconds(
+						hit.GetCurrentAnimatorStateInfo(0).length
+						+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+					EnemyHit.SetActive(false);
+					hit.SetTrigger("HitTrigger");
+
+				}
 
 				//SETTING AND OUTPUT OF ROBOT COLOUR
 				robotColour = (Colours)PartyColours[OrderNumbers[i]-1];
@@ -294,17 +340,24 @@ public class GMScript : MonoBehaviour
 			EnemyRobot.transform.GetComponent<SpriteRenderer>().color;
 
 		enemyAttackAnim.SetTrigger("AttackTrigger");
-		EnemyHit.SetActive(true);
 
-		Animator hit = EnemyHit.transform.GetComponent<Animator>();
-		hit.SetTrigger("HitTrigger");
+		//HIT EFFECT ONLY WORKS IF THERE IS NO SHEILD UP
+		if(sheild == false)
+		{
 
-		yield return new WaitForSeconds(
-			hit.GetCurrentAnimatorStateInfo(0).length
-			+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+			EnemyHit.SetActive(true);
 
-		EnemyHit.SetActive(false);
-		hit.SetTrigger("HitTrigger");
+			Animator hit = EnemyHit.transform.GetComponent<Animator>();
+			hit.SetTrigger("HitTrigger");
+
+			yield return new WaitForSeconds(
+				hit.GetCurrentAnimatorStateInfo(0).length
+				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+			EnemyHit.SetActive(false);
+			hit.SetTrigger("HitTrigger");
+
+		}
 
 		//ENEMY ATTACKING PARTY
 		DamageEnemy(enemyAttack, (Colours)enemyColour);
@@ -315,7 +368,30 @@ public class GMScript : MonoBehaviour
     {
 
     	int modifier = 1;
-    	int modifiedAttack = partyAttack * modifier;
+    	int modifiedAttack = 1;
+
+    	if(partyMember == Colours.Grey || partyMember == Colours.Green || partyMember == Colours.Lime)
+    	{
+
+    		modifier = 0;
+
+    		if(partyMember == Colours.Green || partyMember == Colours.Lime)
+    		{
+
+    			partyHealth += 4;
+    			print(partyMember + " healed the team for 4");
+    			print("Party health is now: " + partyHealth + " HP");
+
+    		}
+
+    	}
+
+    	if(sheild == true) 
+    	{
+    		modifier = 0;
+    	}
+
+    	modifiedAttack = partyAttack * modifier;
 
     	enemyHealth -= modifiedAttack;
     	print(partyMember + " robot attacked for " + modifiedAttack);
@@ -327,7 +403,20 @@ public class GMScript : MonoBehaviour
     {
 
     	int modifier = 1;
-    	int modifiedAttack = enemyAttack * modifier;
+    	int modifiedAttack = 4;
+
+    	//HIT ONLY DAMAGES IF THERE IS NO SHEILD UP
+    	if(sheild == true)
+    	{
+
+    		modifier = 0;
+    		print("Sheild Hit!");
+    		Sheild.SetActive(false);
+    		sheild = false;
+
+    	}
+
+    	modifiedAttack = enemyAttack * modifier;
 
     	partyHealth -= modifiedAttack;
     	print(enemyColour + " enemy robot attacked for " + modifiedAttack);

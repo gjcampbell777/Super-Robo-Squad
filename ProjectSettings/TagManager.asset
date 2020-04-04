@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Party
   - Attack
+  - Enemy
   layers:
   - Default
   - TransparentFX
