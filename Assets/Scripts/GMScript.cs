@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GMScript : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class GMScript : MonoBehaviour
 	public GameObject Hit;
 	public GameObject EnemyHit;
 	public GameObject Sheild;
+
+	public Text EnemyDamageText;
+	public Text PartyDamageText;
+	public Text EnemyHealthText;
+	public Text PartyHealthText;
 
 	private bool noRepeat = true;
 	private bool sheild = false;
@@ -38,6 +44,11 @@ public class GMScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+    	EnemyHealthText.text = enemyHealth.ToString();
+    	PartyHealthText.text = partyHealth.ToString();
+    	EnemyDamageText.text = null;
+    	PartyDamageText.text = null;
      
     	robotColour = Colours.Red;
 
@@ -68,6 +79,8 @@ public class GMScript : MonoBehaviour
     {
 
     	noRepeat = true;
+    	EnemyHealthText.text = enemyHealth.ToString();
+    	PartyHealthText.text = partyHealth.ToString();
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -105,6 +118,7 @@ public class GMScript : MonoBehaviour
 
         if(partyHealth <= 0 && gameover == false)
         {
+        	partyHealth = 0;
 
         	for(int i = 0; i < partySize; i++)
 			{
@@ -119,6 +133,7 @@ public class GMScript : MonoBehaviour
 
         if(enemyHealth <= 0 && victory == false)
         {
+        	enemyHealth = 0;
 
 		    Destroy(GameObject.FindWithTag("Enemy"));
 
@@ -379,6 +394,9 @@ public class GMScript : MonoBehaviour
     		{
 
     			partyHealth += 4;
+
+    			StartCoroutine(DisplayDamageText(4, PartyDamageText, partyMember));
+
     			print(partyMember + " healed the team for 4");
     			print("Party health is now: " + partyHealth + " HP");
 
@@ -392,6 +410,8 @@ public class GMScript : MonoBehaviour
     	}
 
     	modifiedAttack = partyAttack * modifier;
+
+    	StartCoroutine(DisplayDamageText(modifiedAttack, EnemyDamageText, partyMember));
 
     	enemyHealth -= modifiedAttack;
     	print(partyMember + " robot attacked for " + modifiedAttack);
@@ -418,9 +438,23 @@ public class GMScript : MonoBehaviour
 
     	modifiedAttack = enemyAttack * modifier;
 
+    	StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, enemyColour));
+
     	partyHealth -= modifiedAttack;
     	print(enemyColour + " enemy robot attacked for " + modifiedAttack);
     	print("Party health is now: " + partyHealth + " HP");
+
+    }
+
+    IEnumerator DisplayDamageText(int damage, Text display, Colours displayColour)
+    {
+
+    	display.color = SetColour((int)displayColour);
+    	display.text = damage.ToString();
+
+    	yield return new WaitForSeconds(1);
+
+    	display.text = null;
 
     }
 
