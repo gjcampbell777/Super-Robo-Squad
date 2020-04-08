@@ -266,8 +266,7 @@ public class GMScript : MonoBehaviour
 
 				//CHECKING IF AN "ATTACK" OR "NON-ATTACK" ROBOT IS GOING
 				if(((Colours)PartyColours[OrderNumbers[i]-1] != Colours.Grey && 
-					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.Green && 
-					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.Lime)
+					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.White)
 					&& sheild != true)
 				{
 
@@ -299,8 +298,7 @@ public class GMScript : MonoBehaviour
 				} 
 
 				//GREEN/LIME ROBOT (HEALTH) IS GOING
-				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.Green || 
-					(Colours)PartyColours[OrderNumbers[i]-1] == Colours.Lime){
+				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.White){
 
 					EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
 					PartyMembers[OrderNumbers[i]-1].transform.GetComponent<SpriteRenderer>().color;
@@ -395,7 +393,7 @@ public class GMScript : MonoBehaviour
 		}
 
 		//ENEMY ATTACKING PARTY (DEFAULT DISPLAY TEXT TO RED FOR NOW)
-		DamageEnemy(enemyAttack, (Colours)0);
+		DamageEnemy(enemyAttack, Colours.Red);
 
     }
 
@@ -405,12 +403,12 @@ public class GMScript : MonoBehaviour
     	int modifier = 1;
     	int modifiedAttack = 1;
 
-    	if(partyMember == Colours.Grey || partyMember == Colours.Green || partyMember == Colours.Lime)
+    	if(partyMember == Colours.Grey || partyMember == Colours.White)
     	{
 
     		modifier = 0;
 
-    		if(partyMember == Colours.Green || partyMember == Colours.Lime)
+    		if(partyMember == Colours.White)
     		{
 
     			partyHealth += 4;
