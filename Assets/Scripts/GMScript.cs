@@ -43,7 +43,8 @@ public class GMScript : MonoBehaviour
 		Red, Yellow, Blue, Grey,
 		Orange, Green, Purple, 
 		Black, White,
-		Pink, Brown, Lime
+		Pink, Brown, Lime,
+		Cyan, PurpleBlue, OrangeYellow
 	}
 
 	Colours robotColour;
@@ -61,10 +62,10 @@ public class GMScript : MonoBehaviour
      
     	robotColour = Colours.Red;
 
-    	PartyColours[0] = Random.Range(0, 12);
-    	PartyColours[1] = Random.Range(0, 12);
-    	PartyColours[2] = Random.Range(0, 12);
-    	PartyColours[3] = Random.Range(0, 12);
+    	PartyColours[0] = Random.Range(0, 15);
+    	PartyColours[1] = Random.Range(0, 15);
+    	PartyColours[2] = Random.Range(0, 15);
+    	PartyColours[3] = Random.Range(0, 15);
 
     	for(int i = 0; i < partySize; i++)
 		{
@@ -552,7 +553,7 @@ public class GMScript : MonoBehaviour
 				break;
 			case Colours.Green:
 				colourValue
-				= new Color(0, 1, 0, 1);
+				= new Color(0, 0.8f, 0, 1);
 				break;
 			case Colours.Purple:
 				colourValue
@@ -576,7 +577,19 @@ public class GMScript : MonoBehaviour
 				break;
 			case Colours.Lime:
 				colourValue
-				= new Color(0.2f, 1, 0.2f, 1);
+				= new Color(0.5f, 1, 0, 1);
+				break;
+			case Colours.Cyan:
+				colourValue
+				= new Color(0, 1, 1, 1);
+				break;
+			case Colours.PurpleBlue:
+				colourValue
+				= new Color(0.2f, 0, 1, 1);
+				break;
+			case Colours.OrangeYellow:
+				colourValue
+				= new Color(1, 0.87f, 0, 1);
 				break;
 			default:
 				colourValue
