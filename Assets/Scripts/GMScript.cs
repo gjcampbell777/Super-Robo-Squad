@@ -34,7 +34,6 @@ public class GMScript : MonoBehaviour
 	private int enemyHealth = 16;
 	private int partyAttack = 1;
 	private int enemyAttack = 4;
-	private int enemyColour = 0;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
@@ -394,8 +393,8 @@ public class GMScript : MonoBehaviour
 
 		}
 
-		//ENEMY ATTACKING PARTY
-		DamageEnemy(enemyAttack, (Colours)enemyColour);
+		//ENEMY ATTACKING PARTY (DEFAULT DISPLAY TEXT TO RED FOR NOW)
+		DamageEnemy(enemyAttack, (Colours)0);
 
     }
 
