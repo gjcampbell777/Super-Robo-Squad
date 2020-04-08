@@ -8,7 +8,6 @@ public class GMScript : MonoBehaviour
 
 	public GameObject[] PartyMembers;
 	public Sprite[] OrderSprites;
-	public GameObject EnemyRobot;
 	public GameObject Hit;
 	public GameObject EnemyHit;
 	public GameObject Sheild;
@@ -17,6 +16,15 @@ public class GMScript : MonoBehaviour
 	public Text PartyDamageText;
 	public Text EnemyHealthText;
 	public Text PartyHealthText;
+
+	public GameObject[] EnemyParts;
+
+	public Sprite[] EnemyHead;
+	public Sprite[] EnemyAntenna;
+	public Sprite[] EnemyBody;
+	public Sprite[] EnemyArm;
+	public Sprite[] EnemyChest;
+	public Sprite[] EnemyWeakness;
 
 	private bool noRepeat = true;
 	private bool sheild = false;
@@ -45,6 +53,8 @@ public class GMScript : MonoBehaviour
     void Start()
     {
 
+    	EnemyBuilder();
+
     	EnemyHealthText.text = enemyHealth.ToString();
     	PartyHealthText.text = partyHealth.ToString();
     	EnemyDamageText.text = null;
@@ -66,11 +76,6 @@ public class GMScript : MonoBehaviour
 			//print(robotColour);
 
 		}
-
-		enemyColour = Random.Range(0, 12);
-
-		EnemyRobot.transform.GetComponent<SpriteRenderer>().color =
-			SetColour(enemyColour);
 
     }
 
@@ -344,7 +349,7 @@ public class GMScript : MonoBehaviour
     {
 
     	// RUNS ATTACK ANIMATION OF ENEMY
-		Animator enemyAttackAnim = EnemyRobot.transform.GetComponent<Animator>();
+		Animator enemyAttackAnim = EnemyParts[2].transform.parent.GetComponent<Animator>();
 		enemyAttackAnim.SetTrigger("AttackTrigger");
 
 		yield return new WaitForSeconds(
@@ -352,7 +357,7 @@ public class GMScript : MonoBehaviour
 			+enemyAttackAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
 		EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
-			EnemyRobot.transform.GetComponent<SpriteRenderer>().color;
+			EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().color;
 
 		enemyAttackAnim.SetTrigger("AttackTrigger");
 
@@ -363,6 +368,21 @@ public class GMScript : MonoBehaviour
 			EnemyHit.SetActive(true);
 
 			Animator hit = EnemyHit.transform.GetComponent<Animator>();
+			hit.SetTrigger("HitTrigger");
+
+			yield return new WaitForSeconds(
+				hit.GetCurrentAnimatorStateInfo(0).length
+				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+			hit.SetTrigger("HitTrigger");
+
+			EnemyHit.SetActive(false);
+
+			EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
+				EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+
+			EnemyHit.SetActive(true);
+
 			hit.SetTrigger("HitTrigger");
 
 			yield return new WaitForSeconds(
@@ -455,6 +475,53 @@ public class GMScript : MonoBehaviour
     	yield return new WaitForSeconds(1);
 
     	display.text = null;
+
+    }
+
+    void EnemyBuilder()
+    {
+
+    	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+    		EnemyAntenna[Random.Range(0, EnemyAntenna.Length)];
+
+    	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(Random.Range(0, 12));
+
+    	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+    		EnemyHead[Random.Range(0, EnemyHead.Length)];
+
+    	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(Random.Range(0, 12));
+
+    	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+    		EnemyBody[Random.Range(0, EnemyBody.Length)];
+
+    	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(Random.Range(0, 12));
+
+    	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+    		EnemyArm[Random.Range(0, EnemyArm.Length)];
+
+    	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(Random.Range(0, 12));
+
+    	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+    		EnemyArm[Random.Range(0, EnemyArm.Length)];
+
+    	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(Random.Range(0, 12));
+
+    	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+    		EnemyChest[Random.Range(0, EnemyChest.Length)];
+
+    	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(Random.Range(0, 12));
+
+    	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+    		EnemyWeakness[Random.Range(0, EnemyWeakness.Length)];
+
+    	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(Random.Range(0, 12));
 
     }
 
