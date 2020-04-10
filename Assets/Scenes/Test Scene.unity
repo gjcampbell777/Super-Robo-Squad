@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 46649161}
   m_Layer: 0
   m_Name: Enemy Head
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 413705668}
   m_Layer: 0
   m_Name: Enemy Weakness Sprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -864,7 +864,7 @@ GameObject:
   - component: {fileID: 547726944}
   m_Layer: 0
   m_Name: Enemy Head Sprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1026,7 +1026,7 @@ GameObject:
   - component: {fileID: 604408378}
   m_Layer: 0
   m_Name: Enemy Antenna Sprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1317,7 +1317,7 @@ GameObject:
   - component: {fileID: 906838572}
   m_Layer: 0
   m_Name: Enemy Chest Sprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1510,7 +1510,7 @@ GameObject:
   - component: {fileID: 1046479939}
   m_Layer: 0
   m_Name: Enemy Arm Left Sprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1872,7 +1872,7 @@ GameObject:
   - component: {fileID: 1209232140}
   m_Layer: 0
   m_Name: Enemy Antenna
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1903,7 +1903,7 @@ GameObject:
   - component: {fileID: 1247425757}
   m_Layer: 0
   m_Name: Enemy Arm Left
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2449,7 +2449,7 @@ GameObject:
   - component: {fileID: 1646474456}
   m_Layer: 0
   m_Name: Enemy Arm Right
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2773,7 +2773,7 @@ GameObject:
   - component: {fileID: 1924729444}
   m_Layer: 0
   m_Name: Enemy Arm Right Sprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2982,7 +2982,7 @@ GameObject:
   - component: {fileID: 1989602357}
   m_Layer: 0
   m_Name: Enemy Chest
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3014,7 +3014,7 @@ GameObject:
   - component: {fileID: 1999664082}
   m_Layer: 0
   m_Name: Enemy Body Sprite
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3095,7 +3095,7 @@ GameObject:
   - component: {fileID: 2030950433}
   m_Layer: 0
   m_Name: Enemy Robot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3280,7 +3280,7 @@ GameObject:
   - component: {fileID: 2092827606}
   m_Layer: 0
   m_Name: Enemy Body
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3311,7 +3311,7 @@ GameObject:
   - component: {fileID: 2133992576}
   m_Layer: 0
   m_Name: Enemy Weakness
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
