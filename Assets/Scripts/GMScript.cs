@@ -90,7 +90,7 @@ public class GMScript : MonoBehaviour
     	EnemyHealthText.text = enemyHealth.ToString();
     	PartyHealthText.text = partyHealth.ToString();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && gameover == false && victory == false)
         {
         	Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		    Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
@@ -128,10 +128,8 @@ public class GMScript : MonoBehaviour
         {
         	partyHealth = 0;
 
-        	for(int i = 0; i < partySize; i++)
-			{
-		    	Destroy(GameObject.FindWithTag("Party"));
-		    }
+        	GameObject[] party = GameObject.FindGameObjectsWithTag("Party");
+   			foreach(GameObject memeber in party) GameObject.Destroy(memeber);
 
 		    print("The Super Robo Squad has been destroyed! Try again!");
 
@@ -143,7 +141,8 @@ public class GMScript : MonoBehaviour
         {
         	enemyHealth = 0;
 
-		    Destroy(GameObject.FindWithTag("Enemy"));
+		    GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");
+   			foreach(GameObject parts in enemy) GameObject.Destroy(parts);
 
 		    print("The enemy robot has been destroyed! Congrats!");
 
