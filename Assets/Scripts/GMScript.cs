@@ -32,19 +32,20 @@ public class GMScript : MonoBehaviour
 	private bool victory = false;
 	private int partyHealth = 16;
 	private int enemyHealth = 16;
-	private int partyAttack = 1;
+	private int partyAttack = 2;
 	private int enemyAttack = 4;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
 	private int[] PartyColours = new int[partySize];
+	private int[] EnemtyPartsColours;
 
 	enum Colours {
-		Red, Yellow, Blue, Grey,
-		Orange, Green, Purple, 
-		Black, White,
-		Pink, Brown, Lime,
-		Cyan, Indigo, Amber
+		Red, Brown, Orange,
+		Amber, Yellow, Lime,
+		Green, Cyan, Blue, 
+		Indigo, Purple, Pink,
+		White, Grey, Black
 	}
 
 	Colours robotColour;
@@ -52,6 +53,8 @@ public class GMScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+    	EnemtyPartsColours = new int[EnemyParts.Length];
 
     	EnemyBuilder();
 
@@ -400,8 +403,27 @@ public class GMScript : MonoBehaviour
     void DamageParty(int partyAttack, Colours partyMember)
     {
 
-    	int modifier = 1;
-    	int modifiedAttack = 1;
+    	float modifier = 1.0f;
+    	float modifiedAttack = 2.0f;
+    	int colourModifier = ColourCompare(partyMember, (Colours)EnemtyPartsColours[2]);
+
+    	switch(colourModifier)
+    	{
+    		case(2):
+    			modifier = 2;
+    			break;
+    		case(1):
+    			modifier = 1.5f;
+    			break;
+    		case(-1):
+    			modifier = 0.5f;
+    			break;
+    		case(-2):
+    			modifier = 0;
+    			break;
+    		default:
+    			break;
+    	}
 
     	if(partyMember == Colours.Grey || partyMember == Colours.White)
     	{
@@ -429,9 +451,9 @@ public class GMScript : MonoBehaviour
 
     	modifiedAttack = partyAttack * modifier;
 
-    	StartCoroutine(DisplayDamageText(modifiedAttack, EnemyDamageText, partyMember));
+    	StartCoroutine(DisplayDamageText((int)modifiedAttack, EnemyDamageText, partyMember));
 
-    	enemyHealth -= modifiedAttack;
+    	enemyHealth -= (int)modifiedAttack;
     	print(partyMember + " robot attacked for " + modifiedAttack);
     	print("Enemy robot health is now: " + enemyHealth + " HP");
 
@@ -440,8 +462,18 @@ public class GMScript : MonoBehaviour
     void DamageEnemy(int enemyAttack, Colours enemyColour)
     {
 
-    	int modifier = 1;
+    	int modifier = 0;
     	int modifiedAttack = 4;
+
+    	for(int i = 0; i < 2; i++){
+    		for(int j = 0; j < partySize; j++){
+
+    			modifier += 
+    			ColourCompare((Colours)EnemtyPartsColours[3+i], (Colours)PartyColours[j]);
+
+    		}
+
+    	}
 
     	//HIT ONLY DAMAGES IF THERE IS NO SHEILD UP
     	if(sheild == true)
@@ -454,7 +486,7 @@ public class GMScript : MonoBehaviour
 
     	}
 
-    	modifiedAttack = enemyAttack * modifier;
+    	modifiedAttack = enemyAttack + modifier;
 
     	StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, enemyColour));
 
@@ -482,46 +514,364 @@ public class GMScript : MonoBehaviour
     	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyAntenna[Random.Range(0, EnemyAntenna.Length)];
 
+    	EnemtyPartsColours[0] = Random.Range(0, 15);
     	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(Random.Range(0, 12));
+			SetColour(EnemtyPartsColours[0]);
 
     	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyHead[Random.Range(0, EnemyHead.Length)];
 
+    	EnemtyPartsColours[1] = Random.Range(0, 15);
     	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(Random.Range(0, 12));
+			SetColour(EnemtyPartsColours[1]);
 
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyBody[Random.Range(0, EnemyBody.Length)];
 
+    	EnemtyPartsColours[2] = Random.Range(0, 15);
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(Random.Range(0, 12));
+			SetColour(EnemtyPartsColours[2]);
 
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
 
+    	EnemtyPartsColours[3] = Random.Range(0, 15);
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(Random.Range(0, 12));
+			SetColour(EnemtyPartsColours[3]);
 
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
 
+    	EnemtyPartsColours[4] = Random.Range(0, 15);
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(Random.Range(0, 12));
+			SetColour(EnemtyPartsColours[4]);
 
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyChest[Random.Range(0, EnemyChest.Length)];
 
+    	EnemtyPartsColours[5] = Random.Range(0, 15);
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(Random.Range(0, 12));
+			SetColour(EnemtyPartsColours[5]);
 
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyWeakness[Random.Range(0, EnemyWeakness.Length)];
 
+    	EnemtyPartsColours[6] = Random.Range(0, 15);
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(Random.Range(0, 12));
+			SetColour(EnemtyPartsColours[6]);
 
     }
+
+    int ColourCompare(Colours AttackColour, Colours DefendColour)
+    {
+
+    	switch(AttackColour)
+    		{
+    		// WHITE, GREY AND BLACK ARE NEITHER WEAK NOR STRONG AGAINST
+    		// DEFENDING COLOUR SINCE THEY ARE "NON-ATTACK" COLOURS
+    		case Colours.White:
+    			return 0;
+    		case Colours.Grey:
+    			return 0;
+    		case Colours.Black:
+    			return 0;
+    		case Colours.Red:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Brown:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Orange:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Amber:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Yellow:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Lime:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Green:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Cyan:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Blue:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Indigo:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Purple:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		case Colours.Pink:
+    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			if(DefendColour == AttackColour)
+    			{
+    				return -2;
+    			} 
+    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+1)%12))
+    			{
+    				return -1;
+    			} 
+    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+    			{
+    				return 2;
+    			} 
+    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+    				DefendColour == (Colours)(((int)AttackColour+7)%12))
+    			{
+    				return 1;
+    			}
+    			break;
+    		default:
+    			return 0;
+    		}
+
+    	// IF AN ATTACKING COLOUR DOESN'T MATCH WITH ANY OF THE ABOVE PARAMETERS
+    	// IT IS NEITHER WEAK NOR STRONG AGAINST THE DEFENDING COLOUR
+    	return 0;
+    }
+
 
     Color SetColour(int robotColour)
     {
