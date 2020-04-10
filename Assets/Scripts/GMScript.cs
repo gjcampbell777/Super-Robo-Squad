@@ -475,18 +475,18 @@ public class GMScript : MonoBehaviour
 
     	}
 
+    	modifiedAttack = enemyAttack + modifier;
+
     	//HIT ONLY DAMAGES IF THERE IS NO SHEILD UP
     	if(sheild == true)
     	{
 
-    		modifier = 0;
+    		modifiedAttack = 0;
     		print("Sheild Hit!");
     		Sheild.SetActive(false);
     		sheild = false;
 
     	}
-
-    	modifiedAttack = enemyAttack + modifier;
 
     	StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, enemyColour));
 
