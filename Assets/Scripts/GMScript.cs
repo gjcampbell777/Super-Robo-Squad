@@ -44,7 +44,7 @@ public class GMScript : MonoBehaviour
 		Orange, Green, Purple, 
 		Black, White,
 		Pink, Brown, Lime,
-		Cyan, PurpleBlue, OrangeYellow
+		Cyan, Indigo, Amber
 	}
 
 	Colours robotColour;
@@ -581,11 +581,11 @@ public class GMScript : MonoBehaviour
 				colourValue
 				= new Color(0, 1, 1, 1);
 				break;
-			case Colours.PurpleBlue:
+			case Colours.Indigo:
 				colourValue
 				= new Color(0.2f, 0, 1, 1);
 				break;
-			case Colours.OrangeYellow:
+			case Colours.Amber:
 				colourValue
 				= new Color(1, 0.87f, 0, 1);
 				break;
