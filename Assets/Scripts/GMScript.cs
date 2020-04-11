@@ -32,7 +32,7 @@ public class GMScript : MonoBehaviour
 	private bool gameover = false;
 	private bool victory = false;
 	private int partyHealth = 16;
-	private int enemyHealth = 16;
+	private int enemyHealth = 32;
 	private int partyAttack = 2;
 	private int enemyAttack = 4;
 	private static int partySize = 4;
