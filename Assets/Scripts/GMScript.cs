@@ -527,35 +527,35 @@ public class GMScript : MonoBehaviour
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyBody[Random.Range(0, EnemyBody.Length)];
 
-    	EnemtyPartsColours[2] = Random.Range(0, 15);
+    	EnemtyPartsColours[2] = Random.Range(0, 12);
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[2]);
 
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
 
-    	EnemtyPartsColours[3] = Random.Range(0, 15);
+    	EnemtyPartsColours[3] = Random.Range(0, 12);
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[3]);
 
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
 
-    	EnemtyPartsColours[4] = Random.Range(0, 15);
+    	EnemtyPartsColours[4] = Random.Range(0, 12);
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[4]);
 
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyChest[Random.Range(0, EnemyChest.Length)];
 
-    	EnemtyPartsColours[5] = Random.Range(0, 15);
+    	EnemtyPartsColours[5] = Random.Range(0, 12);
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[5]);
 
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyWeakness[Random.Range(0, EnemyWeakness.Length)];
 
-    	EnemtyPartsColours[6] = Random.Range(0, 15);
+    	EnemtyPartsColours[6] = Random.Range(0, 12);
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[6]);
 
