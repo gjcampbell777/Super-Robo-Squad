@@ -57,7 +57,14 @@ public class GMScript : MonoBehaviour
     {
 
     	EnemtyPartsColours = new int[EnemyParts.Length];
+    	// KILL SEQUENCE RANGES FROM LENGTH OF 2 TO 5 HITS
     	EnemyKillSequence = new int[Random.Range(2, 5)];
+
+    	// COLOURS FOR KILL SEQUENCE ARE GENERATED HERE
+    	for(int i = 0; i < EnemyKillSequence.Length - 1; i++)
+    	{
+    		EnemyKillSequence[i] = Random.Range(0, 12);
+    	}
 
     	EnemyBuilder();
 
@@ -410,6 +417,8 @@ public class GMScript : MonoBehaviour
     	float modifiedAttack = 2.0f;
     	int colourModifier = ColourCompare(partyMember, (Colours)EnemtyPartsColours[2]);
 
+    	// ATTACK MODIFIER BASED ON THE RELATION OF THE COLOUR OF THE PARTY MEMBER
+    	// AND THE COLOUR OF THE ENEMY ROBOT BASE BODY COLOUR
     	switch(colourModifier)
     	{
     		case(2):
@@ -428,6 +437,9 @@ public class GMScript : MonoBehaviour
     			break;
     	}
 
+    	// DETERMINING A SEQUENCE BREAK ABSED ON THE NEXT COLOUR IN THE SEQUENCE
+    	// IF IT'S THE LAST COLOUR THE ROBOT IS DESTROYED
+    	// IF NOT COLOURS AND SPRITES AND CHANGED ACCORDINGLY
     	if(ColourCompare(partyMember, (Colours)EnemyKillSequence[0]) > 0)
     	{
 
@@ -460,6 +472,7 @@ public class GMScript : MonoBehaviour
 
     	}
 
+    	// ACTIONS DONE FOR NON-ATTACK ROBOTS
     	if(partyMember == Colours.Grey || 
     		partyMember == Colours.White || 
     		partyMember == Colours.Black)
@@ -499,11 +512,13 @@ public class GMScript : MonoBehaviour
 
     	}
 
+    	// ATTACKS ARE BLOCK IF SHEILD IS UP
     	if(sheild == true) 
     	{
     		modifier = 0;
     	}
 
+    	// ATTACKS ARE DOUBLE DAMAGE IF BLACK ROBOT HAS DONE ITS ACTION
     	if(buff)
     	{
     		modifiedAttack = (partyAttack * modifier) * 2;
@@ -611,7 +626,7 @@ public class GMScript : MonoBehaviour
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyChest[Random.Range(0, EnemyChest.Length)];
 
-    	EnemtyPartsColours[5] = Random.Range(0, 12);
+    	EnemtyPartsColours[5] = EnemyKillSequence[0];
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[5]);
 			EnemyKillSequence[0] = EnemtyPartsColours[5];
@@ -619,7 +634,7 @@ public class GMScript : MonoBehaviour
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyWeakness[Random.Range(0, EnemyWeakness.Length)];
 
-    	EnemtyPartsColours[6] = Random.Range(0, 12);
+    	EnemtyPartsColours[6] = EnemyKillSequence[1];
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[6]);
 			EnemyKillSequence[1] = EnemtyPartsColours[6];
