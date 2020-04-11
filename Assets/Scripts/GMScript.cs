@@ -28,6 +28,7 @@ public class GMScript : MonoBehaviour
 
 	private bool noRepeat = true;
 	private bool sheild = false;
+	private bool buff = false;
 	private bool gameover = false;
 	private bool victory = false;
 	private int partyHealth = 16;
@@ -424,7 +425,9 @@ public class GMScript : MonoBehaviour
     			break;
     	}
 
-    	if(partyMember == Colours.Grey || partyMember == Colours.White)
+    	if(partyMember == Colours.Grey || 
+    		partyMember == Colours.White || 
+    		partyMember == Colours.Black)
     	{
 
     		modifier = 0;
@@ -438,6 +441,16 @@ public class GMScript : MonoBehaviour
 
     			print(partyMember + " healed the team for 4");
     			print("Party health is now: " + partyHealth + " HP");
+    			
+    		}
+
+    		if(partyMember == Colours.Black)
+    		{
+    			StartCoroutine(DisplayDamageText(0, PartyDamageText, partyMember));
+
+    			print(partyMember + " buffed the team!");
+    			print("Party health is now: " + partyHealth + " HP");
+    			buff = true;
 
     		}
 
@@ -448,7 +461,12 @@ public class GMScript : MonoBehaviour
     		modifier = 0;
     	}
 
-    	modifiedAttack = partyAttack * modifier;
+    	if(buff)
+    	{
+    		modifiedAttack = (partyAttack * modifier) * 2;
+		} else {
+			modifiedAttack = partyAttack * modifier;
+		}
 
     	StartCoroutine(DisplayDamageText((int)modifiedAttack, EnemyDamageText, partyMember));
 
@@ -486,6 +504,8 @@ public class GMScript : MonoBehaviour
     		sheild = false;
 
     	}
+
+    	buff = false;
 
     	StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, enemyColour));
 
