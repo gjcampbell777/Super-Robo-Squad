@@ -430,14 +430,19 @@ public class GMScript : MonoBehaviour
     		partyMember == Colours.Black)
     	{
 
-    		modifier = 0;
-
     		if(partyMember == Colours.White)
     		{
 
-    			partyHealth += 4;
+    			if(buff)
+		    	{
+		    		modifiedAttack = (partyAttack * modifier) * 2;
+				} else {
+					modifiedAttack = partyAttack * modifier;
+				}
 
-    			StartCoroutine(DisplayDamageText(4, PartyDamageText, partyMember));
+				partyHealth += (int)modifiedAttack;
+
+    			StartCoroutine(DisplayDamageText((int)modifiedAttack, PartyDamageText, partyMember));
 
     			print(partyMember + " healed the team for 4");
     			print("Party health is now: " + partyHealth + " HP");
@@ -453,6 +458,9 @@ public class GMScript : MonoBehaviour
     			buff = true;
 
     		}
+
+    	
+    		modifier = 0;
 
     	}
 
