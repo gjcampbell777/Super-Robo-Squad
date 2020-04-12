@@ -473,7 +473,7 @@ public class GMScript : MonoBehaviour
     	// DETERMINING A SEQUENCE BREAK ABSED ON THE NEXT COLOUR IN THE SEQUENCE
     	// IF IT'S THE LAST COLOUR THE ROBOT IS DESTROYED
     	// IF NOT COLOURS AND SPRITES AND CHANGED ACCORDINGLY
-    	if(ColourCompare(partyMember, (Colours)EnemyKillSequence[0]) > 0)
+    	if(ColourCompare(partyMember, (Colours)EnemyKillSequence[0]) > 0 && !sheild)
     	{
 
     		print("Weakness hit!");
