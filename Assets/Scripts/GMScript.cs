@@ -124,7 +124,7 @@ public class GMScript : MonoBehaviour
 			    	OutputParty();
 		    	}
 
-		    	if(hit.collider.gameObject.tag == "Attack")
+		    	if(hit.collider.gameObject.tag == "Attack" && PartyMemberOrder[0] != null)
 		    	{
 
 		    		StartCoroutine(AttackParty(robotColour));
