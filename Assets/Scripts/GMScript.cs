@@ -41,7 +41,7 @@ public class GMScript : MonoBehaviour
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
 	private int[] PartyColours = new int[partySize];
-	private int[] EnemtyPartsColours;
+	private int[] EnemyPartsColours;
 	private int[] EnemyKillSequence;
 
 	enum Colours {
@@ -58,7 +58,7 @@ public class GMScript : MonoBehaviour
     void Start()
     {
 
-    	EnemtyPartsColours = new int[EnemyParts.Length];
+    	EnemyPartsColours = new int[EnemyParts.Length];
     	// KILL SEQUENCE RANGES FROM LENGTH OF 2 TO 5 HITS
     	EnemyKillSequence = new int[Random.Range(2, 5)];
 
@@ -285,12 +285,19 @@ public class GMScript : MonoBehaviour
 
 				//CHECKING IF AN "ATTACK" OR "NON-ATTACK" ROBOT IS GOING
 				if(((Colours)PartyColours[OrderNumbers[i]-1] != Colours.Grey && 
-					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.White)
+					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.White &&
+					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.Black)
 					&& sheild != true)
 				{
 
 					Hit.transform.GetComponent<SpriteRenderer>().color = 
-					PartyMembers[OrderNumbers[i]-1].transform.GetComponent<SpriteRenderer>().color;
+					SetColour(PartyColours[OrderNumbers[i]-1]);
+
+					Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+					Symbols[PartyColours[OrderNumbers[i]-1]];
+
+					Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
+					SetColour(PartyColours[OrderNumbers[i]-1]);
 
 					Hit.SetActive(true);
 
@@ -306,21 +313,29 @@ public class GMScript : MonoBehaviour
 				
 				} 
 
-				//GREY ROBOT (SHEILD) IS GOING
+				// GREY ROBOT (SHEILD) IS GOING
 				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.Grey){
 
 					sheild = true;
 					Sheild.transform.GetComponent<SpriteRenderer>().color = 
-					PartyMembers[OrderNumbers[i]-1].transform.GetComponent<SpriteRenderer>().color;
+					SetColour(PartyColours[OrderNumbers[i]-1]);
 					Sheild.SetActive(true);
 
 				} 
 
-				//GREEN/LIME ROBOT (HEALTH) IS GOING
-				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.White){
+				// NON-ATTACK ROBOT IS GOING
+				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.White ||
+					(Colours)PartyColours[OrderNumbers[i]-1] == Colours.Grey ||
+					(Colours)PartyColours[OrderNumbers[i]-1] == Colours.Black){
 
 					EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
-					PartyMembers[OrderNumbers[i]-1].transform.GetComponent<SpriteRenderer>().color;
+					SetColour(PartyColours[OrderNumbers[i]-1]);
+
+					EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+					Symbols[PartyColours[OrderNumbers[i]-1]];
+
+					EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
+					SetColour(PartyColours[OrderNumbers[i]-1]);
 
 					EnemyHit.SetActive(true);
 
@@ -374,7 +389,13 @@ public class GMScript : MonoBehaviour
 			+enemyAttackAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
 		EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
-			EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+			SetColour(EnemyPartsColours[3]);
+
+		EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+			Symbols[EnemyPartsColours[3]];
+
+		EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
+			SetColour(EnemyPartsColours[3]);
 
 		enemyAttackAnim.SetTrigger("AttackTrigger");
 
@@ -396,7 +417,13 @@ public class GMScript : MonoBehaviour
 			EnemyHit.SetActive(false);
 
 			EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
-				EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+				SetColour(EnemyPartsColours[4]);
+
+			EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+				Symbols[EnemyPartsColours[4]];
+
+			EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
+				SetColour(EnemyPartsColours[4]);
 
 			EnemyHit.SetActive(true);
 
@@ -421,7 +448,7 @@ public class GMScript : MonoBehaviour
 
     	float modifier = 1.0f;
     	float modifiedAttack = 2.0f;
-    	int colourModifier = ColourCompare(partyMember, (Colours)EnemtyPartsColours[2]);
+    	int colourModifier = ColourCompare(partyMember, (Colours)EnemyPartsColours[2]);
 
     	// ATTACK MODIFIER BASED ON THE RELATION OF THE COLOUR OF THE PARTY MEMBER
     	// AND THE COLOUR OF THE ENEMY ROBOT BASE BODY COLOUR
@@ -550,7 +577,7 @@ public class GMScript : MonoBehaviour
     		for(int j = 0; j < partySize; j++){
 
     			modifier += 
-    			ColourCompare((Colours)EnemtyPartsColours[3+i], (Colours)PartyColours[j]);
+    			ColourCompare((Colours)EnemyPartsColours[3+i], (Colours)PartyColours[j]);
 
     		}
 
@@ -597,101 +624,101 @@ public class GMScript : MonoBehaviour
     	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyAntenna[Random.Range(0, EnemyAntenna.Length)];
 
-    	EnemtyPartsColours[0] = Random.Range(0, 15);
+    	EnemyPartsColours[0] = Random.Range(0, 15);
     	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[0]);
+			SetColour(EnemyPartsColours[0]);
 
 		EnemyParts[0].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
-			Symbols[EnemtyPartsColours[0]];
+			Symbols[EnemyPartsColours[0]];
 
 		EnemyParts[0].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[0]);
+			SetColour(EnemyPartsColours[0]);
 
     	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyHead[Random.Range(0, EnemyHead.Length)];
 
-    	EnemtyPartsColours[1] = Random.Range(0, 15);
+    	EnemyPartsColours[1] = Random.Range(0, 15);
     	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[1]);
+			SetColour(EnemyPartsColours[1]);
 
 		EnemyParts[1].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
-			Symbols[EnemtyPartsColours[1]];
+			Symbols[EnemyPartsColours[1]];
 
 		EnemyParts[1].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[1]);
+			SetColour(EnemyPartsColours[1]);
 
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyBody[Random.Range(0, EnemyBody.Length)];
 
-    	EnemtyPartsColours[2] = Random.Range(0, 12);
+    	EnemyPartsColours[2] = Random.Range(0, 12);
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[2]);
+			SetColour(EnemyPartsColours[2]);
 
 		EnemyParts[2].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
-			Symbols[EnemtyPartsColours[2]];
+			Symbols[EnemyPartsColours[2]];
 
 		EnemyParts[2].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[2]);
+			SetColour(EnemyPartsColours[2]);
 
 		EnemyParts[2].transform.GetChild(2).GetComponent<SpriteRenderer>().sprite =
-			Symbols[EnemtyPartsColours[2]];
+			Symbols[EnemyPartsColours[2]];
 
 		EnemyParts[2].transform.GetChild(2).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[2]);
+			SetColour(EnemyPartsColours[2]);
 
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
 
-    	EnemtyPartsColours[3] = Random.Range(0, 12);
+    	EnemyPartsColours[3] = Random.Range(0, 12);
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[3]);
+			SetColour(EnemyPartsColours[3]);
 
 		EnemyParts[3].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
-			Symbols[EnemtyPartsColours[3]];
+			Symbols[EnemyPartsColours[3]];
 
 		EnemyParts[3].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[3]);
+			SetColour(EnemyPartsColours[3]);
 
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
 
-    	EnemtyPartsColours[4] = Random.Range(0, 12);
+    	EnemyPartsColours[4] = Random.Range(0, 12);
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[4]);
+			SetColour(EnemyPartsColours[4]);
 
 		EnemyParts[4].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
-			Symbols[EnemtyPartsColours[4]];
+			Symbols[EnemyPartsColours[4]];
 
 		EnemyParts[4].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[4]);
+			SetColour(EnemyPartsColours[4]);
 
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyChest[Random.Range(0, EnemyChest.Length)];
 
-    	EnemtyPartsColours[5] = EnemyKillSequence[0];
+    	EnemyPartsColours[5] = EnemyKillSequence[0];
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[5]);
-			EnemyKillSequence[0] = EnemtyPartsColours[5];
+			SetColour(EnemyPartsColours[5]);
+			EnemyKillSequence[0] = EnemyPartsColours[5];
 
 		EnemyParts[5].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
-			Symbols[EnemtyPartsColours[5]];
+			Symbols[EnemyPartsColours[5]];
 
 		EnemyParts[5].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[5]);
+			SetColour(EnemyPartsColours[5]);
 
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyWeakness[Random.Range(0, EnemyWeakness.Length)];
 
-    	EnemtyPartsColours[6] = EnemyKillSequence[1];
+    	EnemyPartsColours[6] = EnemyKillSequence[1];
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[6]);
-			EnemyKillSequence[1] = EnemtyPartsColours[6];
+			SetColour(EnemyPartsColours[6]);
+			EnemyKillSequence[1] = EnemyPartsColours[6];
 
 		EnemyParts[6].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
-			Symbols[EnemtyPartsColours[6]];
+			Symbols[EnemyPartsColours[6]];
 
 		EnemyParts[6].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
-			SetColour(EnemtyPartsColours[6]);
+			SetColour(EnemyPartsColours[6]);
 
     }
 
