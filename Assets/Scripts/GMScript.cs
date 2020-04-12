@@ -26,6 +26,8 @@ public class GMScript : MonoBehaviour
 	public Sprite[] EnemyChest;
 	public Sprite[] EnemyWeakness;
 
+	public Sprite[] Symbols;
+
 	private bool noRepeat = true;
 	private bool sheild = false;
 	private bool buff = false;
@@ -85,6 +87,10 @@ public class GMScript : MonoBehaviour
 
 			//SETTING AND OUTPUT OF ROBOT COLOUR
 			PartyMembers[i].transform.GetComponent<SpriteRenderer>().color =
+				SetColour(PartyColours[i]);
+			PartyMembers[i].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+				Symbols[PartyColours[i]];
+			PartyMembers[i].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
 				SetColour(PartyColours[i]);
 			//print(robotColour);
 
@@ -460,9 +466,9 @@ public class GMScript : MonoBehaviour
 
 				EnemyKillSequence[EnemyKillSequence.Length-1] = -1;
 
-				if(EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite != null)
+				if(EnemyParts[5].activeSelf)
 				{
-					EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+					EnemyParts[5].SetActive(false);
 				} else {
 					EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 						SetColour(EnemyKillSequence[0]);
@@ -595,11 +601,23 @@ public class GMScript : MonoBehaviour
     	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[0]);
 
+		EnemyParts[0].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+			Symbols[EnemtyPartsColours[0]];
+
+		EnemyParts[0].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemtyPartsColours[0]);
+
     	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyHead[Random.Range(0, EnemyHead.Length)];
 
     	EnemtyPartsColours[1] = Random.Range(0, 15);
     	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemtyPartsColours[1]);
+
+		EnemyParts[1].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+			Symbols[EnemtyPartsColours[1]];
+
+		EnemyParts[1].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[1]);
 
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
@@ -609,6 +627,18 @@ public class GMScript : MonoBehaviour
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[2]);
 
+		EnemyParts[2].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+			Symbols[EnemtyPartsColours[2]];
+
+		EnemyParts[2].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemtyPartsColours[2]);
+
+		EnemyParts[2].transform.GetChild(2).GetComponent<SpriteRenderer>().sprite =
+			Symbols[EnemtyPartsColours[2]];
+
+		EnemyParts[2].transform.GetChild(2).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemtyPartsColours[2]);
+
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
 
@@ -616,11 +646,23 @@ public class GMScript : MonoBehaviour
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[3]);
 
+		EnemyParts[3].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+			Symbols[EnemtyPartsColours[3]];
+
+		EnemyParts[3].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemtyPartsColours[3]);
+
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
 
     	EnemtyPartsColours[4] = Random.Range(0, 12);
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemtyPartsColours[4]);
+
+		EnemyParts[4].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+			Symbols[EnemtyPartsColours[4]];
+
+		EnemyParts[4].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[4]);
 
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
@@ -631,6 +673,12 @@ public class GMScript : MonoBehaviour
 			SetColour(EnemtyPartsColours[5]);
 			EnemyKillSequence[0] = EnemtyPartsColours[5];
 
+		EnemyParts[5].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+			Symbols[EnemtyPartsColours[5]];
+
+		EnemyParts[5].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemtyPartsColours[5]);
+
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyWeakness[Random.Range(0, EnemyWeakness.Length)];
 
@@ -638,6 +686,12 @@ public class GMScript : MonoBehaviour
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemtyPartsColours[6]);
 			EnemyKillSequence[1] = EnemtyPartsColours[6];
+
+		EnemyParts[6].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+			Symbols[EnemtyPartsColours[6]];
+
+		EnemyParts[6].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemtyPartsColours[6]);
 
     }
 
