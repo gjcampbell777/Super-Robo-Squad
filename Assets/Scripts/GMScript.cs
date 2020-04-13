@@ -1069,7 +1069,7 @@ public class GMScript : MonoBehaviour
 				break;
 			case Colours.Black:
 				colourValue
-				= new Color(0, 0, 0, 1);
+				= new Color(0.125f, 0.125f, 0.125f, 1);
 				break;
 			case Colours.White:
 				colourValue
