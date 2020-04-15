@@ -10,7 +10,8 @@ public class GMScript : MonoBehaviour
 	public Sprite[] OrderSprites;
 	public GameObject Hit;
 	public GameObject EnemyHit;
-	public GameObject Sheild;
+	public GameObject Shield;
+	public GameObject EnemyShield;
 
 	public Text EnemyDamageText;
 	public Text PartyDamageText;
@@ -29,7 +30,8 @@ public class GMScript : MonoBehaviour
 	public Sprite[] Symbols;
 
 	private bool noRepeat = true;
-	private bool sheild = false;
+	private bool shield = false;
+	private bool enemyShield = false;
 	private bool buff = false;
 	private bool gameover = false;
 	private bool victory = false;
@@ -287,7 +289,7 @@ public class GMScript : MonoBehaviour
 				if(((Colours)PartyColours[OrderNumbers[i]-1] != Colours.Grey && 
 					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.White &&
 					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.Black)
-					&& sheild != true)
+					&& shield != true && enemyShield != true)
 				{
 
 					Hit.transform.GetComponent<SpriteRenderer>().color = 
@@ -313,13 +315,13 @@ public class GMScript : MonoBehaviour
 				
 				} 
 
-				// GREY ROBOT (SHEILD) IS GOING
+				// GREY ROBOT (SHIELD) IS GOING
 				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.Grey){
 
-					sheild = true;
-					Sheild.transform.GetComponent<SpriteRenderer>().color = 
+					shield = true;
+					Shield.transform.GetComponent<SpriteRenderer>().color = 
 					SetColour(PartyColours[OrderNumbers[i]-1]);
-					Sheild.SetActive(true);
+					Shield.SetActive(true);
 
 				} 
 
@@ -399,8 +401,44 @@ public class GMScript : MonoBehaviour
 
 		enemyAttackAnim.SetTrigger("AttackTrigger");
 
-		//HIT EFFECT ONLY WORKS IF THERE IS NO SHEILD UP
-		if(sheild == false)
+		if((Colours)EnemyPartsColours[0] == Colours.White ||
+			(Colours)EnemyPartsColours[0] == Colours.Grey ||
+			(Colours)EnemyPartsColours[0] == Colours.Black)
+		{
+			Hit.transform.GetComponent<SpriteRenderer>().color = 
+			SetColour(EnemyPartsColours[0]);
+
+			Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+			Symbols[EnemyPartsColours[0]];
+
+			Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
+			SetColour(EnemyPartsColours[0]);
+
+			Hit.SetActive(true);
+
+			Animator hit = Hit.transform.GetComponent<Animator>();
+			hit.SetTrigger("HitTrigger");
+
+			yield return new WaitForSeconds(
+				hit.GetCurrentAnimatorStateInfo(0).length
+				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+			Hit.SetActive(false);
+			hit.SetTrigger("HitTrigger");
+		}
+
+		// ENEMY SHIELD GOES UP IF 
+		if ((Colours)EnemyPartsColours[0] == Colours.Grey){
+
+			enemyShield = true;
+			EnemyShield.transform.GetComponent<SpriteRenderer>().color = 
+			SetColour(EnemyPartsColours[0]);
+			EnemyShield.SetActive(true);
+
+		}
+
+		//HIT EFFECT ONLY WORKS IF THERE IS NO SHIELD UP
+		if(!shield && !enemyShield)
 		{
 
 			EnemyHit.SetActive(true);
@@ -456,15 +494,19 @@ public class GMScript : MonoBehaviour
     	{
     		case(2):
     			modifier = 2;
+    			if((Colours)EnemyPartsColours[1] == (Colours)EnemyPartsColours[2]) modifier = 4;
     			break;
     		case(1):
     			modifier = 1.5f;
+    			if((Colours)EnemyPartsColours[1] == (Colours)EnemyPartsColours[2]) modifier = 2;
     			break;
     		case(-1):
     			modifier = 0.5f;
+    			if((Colours)EnemyPartsColours[1] == (Colours)EnemyPartsColours[2]) modifier = 0;
     			break;
     		case(-2):
     			modifier = 0;
+    			if((Colours)EnemyPartsColours[1] == (Colours)EnemyPartsColours[2]) modifier = -1;
     			break;
     		default:
     			break;
@@ -473,7 +515,8 @@ public class GMScript : MonoBehaviour
     	// DETERMINING A SEQUENCE BREAK ABSED ON THE NEXT COLOUR IN THE SEQUENCE
     	// IF IT'S THE LAST COLOUR THE ROBOT IS DESTROYED
     	// IF NOT COLOURS AND SPRITES AND CHANGED ACCORDINGLY
-    	if(ColourCompare(partyMember, (Colours)EnemyKillSequence[0]) > 0 && !sheild)
+    	if(ColourCompare(partyMember, (Colours)EnemyKillSequence[0]) > 0 
+    		&& !shield && !enemyShield)
     	{
 
     		print("Weakness hit!");
@@ -545,10 +588,18 @@ public class GMScript : MonoBehaviour
 
     	}
 
-    	// ATTACKS ARE BLOCK IF SHEILD IS UP
-    	if(sheild == true) 
+    	// ATTACKS ARE BLOCK IF SHIELD IS UP
+    	if(shield || enemyShield) 
     	{
     		modifier = 0;
+
+    		if(enemyShield)
+    		{
+    			print("Enemy Shield Hit!");
+    			EnemyShield.SetActive(false);
+    			enemyShield = false;
+    		}
+
     	}
 
     	// ATTACKS ARE DOUBLE DAMAGE IF BLACK ROBOT HAS DONE ITS ACTION
@@ -583,16 +634,32 @@ public class GMScript : MonoBehaviour
 
     	}
 
+    	// ADD DAMAGE IF EITHER OF THE ARMS MATCHES THE COLOUR OF THE ANTENNA
+    	if(EnemyPartsColours[0] == EnemyPartsColours[3]) modifier += 2;
+    	if(EnemyPartsColours[0] == EnemyPartsColours[4]) modifier += 2;
+
     	modifiedAttack = enemyAttack + modifier;
 
-    	//HIT ONLY DAMAGES IF THERE IS NO SHEILD UP
-    	if(sheild == true)
+    	// RUN "NON-ATTACK" ABILITIES FOR ENEMY IF ANTENNA IS WHITE, GREY OR BLACK RESPECTIVELY 
+    	if((Colours)EnemyPartsColours[0] == Colours.White)
+    	{
+    		enemyHealth += 2;
+    		StartCoroutine(DisplayDamageText(2, EnemyDamageText, (Colours)EnemyPartsColours[0]));
+    	}
+
+    	if((Colours)EnemyPartsColours[0] == Colours.Black)
+    	{
+    		modifiedAttack *= 2;
+    	}
+
+    	//HIT ONLY DAMAGES IF THERE IS NO SHIELD UP
+    	if(shield == true)
     	{
 
     		modifiedAttack = 0;
-    		print("Sheild Hit!");
-    		Sheild.SetActive(false);
-    		sheild = false;
+    		print("Shield Hit!");
+    		Shield.SetActive(false);
+    		shield = false;
 
     	}
 
