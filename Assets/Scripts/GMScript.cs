@@ -542,6 +542,10 @@ public class GMScript : MonoBehaviour
 				} else {
 					EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 						SetColour(EnemyKillSequence[0]);
+					EnemyParts[6].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
+						Symbols[EnemyKillSequence[0]];
+					EnemyParts[6].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
+						SetColour(EnemyKillSequence[0]);
 				}
 
 			}
