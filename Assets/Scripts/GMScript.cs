@@ -285,74 +285,6 @@ public class GMScript : MonoBehaviour
 
 				print(PartyColours[OrderNumbers[i]-1]);
 
-				//CHECKING IF AN "ATTACK" OR "NON-ATTACK" ROBOT IS GOING
-				if(((Colours)PartyColours[OrderNumbers[i]-1] != Colours.Grey && 
-					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.White &&
-					(Colours)PartyColours[OrderNumbers[i]-1] != Colours.Black)
-					&& shield != true && enemyShield != true)
-				{
-
-					Hit.transform.GetComponent<SpriteRenderer>().color = 
-					SetColour(PartyColours[OrderNumbers[i]-1]);
-
-					Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
-					Symbols[PartyColours[OrderNumbers[i]-1]];
-
-					Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
-					SetColour(PartyColours[OrderNumbers[i]-1]);
-
-					Hit.SetActive(true);
-
-					Animator hit = Hit.transform.GetComponent<Animator>();
-					hit.SetTrigger("HitTrigger");
-
-					yield return new WaitForSeconds(
-						hit.GetCurrentAnimatorStateInfo(0).length
-						+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
-
-					Hit.SetActive(false);
-					hit.SetTrigger("HitTrigger");
-				
-				} 
-
-				// GREY ROBOT (SHIELD) IS GOING
-				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.Grey){
-
-					shield = true;
-					Shield.transform.GetComponent<SpriteRenderer>().color = 
-					SetColour(PartyColours[OrderNumbers[i]-1]);
-					Shield.SetActive(true);
-
-				} 
-
-				// NON-ATTACK ROBOT IS GOING
-				if ((Colours)PartyColours[OrderNumbers[i]-1] == Colours.White ||
-					(Colours)PartyColours[OrderNumbers[i]-1] == Colours.Grey ||
-					(Colours)PartyColours[OrderNumbers[i]-1] == Colours.Black){
-
-					EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
-					SetColour(PartyColours[OrderNumbers[i]-1]);
-
-					EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
-					Symbols[PartyColours[OrderNumbers[i]-1]];
-
-					EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
-					SetColour(PartyColours[OrderNumbers[i]-1]);
-
-					EnemyHit.SetActive(true);
-
-					Animator hit = EnemyHit.transform.GetComponent<Animator>();
-					hit.SetTrigger("HitTrigger");
-
-					yield return new WaitForSeconds(
-						hit.GetCurrentAnimatorStateInfo(0).length
-						+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
-
-					EnemyHit.SetActive(false);
-					hit.SetTrigger("HitTrigger");
-
-				}
-
 				//SETTING AND OUTPUT OF ROBOT COLOUR
 				robotColour = (Colours)PartyColours[OrderNumbers[i]-1];
 				//print(robotColour);
@@ -390,7 +322,90 @@ public class GMScript : MonoBehaviour
 			enemyAttackAnim.GetCurrentAnimatorStateInfo(0).length
 			+enemyAttackAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-		EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
+		enemyAttackAnim.SetTrigger("AttackTrigger");
+
+		//ENEMY ATTACKING PARTY (DEFAULT DISPLAY TEXT TO RED FOR NOW)
+		DamageEnemy(enemyAttack, Colours.Red);
+
+    }
+
+    IEnumerator HitEffectParty(Colours partyMember)
+    {
+
+    	//CHECKING IF AN "ATTACK" OR "NON-ATTACK" ROBOT IS GOING
+		if((partyMember != Colours.Grey && 
+			partyMember != Colours.White &&
+			partyMember != Colours.Black)
+			&& shield != true && enemyShield != true)
+		{
+
+			Hit.transform.GetComponent<SpriteRenderer>().color = 
+			SetColour((int)partyMember);
+
+			Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+			Symbols[(int)partyMember];
+
+			Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
+			SetColour((int)partyMember);
+
+			Hit.SetActive(true);
+
+			Animator hit = Hit.transform.GetComponent<Animator>();
+			hit.SetTrigger("HitTrigger");
+
+			yield return new WaitForSeconds(
+				hit.GetCurrentAnimatorStateInfo(0).length
+				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+			Hit.SetActive(false);
+			hit.SetTrigger("HitTrigger");
+		
+		} 
+
+		// GREY ROBOT (SHIELD) IS GOING
+		if (partyMember == Colours.Grey){
+
+			shield = true;
+			Shield.transform.GetComponent<SpriteRenderer>().color = 
+			SetColour((int)partyMember);
+			Shield.SetActive(true);
+
+		} 
+
+		// NON-ATTACK ROBOT IS GOING
+		if (partyMember == Colours.White ||
+			partyMember == Colours.Grey ||
+			partyMember == Colours.Black){
+
+			EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
+			SetColour((int)partyMember);
+
+			EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+			Symbols[(int)partyMember];
+
+			EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
+			SetColour((int)partyMember);
+
+			EnemyHit.SetActive(true);
+
+			Animator hit = EnemyHit.transform.GetComponent<Animator>();
+			hit.SetTrigger("HitTrigger");
+
+			yield return new WaitForSeconds(
+				hit.GetCurrentAnimatorStateInfo(0).length
+				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+			EnemyHit.SetActive(false);
+			hit.SetTrigger("HitTrigger");
+
+		}
+
+    }
+
+    IEnumerator HitEffectEnemy()
+    {
+
+    	EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
 			SetColour(EnemyPartsColours[3]);
 
 		EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
@@ -399,9 +414,7 @@ public class GMScript : MonoBehaviour
 		EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
 			SetColour(EnemyPartsColours[3]);
 
-		enemyAttackAnim.SetTrigger("AttackTrigger");
-
-		if((Colours)EnemyPartsColours[0] == Colours.White ||
+    	if((Colours)EnemyPartsColours[0] == Colours.White ||
 			(Colours)EnemyPartsColours[0] == Colours.Grey ||
 			(Colours)EnemyPartsColours[0] == Colours.Black)
 		{
@@ -475,9 +488,6 @@ public class GMScript : MonoBehaviour
 			hit.SetTrigger("HitTrigger");
 
 		}
-
-		//ENEMY ATTACKING PARTY (DEFAULT DISPLAY TEXT TO RED FOR NOW)
-		DamageEnemy(enemyAttack, Colours.Red);
 
     }
 
@@ -614,6 +624,7 @@ public class GMScript : MonoBehaviour
 			modifiedAttack = partyAttack * modifier;
 		}
 
+		StartCoroutine(HitEffectParty(partyMember));
     	StartCoroutine(DisplayDamageText((int)modifiedAttack, EnemyDamageText, partyMember));
 
     	enemyHealth -= (int)modifiedAttack;
@@ -669,6 +680,7 @@ public class GMScript : MonoBehaviour
 
     	buff = false;
 
+    	StartCoroutine(HitEffectEnemy());
     	StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, enemyColour));
 
     	partyHealth -= modifiedAttack;
