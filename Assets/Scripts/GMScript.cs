@@ -497,6 +497,8 @@ public class GMScript : MonoBehaviour
     	float modifiedHeal = 0f;
     	int colourModifier = ColourCompare(partyMember, (Colours)EnemyPartsColours[2]);
 
+    	weakPointHit = false;
+
     	// ATTACK MODIFIER BASED ON THE RELATION OF THE COLOUR OF THE PARTY MEMBER
     	// AND THE COLOUR OF THE ENEMY ROBOT BASE BODY COLOUR
     	switch(colourModifier)
@@ -650,6 +652,8 @@ public class GMScript : MonoBehaviour
 
     	int modifier = 0;
     	int modifiedAttack = 2;
+
+    	weakPointHit = false;
 
     	for(int i = 0; i < 2; i++){
     		for(int j = 0; j < partySize; j++){
