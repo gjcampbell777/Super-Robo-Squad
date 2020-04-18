@@ -290,7 +290,7 @@ public class GMScript : MonoBehaviour
 				//print(robotColour);
 
 				//PARTY MEMEBER ATTACKING ENEMY
-				DamageParty(partyAttack, robotColour);
+				yield return DamageParty(partyAttack, robotColour);
 			}
 
 			// CLEAN UP IN CASE ANYTHING IS MISSED
@@ -307,25 +307,30 @@ public class GMScript : MonoBehaviour
 
 		}
 
-		StartCoroutine(AttackEnemy());
+		yield return StartCoroutine(AttackEnemy());
 
     }
 
     IEnumerator AttackEnemy()
     {
 
-    	// RUNS ATTACK ANIMATION OF ENEMY
-		Animator enemyAttackAnim = EnemyParts[2].transform.parent.GetComponent<Animator>();
-		enemyAttackAnim.SetTrigger("AttackTrigger");
+    	// PRE ATTACK BUFF EFFECT ANIMATION
+    	yield return StartCoroutine(PreAttackBuffAnimEnemy());
+    	
+    	// ANIMATION FOR FIRST ARM
+    	yield return StartCoroutine(AttackAnimEnemy());
 
-		yield return new WaitForSeconds(
-			enemyAttackAnim.GetCurrentAnimatorStateInfo(0).length
-			+enemyAttackAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+		// FIRST ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
+		yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[3]));
 
-		enemyAttackAnim.SetTrigger("AttackTrigger");
+		// ANIMATION FOR SECOND ARM
+		yield return StartCoroutine(AttackAnimEnemy());
 
-		//ENEMY ATTACKING PARTY (DEFAULT DISPLAY TEXT TO RED FOR NOW)
-		DamageEnemy(enemyAttack, Colours.Red);
+		// SECOND ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
+		yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[4]));
+		
+		// POST ATTACK ABILITY EFFECT ANIMATION
+		yield return StartCoroutine(PostAttackBuffAnimEnemy());
 
     }
 
@@ -402,30 +407,30 @@ public class GMScript : MonoBehaviour
 
     }
 
-    IEnumerator HitEffectEnemy()
+    IEnumerator HitEffectEnemy(int attackColour)
     {
 
     	EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
-			SetColour(EnemyPartsColours[3]);
+			SetColour(attackColour);
 
 		EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
-			Symbols[EnemyPartsColours[3]];
+			Symbols[attackColour];
 
 		EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
-			SetColour(EnemyPartsColours[3]);
+			SetColour(attackColour);
 
-    	if((Colours)EnemyPartsColours[0] == Colours.White ||
-			(Colours)EnemyPartsColours[0] == Colours.Grey ||
-			(Colours)EnemyPartsColours[0] == Colours.Black)
+    	if((Colours)attackColour == Colours.White ||
+			(Colours)attackColour == Colours.Grey ||
+			(Colours)attackColour == Colours.Black)
 		{
 			Hit.transform.GetComponent<SpriteRenderer>().color = 
-			SetColour(EnemyPartsColours[0]);
+			SetColour(attackColour);
 
 			Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
-			Symbols[EnemyPartsColours[0]];
+			Symbols[attackColour];
 
 			Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
-			SetColour(EnemyPartsColours[0]);
+			SetColour(attackColour);
 
 			Hit.SetActive(true);
 
@@ -441,17 +446,20 @@ public class GMScript : MonoBehaviour
 		}
 
 		// ENEMY SHIELD GOES UP IF 
-		if ((Colours)EnemyPartsColours[0] == Colours.Grey){
+		if ((Colours)attackColour == Colours.Grey){
 
 			enemyShield = true;
 			EnemyShield.transform.GetComponent<SpriteRenderer>().color = 
-			SetColour(EnemyPartsColours[0]);
+			SetColour(attackColour);
 			EnemyShield.SetActive(true);
 
 		}
 
 		//HIT EFFECT ONLY WORKS IF THERE IS NO SHIELD UP
-		if(!shield && !enemyShield)
+		if(!shield && !enemyShield 
+			&& (Colours)attackColour != Colours.White &&
+			(Colours)attackColour != Colours.Grey &&
+			(Colours)attackColour != Colours.Black)
 		{
 
 			EnemyHit.SetActive(true);
@@ -467,35 +475,16 @@ public class GMScript : MonoBehaviour
 
 			EnemyHit.SetActive(false);
 
-			EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
-				SetColour(EnemyPartsColours[4]);
-
-			EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
-				Symbols[EnemyPartsColours[4]];
-
-			EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
-				SetColour(EnemyPartsColours[4]);
-
-			EnemyHit.SetActive(true);
-
-			hit.SetTrigger("HitTrigger");
-
-			yield return new WaitForSeconds(
-				hit.GetCurrentAnimatorStateInfo(0).length
-				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
-
-			EnemyHit.SetActive(false);
-			hit.SetTrigger("HitTrigger");
-
 		}
 
     }
 
-    void DamageParty(int partyAttack, Colours partyMember)
+    IEnumerator DamageParty(int partyAttack, Colours partyMember)
     {
 
     	float modifier = 1.0f;
     	float modifiedAttack = 2.0f;
+    	float modifiedHeal = 0f;
     	int colourModifier = ColourCompare(partyMember, (Colours)EnemyPartsColours[2]);
 
     	// ATTACK MODIFIER BASED ON THE RELATION OF THE COLOUR OF THE PARTY MEMBER
@@ -573,23 +562,21 @@ public class GMScript : MonoBehaviour
 
     			if(buff)
 		    	{
-		    		modifiedAttack = (partyAttack * modifier) * 2;
+		    		modifiedHeal = (partyAttack * modifier) * 2;
 				} else {
-					modifiedAttack = partyAttack * modifier;
+					modifiedHeal = partyAttack * modifier;
 				}
 
-				partyHealth += (int)modifiedAttack;
+				partyHealth += (int)modifiedHeal;
 
-    			StartCoroutine(DisplayDamageText((int)modifiedAttack, PartyDamageText, partyMember));
-
-    			print(partyMember + " healed the team for 4");
+    			print(partyMember + " healed the team for " + modifiedHeal + " HP");
     			print("Party health is now: " + partyHealth + " HP");
     			
     		}
 
     		if(partyMember == Colours.Black)
     		{
-    			StartCoroutine(DisplayDamageText(0, PartyDamageText, partyMember));
+    			
 
     			print(partyMember + " buffed the team!");
     			print("Party health is now: " + partyHealth + " HP");
@@ -603,7 +590,10 @@ public class GMScript : MonoBehaviour
     	}
 
     	// ATTACKS ARE BLOCK IF SHIELD IS UP
-    	if(shield || enemyShield) 
+    	if(shield || enemyShield && 
+    		(partyMember != Colours.White 
+    			&& partyMember != Colours.Grey 
+    			&& partyMember != Colours.Black)) 
     	{
     		modifier = 0;
 
@@ -616,6 +606,9 @@ public class GMScript : MonoBehaviour
 
     	}
 
+    	// IN CASE MODIFIER IS NEGATIVE
+    	if(modifier < 0) modifier = 0;
+
     	// ATTACKS ARE DOUBLE DAMAGE IF BLACK ROBOT HAS DONE ITS ACTION
     	if(buff)
     	{
@@ -624,8 +617,16 @@ public class GMScript : MonoBehaviour
 			modifiedAttack = partyAttack * modifier;
 		}
 
-		StartCoroutine(HitEffectParty(partyMember));
-    	StartCoroutine(DisplayDamageText((int)modifiedAttack, EnemyDamageText, partyMember));
+		yield return StartCoroutine(HitEffectParty(partyMember));
+
+		if(partyMember == Colours.White)
+		{
+			yield return StartCoroutine(DisplayDamageText((int)modifiedHeal, PartyDamageText, partyMember));
+		} else if(partyMember == Colours.Black) {
+			yield return StartCoroutine(DisplayDamageText(0, PartyDamageText, partyMember));
+		} else {
+			yield return StartCoroutine(DisplayDamageText((int)modifiedAttack, EnemyDamageText, partyMember));
+		}
 
     	enemyHealth -= (int)modifiedAttack;
     	print(partyMember + " robot attacked for " + modifiedAttack);
@@ -633,7 +634,7 @@ public class GMScript : MonoBehaviour
 
     }
 
-    void DamageEnemy(int enemyAttack, Colours enemyColour)
+    IEnumerator DamageEnemy(int enemyAttack, int attackColour)
     {
 
     	int modifier = 0;
@@ -643,25 +644,25 @@ public class GMScript : MonoBehaviour
     		for(int j = 0; j < partySize; j++){
 
     			modifier += 
-    			ColourCompare((Colours)EnemyPartsColours[3+i], (Colours)PartyColours[j]);
+    			ColourCompare((Colours)attackColour, (Colours)PartyColours[j]);
 
     		}
 
     	}
 
     	// ADD DAMAGE IF EITHER OF THE ARMS MATCHES THE COLOUR OF THE ANTENNA
-    	if(EnemyPartsColours[0] == EnemyPartsColours[3]) modifier += 2;
-    	if(EnemyPartsColours[0] == EnemyPartsColours[4]) modifier += 2;
+    	if(EnemyPartsColours[0] == attackColour) 
+    	{
+    		print("Antenna Buff!");
+    		modifier += 2;
+    	}
+
+    	// IN CASE MODIFIER MAKES ENEMY ATTACK NEGATIVE
+    	if(modifier < -enemyAttack) modifier = -enemyAttack;
 
     	modifiedAttack = enemyAttack + modifier;
 
-    	// RUN "NON-ATTACK" ABILITIES FOR ENEMY IF ANTENNA IS WHITE, GREY OR BLACK RESPECTIVELY 
-    	if((Colours)EnemyPartsColours[0] == Colours.White)
-    	{
-    		enemyHealth += 2;
-    		StartCoroutine(DisplayDamageText(2, EnemyDamageText, (Colours)EnemyPartsColours[0]));
-    	}
-
+    	// RUN "NON-ATTACK" BUFF FOR ENEMY IF ANTENNA IS BLACK SO ATTACKS ARE BUFFED 
     	if((Colours)EnemyPartsColours[0] == Colours.Black)
     	{
     		modifiedAttack *= 2;
@@ -680,11 +681,11 @@ public class GMScript : MonoBehaviour
 
     	buff = false;
 
-    	StartCoroutine(HitEffectEnemy());
-    	StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, enemyColour));
+    	yield return StartCoroutine(HitEffectEnemy(attackColour));
+    	yield return StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, (Colours)attackColour));
 
     	partyHealth -= modifiedAttack;
-    	print(enemyColour + " enemy robot attacked for " + modifiedAttack);
+    	print((Colours)attackColour + " enemy robot arm attacked for " + modifiedAttack);
     	print("Party health is now: " + partyHealth + " HP");
 
     }
@@ -699,6 +700,46 @@ public class GMScript : MonoBehaviour
 
     	display.text = null;
 
+    }
+
+    IEnumerator AttackAnimEnemy()
+    {
+    	// RUNS ATTACK ANIMATION OF ENEMY
+		Animator enemyAttackAnim = EnemyParts[2].transform.parent.GetComponent<Animator>();
+		enemyAttackAnim.SetTrigger("AttackTrigger");
+
+		yield return new WaitForSeconds(
+			enemyAttackAnim.GetCurrentAnimatorStateInfo(0).length
+			+enemyAttackAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+		enemyAttackAnim.SetTrigger("AttackTrigger");
+    }
+
+    IEnumerator PreAttackBuffAnimEnemy()
+    {
+    	// RUN "NON-ATTACK" BUFF ANIMATION FOR ENEMY IF ANTENNA IS BLACK SO ATTACKS ARE BUFFED
+    	// BEFORE THE ENEMY DOES ITS ATTACK ANIMATION 
+    	if((Colours)EnemyPartsColours[0] == Colours.Black)
+    	{
+    		yield return StartCoroutine(HitEffectEnemy(EnemyPartsColours[0]));
+    	}
+    }
+
+    IEnumerator PostAttackBuffAnimEnemy()
+    {
+    	// RUN "NON-ATTACK" ABILITY ANIMATION FOR ENEMY IF ANTENNA IS WHITE OR GREY RESPECTIVELY
+    	// NOW SO THESE ANIMATIONS APPEAR AFTER THE ENEMY IS DONE ATTACKING 
+    	if((Colours)EnemyPartsColours[0] == Colours.White)
+    	{
+    		enemyHealth += 2;
+    		yield return StartCoroutine(HitEffectEnemy(EnemyPartsColours[0]));
+    		StartCoroutine(DisplayDamageText(2, EnemyDamageText, (Colours)EnemyPartsColours[0]));
+    	}
+
+    	if((Colours)EnemyPartsColours[0] == Colours.Grey)
+    	{
+    		yield return StartCoroutine(HitEffectEnemy(EnemyPartsColours[0]));
+    	}
     }
 
     void EnemyBuilder()
