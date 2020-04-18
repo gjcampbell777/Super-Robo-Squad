@@ -13,6 +13,11 @@ public class GMScript : MonoBehaviour
 	public GameObject Shield;
 	public GameObject EnemyShield;
 
+	public GameObject Victory;
+	public GameObject GameOver;
+	public GameObject ShieldHit;
+	public GameObject WeakPointHit;
+
 	public Text EnemyDamageText;
 	public Text PartyDamageText;
 	public Text EnemyHealthText;
@@ -33,6 +38,7 @@ public class GMScript : MonoBehaviour
 	private bool shield = false;
 	private bool enemyShield = false;
 	private bool buff = false;
+	private bool weakPointHit = false;
 	private bool gameover = false;
 	private bool victory = false;
 	private int partyHealth = 16;
@@ -153,6 +159,8 @@ public class GMScript : MonoBehaviour
 
 		    gameover = true;
 
+		    GameOver.SetActive(true);
+
         }
 
         if(enemyHealth <= 0 || victory == true)
@@ -166,6 +174,8 @@ public class GMScript : MonoBehaviour
 
 		    victory = false;
 		    gameover = true;
+
+		    Victory.SetActive(true);
 
         }
 
@@ -519,6 +529,7 @@ public class GMScript : MonoBehaviour
     	{
 
     		print("Weakness hit!");
+    		weakPointHit = true;
 
     		if(EnemyKillSequence[1] == -1)
     		{
@@ -601,7 +612,6 @@ public class GMScript : MonoBehaviour
     		{
     			print("Enemy Shield Hit!");
     			EnemyShield.SetActive(false);
-    			enemyShield = false;
     		}
 
     	}
@@ -624,8 +634,9 @@ public class GMScript : MonoBehaviour
 			yield return StartCoroutine(DisplayDamageText((int)modifiedHeal, PartyDamageText, partyMember));
 		} else if(partyMember == Colours.Black) {
 			yield return StartCoroutine(DisplayDamageText(0, PartyDamageText, partyMember));
-		} else {
+		} else if(partyMember != Colours.Grey){
 			yield return StartCoroutine(DisplayDamageText((int)modifiedAttack, EnemyDamageText, partyMember));
+			enemyShield = false;
 		}
 
     	enemyHealth -= (int)modifiedAttack;
@@ -669,13 +680,12 @@ public class GMScript : MonoBehaviour
     	}
 
     	//HIT ONLY DAMAGES IF THERE IS NO SHIELD UP
-    	if(shield == true)
+    	if(shield || enemyShield)
     	{
 
     		modifiedAttack = 0;
     		print("Shield Hit!");
     		Shield.SetActive(false);
-    		shield = false;
 
     	}
 
@@ -683,6 +693,11 @@ public class GMScript : MonoBehaviour
 
     	yield return StartCoroutine(HitEffectEnemy(attackColour));
     	yield return StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, (Colours)attackColour));
+
+    	if(shield)
+    	{
+    		shield = false;
+    	}
 
     	partyHealth -= modifiedAttack;
     	print((Colours)attackColour + " enemy robot arm attacked for " + modifiedAttack);
@@ -696,7 +711,22 @@ public class GMScript : MonoBehaviour
     	display.color = SetColour((int)displayColour);
     	display.text = damage.ToString();
 
+    	// ATTACKS ARE BLOCK IF SHIELD IS UP
+    	if((shield || enemyShield) && 
+    		(displayColour != Colours.White 
+    			&& displayColour != Colours.Grey 
+    			&& displayColour != Colours.Black)) ShieldHit.SetActive(true);
+
+    	if(weakPointHit) 
+    	{
+    		weakPointHit = false;
+    		WeakPointHit.SetActive(true);
+    	}
+
     	yield return new WaitForSeconds(1);
+
+    	ShieldHit.SetActive(false);
+    	WeakPointHit.SetActive(false);
 
     	display.text = null;
 
