@@ -44,7 +44,7 @@ public class GMScript : MonoBehaviour
 	private int partyHealth = 16;
 	private int enemyHealth = 32;
 	private int partyAttack = 2;
-	private int enemyAttack = 4;
+	private int enemyAttack = 2;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
@@ -649,7 +649,7 @@ public class GMScript : MonoBehaviour
     {
 
     	int modifier = 0;
-    	int modifiedAttack = 4;
+    	int modifiedAttack = 2;
 
     	for(int i = 0; i < 2; i++){
     		for(int j = 0; j < partySize; j++){
