@@ -44,7 +44,7 @@ public class GMScript : MonoBehaviour
 	private int partyHealth = 16;
 	private int enemyHealth = 32;
 	private int partyAttack = 2;
-	private int enemyAttack = 0;
+	private int enemyAttack = 2;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
@@ -657,27 +657,12 @@ public class GMScript : MonoBehaviour
 
 			// ATTACK MODIFIER BASED ON THE RELATION OF THE COLOUR OF THE ENEMY ARM
 	    	// AND THE COLOUR OF THE PARTY MEMBERS COLOURS
-	    	switch(ColourCompare((Colours)attackColour, (Colours)PartyColours[i]))
-	    	{
-	    		case(2):
-	    			modifier += 2;
-	    			break;
-	    		case(1):
-	    			modifier += 1;
-	    			break;
-	    		case(0):
-	    			modifier += 1;
-	    			break;
-	    		case(-1):
-	    			modifier += 0;
-	    			break;
-	    		case(-2):
-	    			modifier += -1;
-	    			break;
-	    		default:
-	    			modifier += 1;
-	    			break;
-	    	}
+    		if(ColourCompare((Colours)attackColour, (Colours)PartyColours[i]) > 0)
+    		{
+    			modifier += 1;
+    		} else if (ColourCompare((Colours)attackColour, (Colours)PartyColours[i]) < 0) {
+    			modifier -= 1;
+    		}
 
     	}
 
@@ -689,7 +674,7 @@ public class GMScript : MonoBehaviour
     	}
 
     	// IN CASE MODIFIER MAKES ENEMY ATTACK NEGATIVE
-    	if(modifier < 0) modifier = 0;
+    	if(modifier < -enemyAttack) modifier = -enemyAttack;
 
     	modifiedAttack = enemyAttack + modifier;
 
