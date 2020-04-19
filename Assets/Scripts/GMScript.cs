@@ -633,10 +633,8 @@ public class GMScript : MonoBehaviour
 
 		if(partyMember == Colours.White)
 		{
-			yield return StartCoroutine(DisplayDamageText((int)modifiedHeal, PartyDamageText, partyMember));
-		} else if(partyMember == Colours.Black) {
-			yield return StartCoroutine(DisplayDamageText(0, PartyDamageText, partyMember));
-		} else if(partyMember != Colours.Grey){
+			yield return StartCoroutine(DisplayDamageText((int)modifiedHeal, PartyDamageText, partyMember)); 
+		} else if(partyMember != Colours.Grey && partyMember != Colours.Black){
 			yield return StartCoroutine(DisplayDamageText((int)modifiedAttack, EnemyDamageText, partyMember));
 			enemyShield = false;
 		}
