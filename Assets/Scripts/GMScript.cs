@@ -44,7 +44,7 @@ public class GMScript : MonoBehaviour
 	private int partyHealth = 16;
 	private int enemyHealth = 32;
 	private int partyAttack = 2;
-	private int enemyAttack = 2;
+	private int enemyAttack = 0;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
@@ -505,19 +505,19 @@ public class GMScript : MonoBehaviour
     	{
     		case(2):
     			modifier = 2;
-    			if((Colours)EnemyPartsColours[1] == (Colours)EnemyPartsColours[2]) modifier = 4;
+    			if(EnemyPartsColours[1] == EnemyPartsColours[2]) modifier = 4;
     			break;
     		case(1):
     			modifier = 1.5f;
-    			if((Colours)EnemyPartsColours[1] == (Colours)EnemyPartsColours[2]) modifier = 2;
+    			if(EnemyPartsColours[1] == EnemyPartsColours[2]) modifier = 2;
     			break;
     		case(-1):
     			modifier = 0.5f;
-    			if((Colours)EnemyPartsColours[1] == (Colours)EnemyPartsColours[2]) modifier = 0;
+    			if(EnemyPartsColours[1] == EnemyPartsColours[2]) modifier = 0;
     			break;
     		case(-2):
     			modifier = 0;
-    			if((Colours)EnemyPartsColours[1] == (Colours)EnemyPartsColours[2]) modifier = -1;
+    			if(EnemyPartsColours[1] == EnemyPartsColours[2]) modifier = -1;
     			break;
     		default:
     			break;
@@ -655,13 +655,31 @@ public class GMScript : MonoBehaviour
 
     	weakPointHit = false;
 
-    	for(int i = 0; i < 2; i++){
-    		for(int j = 0; j < partySize; j++){
+    	for(int i = 0; i < partySize; i++){
 
-    			modifier += 
-    			ColourCompare((Colours)attackColour, (Colours)PartyColours[j]);
-
-    		}
+			// ATTACK MODIFIER BASED ON THE RELATION OF THE COLOUR OF THE ENEMY ARM
+	    	// AND THE COLOUR OF THE PARTY MEMBERS COLOURS
+	    	switch(ColourCompare((Colours)attackColour, (Colours)PartyColours[i]))
+	    	{
+	    		case(2):
+	    			modifier += 2;
+	    			break;
+	    		case(1):
+	    			modifier += 1;
+	    			break;
+	    		case(0):
+	    			modifier += 1;
+	    			break;
+	    		case(-1):
+	    			modifier += 0;
+	    			break;
+	    		case(-2):
+	    			modifier += -1;
+	    			break;
+	    		default:
+	    			modifier += 1;
+	    			break;
+	    	}
 
     	}
 
@@ -673,7 +691,7 @@ public class GMScript : MonoBehaviour
     	}
 
     	// IN CASE MODIFIER MAKES ENEMY ATTACK NEGATIVE
-    	if(modifier < -enemyAttack) modifier = -enemyAttack;
+    	if(modifier < 0) modifier = 0;
 
     	modifiedAttack = enemyAttack + modifier;
 
