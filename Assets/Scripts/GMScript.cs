@@ -328,13 +328,13 @@ public class GMScript : MonoBehaviour
     	yield return StartCoroutine(PreAttackBuffAnimEnemy());
     	
     	// ANIMATION FOR FIRST ARM
-    	yield return StartCoroutine(AttackAnimEnemy());
+    	yield return StartCoroutine(AttackAnimEnemy(3));
 
 		// FIRST ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
 		yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[3]));
 
 		// ANIMATION FOR SECOND ARM
-		yield return StartCoroutine(AttackAnimEnemy());
+		yield return StartCoroutine(AttackAnimEnemy(4));
 
 		// SECOND ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
 		yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[4]));
@@ -737,10 +737,10 @@ public class GMScript : MonoBehaviour
 
     }
 
-    IEnumerator AttackAnimEnemy()
+    IEnumerator AttackAnimEnemy(int arm)
     {
     	// RUNS ATTACK ANIMATION OF ENEMY
-		Animator enemyAttackAnim = EnemyParts[2].transform.parent.GetComponent<Animator>();
+		Animator enemyAttackAnim = EnemyParts[arm].transform.GetComponent<Animator>();
 		enemyAttackAnim.SetTrigger("AttackTrigger");
 
 		yield return new WaitForSeconds(
