@@ -326,18 +326,38 @@ public class GMScript : MonoBehaviour
 
     	// PRE ATTACK BUFF EFFECT ANIMATION
     	yield return StartCoroutine(PreAttackBuffAnimEnemy());
-    	
-    	// ANIMATION FOR FIRST ARM
-    	yield return StartCoroutine(AttackAnimEnemy(3));
 
-		// FIRST ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
-		yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[3]));
+    	// THIS DETERMINES IF THE ENEMY WILL ATTACK WITH THE RIGHT OR LEFT ARM FIRST
+    	if(Random.Range(0, 2) == 0)
+    	{
 
-		// ANIMATION FOR SECOND ARM
-		yield return StartCoroutine(AttackAnimEnemy(4));
+    		// ANIMATION FOR RIGHT ARM
+	    	yield return StartCoroutine(AttackAnimEnemy(3));
 
-		// SECOND ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
-		yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[4]));
+			// RIGHT ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
+			yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[3]));
+
+			// ANIMATION FOR LEFT ARM
+			yield return StartCoroutine(AttackAnimEnemy(4));
+
+			// LEFT ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
+			yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[4]));
+
+    	} else {
+
+    		// ANIMATION FOR LEFT ARM
+			yield return StartCoroutine(AttackAnimEnemy(4));
+
+			// LEFT ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
+			yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[4]));
+
+			// ANIMATION FOR RIGHT ARM
+	    	yield return StartCoroutine(AttackAnimEnemy(3));
+
+			// RIGHT ARM EFFECT ANIMATION AND DAMAGE CALCULATIONS
+			yield return StartCoroutine(DamageEnemy(enemyAttack, EnemyPartsColours[3]));
+
+    	}
 		
 		// POST ATTACK ABILITY EFFECT ANIMATION
 		yield return StartCoroutine(PostAttackBuffAnimEnemy());
