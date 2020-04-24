@@ -364,14 +364,13 @@ public class GMScript : MonoBehaviour
 
     }
 
-    IEnumerator HitEffectParty(Colours partyMember)
+    IEnumerator HitEffectParty(int damage, Text display, Colours partyMember)
     {
 
     	//CHECKING IF AN "ATTACK" OR "NON-ATTACK" ROBOT IS GOING
-		if((partyMember != Colours.Grey && 
+		if(partyMember != Colours.Grey && 
 			partyMember != Colours.White &&
 			partyMember != Colours.Black)
-			&& shield != true && enemyShield != true)
 		{
 
 			Hit.transform.GetComponent<SpriteRenderer>().color = 
@@ -383,18 +382,29 @@ public class GMScript : MonoBehaviour
 			Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
 			SetColour((int)partyMember);
 
-			Hit.SetActive(true);
+			DisplayDamageText((int)damage, display, partyMember);
+			
+			if(!shield && !enemyShield)
+			{
+				Hit.SetActive(true);
 
-			Animator hit = Hit.transform.GetComponent<Animator>();
-			hit.SetTrigger("HitTrigger");
+				Animator hit = Hit.transform.GetComponent<Animator>();
+				hit.SetTrigger("HitTrigger");
 
-			yield return new WaitForSeconds(
-				hit.GetCurrentAnimatorStateInfo(0).length
-				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+				yield return new WaitForSeconds(
+					hit.GetCurrentAnimatorStateInfo(0).length * 2
+					+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-			Hit.SetActive(false);
-			hit.SetTrigger("HitTrigger");
-		
+				hit.SetTrigger("HitTrigger");
+				Hit.SetActive(false);
+			} else {
+
+				yield return new WaitForSeconds(1);
+
+			}
+
+			display.text = null;
+
 		} 
 
 		// GREY ROBOT (SHIELD) IS GOING
@@ -421,23 +431,28 @@ public class GMScript : MonoBehaviour
 			EnemyHit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
 			SetColour((int)partyMember);
 
+			if(partyMember == Colours.White) DisplayDamageText((int)damage, display, partyMember);
 			EnemyHit.SetActive(true);
 
 			Animator hit = EnemyHit.transform.GetComponent<Animator>();
 			hit.SetTrigger("HitTrigger");
 
 			yield return new WaitForSeconds(
-				hit.GetCurrentAnimatorStateInfo(0).length
+				hit.GetCurrentAnimatorStateInfo(0).length * 2
 				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-			EnemyHit.SetActive(false);
 			hit.SetTrigger("HitTrigger");
-
+			EnemyHit.SetActive(false);
+			display.text = null;
+			
 		}
+
+		ShieldHit.SetActive(false);
+    	WeakPointHit.SetActive(false);
 
     }
 
-    IEnumerator HitEffectEnemy(int attackColour)
+    IEnumerator HitEffectEnemy(int attack, int attackColour)
     {
 
     	EnemyHit.transform.GetComponent<SpriteRenderer>().color = 
@@ -462,17 +477,23 @@ public class GMScript : MonoBehaviour
 			Hit.transform.GetChild(0).GetComponent<SpriteRenderer>().color = 
 			SetColour(attackColour);
 
+			if((Colours)attackColour == Colours.White) 
+			{
+				DisplayDamageText(attack, EnemyDamageText, (Colours)attackColour);
+			}
 			Hit.SetActive(true);
 
 			Animator hit = Hit.transform.GetComponent<Animator>();
 			hit.SetTrigger("HitTrigger");
 
 			yield return new WaitForSeconds(
-				hit.GetCurrentAnimatorStateInfo(0).length
+				hit.GetCurrentAnimatorStateInfo(0).length * 2
 				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-			Hit.SetActive(false);
 			hit.SetTrigger("HitTrigger");
+			EnemyDamageText.text = null;
+			Hit.SetActive(false);
+			
 		}
 
 		// ENEMY SHIELD GOES UP IF 
@@ -486,26 +507,38 @@ public class GMScript : MonoBehaviour
 		}
 
 		//HIT EFFECT ONLY WORKS IF THERE IS NO SHIELD UP
-		if(!shield && !enemyShield 
-			&& (Colours)attackColour != Colours.White &&
+		if( (Colours)attackColour != Colours.White &&
 			(Colours)attackColour != Colours.Grey &&
 			(Colours)attackColour != Colours.Black)
 		{
 
-			EnemyHit.SetActive(true);
+			DisplayDamageText(attack, PartyDamageText, (Colours)attackColour);
 
-			Animator hit = EnemyHit.transform.GetComponent<Animator>();
-			hit.SetTrigger("HitTrigger");
+			if(!shield && !enemyShield)
+			{
+				EnemyHit.SetActive(true);
 
-			yield return new WaitForSeconds(
-				hit.GetCurrentAnimatorStateInfo(0).length
-				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
+				Animator hit = EnemyHit.transform.GetComponent<Animator>();
+				hit.SetTrigger("HitTrigger");
 
-			hit.SetTrigger("HitTrigger");
+				yield return new WaitForSeconds(
+					hit.GetCurrentAnimatorStateInfo(0).length * 2
+					+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-			EnemyHit.SetActive(false);
+				hit.SetTrigger("HitTrigger");
+				EnemyHit.SetActive(false);
+			} else {
+
+				yield return new WaitForSeconds(1);
+
+			}
+
+			PartyDamageText.text = null;
 
 		}
+
+		ShieldHit.SetActive(false);
+    	WeakPointHit.SetActive(false);
 
     }
 
@@ -649,13 +682,13 @@ public class GMScript : MonoBehaviour
 			modifiedAttack = partyAttack * modifier;
 		}
 
-		yield return StartCoroutine(HitEffectParty(partyMember));
-
-		if(partyMember == Colours.White)
+		if(partyMember == Colours.White ||
+		 	partyMember == Colours.Grey ||
+		  	partyMember == Colours.Black)
 		{
-			yield return StartCoroutine(DisplayDamageText((int)modifiedHeal, PartyDamageText, partyMember)); 
-		} else if(partyMember != Colours.Grey && partyMember != Colours.Black){
-			yield return StartCoroutine(DisplayDamageText((int)modifiedAttack, EnemyDamageText, partyMember));
+			yield return StartCoroutine(HitEffectParty((int)modifiedHeal, PartyDamageText, partyMember));
+		} else{
+			yield return StartCoroutine(HitEffectParty((int)modifiedAttack, EnemyDamageText, partyMember));
 			enemyShield = false;
 		}
 
@@ -716,13 +749,9 @@ public class GMScript : MonoBehaviour
 
     	buff = false;
 
-    	yield return StartCoroutine(HitEffectEnemy(attackColour));
-    	yield return StartCoroutine(DisplayDamageText(modifiedAttack, PartyDamageText, (Colours)attackColour));
+    	yield return StartCoroutine(HitEffectEnemy((int)modifiedAttack, attackColour));
 
-    	if(shield)
-    	{
-    		shield = false;
-    	}
+    	shield = false;
 
     	partyHealth -= modifiedAttack;
     	print((Colours)attackColour + " enemy robot arm attacked for " + modifiedAttack);
@@ -730,7 +759,7 @@ public class GMScript : MonoBehaviour
 
     }
 
-    IEnumerator DisplayDamageText(int damage, Text display, Colours displayColour)
+    void DisplayDamageText(int damage, Text display, Colours displayColour)
     {
 
     	display.color = SetColour((int)displayColour);
@@ -747,13 +776,6 @@ public class GMScript : MonoBehaviour
     		weakPointHit = false;
     		WeakPointHit.SetActive(true);
     	}
-
-    	yield return new WaitForSeconds(1);
-
-    	ShieldHit.SetActive(false);
-    	WeakPointHit.SetActive(false);
-
-    	display.text = null;
 
     }
 
@@ -776,7 +798,7 @@ public class GMScript : MonoBehaviour
     	// BEFORE THE ENEMY DOES ITS ATTACK ANIMATION 
     	if((Colours)EnemyPartsColours[0] == Colours.Black)
     	{
-    		yield return StartCoroutine(HitEffectEnemy(EnemyPartsColours[0]));
+    		yield return StartCoroutine(HitEffectEnemy(0, EnemyPartsColours[0]));
     	}
     }
 
@@ -787,13 +809,13 @@ public class GMScript : MonoBehaviour
     	if((Colours)EnemyPartsColours[0] == Colours.White)
     	{
     		enemyHealth += 2;
-    		yield return StartCoroutine(HitEffectEnemy(EnemyPartsColours[0]));
-    		StartCoroutine(DisplayDamageText(2, EnemyDamageText, (Colours)EnemyPartsColours[0]));
+    		yield return StartCoroutine(HitEffectEnemy(2, EnemyPartsColours[0]));
+    		//StartCoroutine(DisplayDamageText(2, EnemyDamageText, (Colours)EnemyPartsColours[0]));
     	}
 
     	if((Colours)EnemyPartsColours[0] == Colours.Grey)
     	{
-    		yield return StartCoroutine(HitEffectEnemy(EnemyPartsColours[0]));
+    		yield return StartCoroutine(HitEffectEnemy(0, EnemyPartsColours[0]));
     	}
     }
 
