@@ -794,6 +794,8 @@ public class GMScript : MonoBehaviour
 
     IEnumerator PreAttackBuffAnimEnemy()
     {
+    	yield return new WaitForSeconds(0.5f);
+
     	// RUN "NON-ATTACK" BUFF ANIMATION FOR ENEMY IF ANTENNA IS BLACK SO ATTACKS ARE BUFFED
     	// BEFORE THE ENEMY DOES ITS ATTACK ANIMATION 
     	if((Colours)EnemyPartsColours[0] == Colours.Black)
@@ -804,6 +806,8 @@ public class GMScript : MonoBehaviour
 
     IEnumerator PostAttackBuffAnimEnemy()
     {
+    	yield return new WaitForSeconds(0.5f);
+    	
     	// RUN "NON-ATTACK" ABILITY ANIMATION FOR ENEMY IF ANTENNA IS WHITE OR GREY RESPECTIVELY
     	// NOW SO THESE ANIMATIONS APPEAR AFTER THE ENEMY IS DONE ATTACKING 
     	if((Colours)EnemyPartsColours[0] == Colours.White)
