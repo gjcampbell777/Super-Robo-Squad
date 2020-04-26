@@ -388,6 +388,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -546,6 +547,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1932,8 +1934,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1046479937}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 1, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: -2.5, y: 1, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children: []
   m_Father: {fileID: 1247425757}
   m_RootOrder: 0
@@ -2044,7 +2046,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1104707025}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.05, y: 4.65, z: 0}
+  m_LocalPosition: {x: 0, y: 4.65, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 1209232140}
@@ -2326,6 +2328,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2376,7 +2379,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191941974}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0.75, y: 1.75, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 2092827606}
@@ -2622,7 +2625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1313470325}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.6, y: 3.4, z: 0}
+  m_LocalPosition: {x: 0.7, y: 3.4, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 46649161}
@@ -2991,6 +2994,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3386,17 +3390,53 @@ MonoBehaviour:
   - {fileID: 1989602356}
   - {fileID: 2133992575}
   EnemyHead:
-  - {fileID: 21300000, guid: 8338d2ec6b34fbd4ca3767becb323e67, type: 3}
+  - {fileID: 21300000, guid: cdfd14b3b7f5e5b448d5def8818d1f27, type: 3}
+  - {fileID: 21300000, guid: fde576d7f7bf0c447a90e0bde3594959, type: 3}
+  - {fileID: 21300000, guid: 8d37f06e78316e2489ab4665d7c3dce8, type: 3}
+  - {fileID: 21300000, guid: c8ac51c2bdf7e854cb5999d6e5b43163, type: 3}
+  - {fileID: 21300000, guid: ae3dc17417fdd7144b4a0f70b4220bd0, type: 3}
+  - {fileID: 21300000, guid: a79a60ada57b0f242b3c38945d8cd070, type: 3}
+  - {fileID: 21300000, guid: 8d842b37914c1dc478c82fb13058b17f, type: 3}
+  - {fileID: 21300000, guid: d3d5a3ac7e8c16c4081d2c721ba34a87, type: 3}
   EnemyAntenna:
-  - {fileID: 21300000, guid: b169803bcf9e7e1468e3461eaaca53d4, type: 3}
+  - {fileID: 21300000, guid: 907ff6046cfb73241ae24903207e3a8c, type: 3}
+  - {fileID: 21300000, guid: da07d67e0fb7e1c4f8e8f2d7379608de, type: 3}
+  - {fileID: 21300000, guid: 6d08b104b23e2f8418edaf8842c460c2, type: 3}
+  - {fileID: 21300000, guid: 0dcdb1171e57021499b05adbac5b7452, type: 3}
+  - {fileID: 21300000, guid: ec709dab87570d14fa55759a4dec2191, type: 3}
+  - {fileID: 21300000, guid: e358883b584c8054186e9ea0b13b63fa, type: 3}
+  - {fileID: 21300000, guid: cb23b3a795c314c4eb886bf39a64b84f, type: 3}
+  - {fileID: 21300000, guid: 2c8c13feb9a61154b8ed1af5b5bd89bd, type: 3}
   EnemyBody:
-  - {fileID: 21300000, guid: 6954e94cc857d07449f3b4ae937194a7, type: 3}
+  - {fileID: 21300000, guid: 40bf95ef8fa341a4a818804dfb50ecd2, type: 3}
+  - {fileID: 21300000, guid: 35c3bf07aba5eb246a7a72eda56ab996, type: 3}
+  - {fileID: 21300000, guid: 899a690d79d6e6f479f87c4205e06928, type: 3}
+  - {fileID: 21300000, guid: 54da6fc0894da0f43ad9817730068e86, type: 3}
+  - {fileID: 21300000, guid: 1b5646ecd89d936458d0fd2792a9ef5a, type: 3}
+  - {fileID: 21300000, guid: c8fc5e969ec026a4eb4f8e8a3d485c2d, type: 3}
+  - {fileID: 21300000, guid: 83aff3d36855f8543b18b7748f0185fd, type: 3}
+  - {fileID: 21300000, guid: 3f85e068e9f33a145b601a9ffcd52c0a, type: 3}
   EnemyArm:
-  - {fileID: 21300000, guid: edfe764d372a56a4eb72751782b40e43, type: 3}
+  - {fileID: 21300000, guid: 10955f03ddb4037499d8f66dd1f4a02e, type: 3}
+  - {fileID: 21300000, guid: 7f9336dd76785d34d83392de0858cc57, type: 3}
+  - {fileID: 21300000, guid: a3d023f27926bce438abab1670b57d65, type: 3}
+  - {fileID: 21300000, guid: a9053b15a68ff844f8e4b54974557d1c, type: 3}
+  - {fileID: 21300000, guid: 07480172ea57c0745bf68074f09c1d93, type: 3}
+  - {fileID: 21300000, guid: 28bd4e8eef6bb1444accbd6547270827, type: 3}
+  - {fileID: 21300000, guid: 9833b5969b201d244ac72622c63c1327, type: 3}
+  - {fileID: 21300000, guid: a7dd49ae71e6c7e4296da41e2cdb049f, type: 3}
+  - {fileID: 21300000, guid: a8c038da6cc4c5240be380c40bb812e7, type: 3}
+  - {fileID: 21300000, guid: 82e4217cb7bfafb4f83e48e74ffb56d2, type: 3}
   EnemyChest:
-  - {fileID: 21300000, guid: 6ac5bd5ae98a7734296a9e294e71071f, type: 3}
+  - {fileID: 21300000, guid: 673b2def93b478345a69e078d4c4dea5, type: 3}
+  - {fileID: 21300000, guid: a63b8015fa68f0840ab8a2815631f8fe, type: 3}
+  - {fileID: 21300000, guid: 86514e379effac14b8bc96fac005bc95, type: 3}
+  - {fileID: 21300000, guid: d0447784219ce9044a7b52df56266d83, type: 3}
+  - {fileID: 21300000, guid: c39b24c7ca4fc5141bfe752e386806c1, type: 3}
   EnemyWeakness:
-  - {fileID: 21300000, guid: 370d5138861084a469d6460016c43cdb, type: 3}
+  - {fileID: 21300000, guid: 645694048aabf644e8dae7f55d226073, type: 3}
+  - {fileID: 21300000, guid: 2a698a7c8ecc0f3498fd7042143de7fc, type: 3}
+  - {fileID: 21300000, guid: 4444a25b0d576bb4fb8790c57ad898cc, type: 3}
   Symbols:
   - {fileID: 21300000, guid: a6c0a3f2f84d1a540a114b363dcca5b6, type: 3}
   - {fileID: 21300000, guid: 8783b5562ed02864fa697d5981bbbfa1, type: 3}
@@ -4151,8 +4191,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1924729442}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 1, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: 2.5, y: 1, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children: []
   m_Father: {fileID: 1646474456}
   m_RootOrder: 0
@@ -4198,7 +4238,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 5.12, y: 5.12}
@@ -4443,7 +4483,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948751003}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 1.25, z: 0}
+  m_LocalPosition: {x: -2.5, y: 1.75, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 1247425757}
@@ -4557,7 +4597,7 @@ Transform:
   m_GameObject: {fileID: 1999664080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children: []
   m_Father: {fileID: 2092827606}
   m_RootOrder: 0
@@ -4674,7 +4714,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057441938}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 1.25, z: 0}
+  m_LocalPosition: {x: 2.5, y: 1.75, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 1646474456}
