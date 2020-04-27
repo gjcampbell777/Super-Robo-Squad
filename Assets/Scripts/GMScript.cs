@@ -15,6 +15,7 @@ public class GMScript : MonoBehaviour
 
 	public GameObject Victory;
 	public GameObject GameOver;
+	public GameObject AttackStopSign;
 	public GameObject ShieldHit;
 	public GameObject WeakPointHit;
 
@@ -143,6 +144,11 @@ public class GMScript : MonoBehaviour
 
 		    		StartCoroutine(AttackParty(robotColour));
 
+		    	} else if (hit.collider.gameObject.tag == "Attack" 
+		    		&& PartyMemberOrder[0] == null) {
+
+		    		StartCoroutine(AttackStop());
+
 		    	}
 
 			}
@@ -269,6 +275,17 @@ public class GMScript : MonoBehaviour
 			}
 
 		}
+
+    }
+
+    IEnumerator AttackStop()
+    {
+
+    	AttackStopSign.SetActive(true);
+
+    	yield return new WaitForSeconds(1);
+
+    	AttackStopSign.SetActive(false);
 
     }
 
