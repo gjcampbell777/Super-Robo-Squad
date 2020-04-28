@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GMScript : MonoBehaviour
 {
@@ -124,6 +125,10 @@ public class GMScript : MonoBehaviour
 
 		    if (hit.collider != null) {
 
+		    	if(hit.collider.gameObject.tag == "Restart")
+		    	{
+		    		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		    	}
 
 		    	if(hit.collider.gameObject.tag == "Party")
 		    	{
