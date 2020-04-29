@@ -36,6 +36,7 @@ public class GMScript : MonoBehaviour
 
 	public Sprite[] Symbols;
 
+	private bool cursorLock = false;
 	private bool noRepeat = true;
 	private bool shield = false;
 	private bool enemyShield = false;
@@ -147,10 +148,14 @@ public class GMScript : MonoBehaviour
 		    	if(hit.collider.gameObject.tag == "Attack" && PartyMemberOrder[0] != null)
 		    	{
 
+     				cursorLock = true;
+
 		    		StartCoroutine(AttackParty(robotColour));
 
 		    	} else if (hit.collider.gameObject.tag == "Attack" 
 		    		&& PartyMemberOrder[0] == null) {
+
+		    		cursorLock = true;
 
 		    		StartCoroutine(AttackStop());
 
@@ -189,6 +194,19 @@ public class GMScript : MonoBehaviour
 		    Victory.SetActive(true);
 
         }
+
+        if(cursorLock)
+        {
+
+        	Cursor.lockState = CursorLockMode.Locked;
+     		Cursor.visible = false;
+
+    	} else {
+
+    		Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+
+    	}
 
     }
 
@@ -291,6 +309,7 @@ public class GMScript : MonoBehaviour
     	yield return new WaitForSeconds(1);
 
     	AttackStopSign.SetActive(false);
+    	cursorLock = false;
 
     }
 
@@ -843,6 +862,8 @@ public class GMScript : MonoBehaviour
     	{
     		yield return StartCoroutine(HitEffectEnemy(0, EnemyPartsColours[0]));
     	}
+
+    	cursorLock = false;
     }
 
     void EnemyBuilder()
