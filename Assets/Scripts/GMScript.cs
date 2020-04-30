@@ -171,7 +171,7 @@ public class GMScript : MonoBehaviour
         	GameObject[] party = GameObject.FindGameObjectsWithTag("Party");
    			foreach(GameObject memeber in party) GameObject.Destroy(memeber);
 
-		    print("The Super Robo Squad has been destroyed! Try again!");
+		    //print("The Super Robo Squad has been destroyed! Try again!");
 
 		    gameover = true;
 
@@ -186,7 +186,7 @@ public class GMScript : MonoBehaviour
 		    GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");
    			foreach(GameObject parts in enemy) GameObject.Destroy(parts);
 
-		    print("The enemy robot has been destroyed! Congrats!");
+		    //print("The enemy robot has been destroyed! Congrats!");
 
 		    victory = false;
 		    gameover = true;
@@ -350,7 +350,7 @@ public class GMScript : MonoBehaviour
 
 				attack.SetTrigger("AttackTrigger");
 
-				print(PartyColours[OrderNumbers[i]-1]);
+				//print(PartyColours[OrderNumbers[i]-1]);
 
 				//SETTING AND OUTPUT OF ROBOT COLOUR
 				robotColour = (Colours)PartyColours[OrderNumbers[i]-1];
@@ -640,7 +640,7 @@ public class GMScript : MonoBehaviour
     		&& !shield && !enemyShield)
     	{
 
-    		print("Weakness hit!");
+    		//print("Weakness hit!");
     		weakPointHit = true;
 
     		if(EnemyKillSequence[1] == -1)
@@ -692,8 +692,8 @@ public class GMScript : MonoBehaviour
 
 				partyHealth += (int)modifiedHeal;
 
-    			print(partyMember + " healed the team for " + modifiedHeal + " HP");
-    			print("Party health is now: " + partyHealth + " HP");
+    			//print(partyMember + " healed the team for " + modifiedHeal + " HP");
+    			//print("Party health is now: " + partyHealth + " HP");
     			
     		}
 
@@ -701,8 +701,8 @@ public class GMScript : MonoBehaviour
     		{
     			
 
-    			print(partyMember + " buffed the team!");
-    			print("Party health is now: " + partyHealth + " HP");
+    			//print(partyMember + " buffed the team!");
+    			//print("Party health is now: " + partyHealth + " HP");
     			buff = true;
 
     		}
@@ -722,7 +722,7 @@ public class GMScript : MonoBehaviour
 
     		if(enemyShield)
     		{
-    			print("Enemy Shield Hit!");
+    			//print("Enemy Shield Hit!");
     			EnemyShield.SetActive(false);
     		}
 
@@ -750,8 +750,8 @@ public class GMScript : MonoBehaviour
 		}
 
     	enemyHealth -= (int)modifiedAttack;
-    	print(partyMember + " robot attacked for " + modifiedAttack);
-    	print("Enemy robot health is now: " + enemyHealth + " HP");
+    	//print(partyMember + " robot attacked for " + modifiedAttack);
+    	//print("Enemy robot health is now: " + enemyHealth + " HP");
 
     }
 
@@ -779,7 +779,7 @@ public class GMScript : MonoBehaviour
     	// ADD DAMAGE IF EITHER OF THE ARMS MATCHES THE COLOUR OF THE ANTENNA
     	if(EnemyPartsColours[0] == attackColour) 
     	{
-    		print("Antenna Buff!");
+    		//print("Antenna Buff!");
     		modifier += 2;
     	}
 
@@ -799,7 +799,7 @@ public class GMScript : MonoBehaviour
     	{
 
     		modifiedAttack = 0;
-    		print("Shield Hit!");
+    		//print("Shield Hit!");
     		Shield.SetActive(false);
 
     	}
@@ -811,8 +811,8 @@ public class GMScript : MonoBehaviour
     	shield = false;
 
     	partyHealth -= modifiedAttack;
-    	print((Colours)attackColour + " enemy robot arm attacked for " + modifiedAttack);
-    	print("Party health is now: " + partyHealth + " HP");
+    	//print((Colours)attackColour + " enemy robot arm attacked for " + modifiedAttack);
+    	//print("Party health is now: " + partyHealth + " HP");
 
     }
 
