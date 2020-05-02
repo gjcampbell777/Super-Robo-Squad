@@ -90,6 +90,7 @@ public class GMScript : MonoBehaviour
      
     	robotColour = Colours.Red;
 
+    	// GENERATES PARTY MEMBER COLOURS
     	do{
 
     		partyRedo = false;
@@ -100,6 +101,8 @@ public class GMScript : MonoBehaviour
 	    	PartyColours[2] = Random.Range(0, 15);
 	    	PartyColours[3] = Random.Range(0, 15);
 
+	    	// CHECKS THAT NO ROBOTS SHARE A COLOUR AND THERE ARE NO MORE THAN 1 BUFF ABILITY ROBOT
+	    	// IF EITHER OCCUR THE PARTY GETS RANDOMIZED AND CHECKED UNTIL THAT IS NO LONGER THE CASE
 	    	for(int i = 0; i < partySize; i++)
 	    	{
 	    		for(int j = 0; j < partySize; j++)
@@ -199,6 +202,7 @@ public class GMScript : MonoBehaviour
 		    gameover = true;
 
 		    GameOver.SetActive(true);
+		    cursorLock = false;
 
         }
 
@@ -215,6 +219,7 @@ public class GMScript : MonoBehaviour
 		    gameover = true;
 
 		    Victory.SetActive(true);
+		    cursorLock = false;
 
         }
 
