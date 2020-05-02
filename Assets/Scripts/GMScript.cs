@@ -12,6 +12,7 @@ public class GMScript : MonoBehaviour
 	public int[] SetPartyColours = new int[partySize];
 	public int[] SetEnemyColours =  new int[5];
 	public int[] SetKillSequence = new int [8];
+	public int SetModelNum;
 
 	public GameObject[] PartyMembers;
 	public Sprite[] OrderSprites;
@@ -39,6 +40,7 @@ public class GMScript : MonoBehaviour
 	public Sprite[] EnemyArm;
 	public Sprite[] EnemyChest;
 	public Sprite[] EnemyWeakness;
+	public Sprite[] ModelNumber;
 
 	public Sprite[] Symbols;
 
@@ -52,6 +54,7 @@ public class GMScript : MonoBehaviour
 	private bool gameover = false;
 	private bool victory = false;
 	private int buffAmount = 0;
+	private int modelNum;
 	private int partyHealth = 8;
 	private int enemyHealth = 16;
 	private int partyAttack = 2;
@@ -132,6 +135,8 @@ public class GMScript : MonoBehaviour
 
 	    	}
 
+	    	modelNum = Random.Range(0, 5);
+
     	} else {
 
     		PartyColours[0] = SetPartyColours[0];
@@ -152,6 +157,8 @@ public class GMScript : MonoBehaviour
 	    	{
 	    		EnemyKillSequence[i] = SetKillSequence[i];
 	    	}
+
+	    	modelNum = SetModelNum;
 
     	}
 
@@ -983,6 +990,12 @@ public class GMScript : MonoBehaviour
 			Symbols[EnemyPartsColours[1]];
 
 		EnemyParts[1].transform.GetChild(1).GetComponent<SpriteRenderer>().color =
+			SetColour(EnemyPartsColours[1]);
+
+		EnemyParts[1].transform.GetChild(2).GetComponent<SpriteRenderer>().sprite =
+			ModelNumber[modelNum];
+
+		EnemyParts[1].transform.GetChild(2).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemyPartsColours[1]);
 
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
