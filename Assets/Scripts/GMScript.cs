@@ -80,6 +80,19 @@ public class GMScript : MonoBehaviour
     void Start()
     {
 
+    	if(PlayerPrefs.GetInt ("GameMode") == 0 ||
+    	 PlayerPrefs.GetInt ("GameMode") == 2)
+    	{
+    		isRandom = false;
+    	} else {
+    		isRandom = true;
+    	}
+
+    	if(PlayerPrefs.GetInt ("GameMode") == 2)
+    	{
+    		partyHealth = 1;
+    	}
+
     	if(isRandom){
 
 	    	// GENERATES PARTY MEMBER COLOURS
@@ -194,6 +207,11 @@ public class GMScript : MonoBehaviour
     void Update()
     {
 
+    	if(PlayerPrefs.GetInt ("GameMode") == 3)
+    	{
+    		partyHealth = 100;
+    	}
+
     	noRepeat = true;
     	EnemyHealthText.text = enemyHealth.ToString();
     	PartyHealthText.text = partyHealth.ToString();
@@ -256,8 +274,9 @@ public class GMScript : MonoBehaviour
 
 		    gameover = true;
 
-		    GameOver.SetActive(true);
 		    cursorLock = false;
+
+		    StartCoroutine(EndGameDisplay(GameOver));
 
         }
 
@@ -273,8 +292,9 @@ public class GMScript : MonoBehaviour
 		    victory = false;
 		    gameover = true;
 
-		    Victory.SetActive(true);
 		    cursorLock = false;
+
+		    StartCoroutine(EndGameDisplay(Victory));
 
         }
 
@@ -963,6 +983,19 @@ public class GMScript : MonoBehaviour
     	}
 
     	cursorLock = false;
+    }
+
+    IEnumerator EndGameDisplay(GameObject display)
+    {
+
+    	display.SetActive(true);
+
+    	yield return new WaitForSeconds(5);
+
+    	display.SetActive(false);
+
+    	SceneManager.LoadScene("Mode Select Scene");
+
     }
 
     void EnemyBuilder()

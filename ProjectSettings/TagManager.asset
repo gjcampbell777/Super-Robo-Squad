@@ -8,6 +8,10 @@ TagManager:
   - Attack
   - Enemy
   - Restart
+  - Story
+  - Random
+  - Challenge
+  - Training
   layers:
   - Default
   - TransparentFX
