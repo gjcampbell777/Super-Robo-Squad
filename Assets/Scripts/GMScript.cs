@@ -7,6 +7,12 @@ using UnityEngine.SceneManagement;
 public class GMScript : MonoBehaviour
 {
 
+	public bool isRandom;
+
+	public int[] SetPartyColours = new int[partySize];
+	public int[] SetEnemyColours =  new int[5];
+	public int[] SetKillSequence = new int [8];
+
 	public GameObject[] PartyMembers;
 	public Sprite[] OrderSprites;
 	public GameObject Hit;
@@ -71,53 +77,86 @@ public class GMScript : MonoBehaviour
     void Start()
     {
 
+    	if(isRandom){
 
-    	// GENERATES PARTY MEMBER COLOURS
-    	do{
+	    	// GENERATES PARTY MEMBER COLOURS
+	    	do{
 
-    		partyRedo = false;
-    		buffAmount = 0;
+	    		partyRedo = false;
+	    		buffAmount = 0;
 
-    		PartyColours[0] = Random.Range(0, 15);
-	    	PartyColours[1] = Random.Range(0, 15);
-	    	PartyColours[2] = Random.Range(0, 15);
-	    	PartyColours[3] = Random.Range(0, 15);
+	    		PartyColours[0] = Random.Range(0, 15);
+		    	PartyColours[1] = Random.Range(0, 15);
+		    	PartyColours[2] = Random.Range(0, 15);
+		    	PartyColours[3] = Random.Range(0, 15);
 
-	    	// CHECKS THAT NO ROBOTS SHARE A COLOUR AND THERE ARE NO MORE THAN 1 BUFF ABILITY ROBOT
-	    	// IF EITHER OCCUR THE PARTY GETS RANDOMIZED AND CHECKED UNTIL THAT IS NO LONGER THE CASE
-	    	for(int i = 0; i < partySize; i++)
+		    	// CHECKS THAT NO ROBOTS SHARE A COLOUR AND THERE ARE NO MORE THAN 1 BUFF ABILITY ROBOT
+		    	// IF EITHER OCCUR THE PARTY GETS RANDOMIZED AND CHECKED UNTIL THAT IS NO LONGER THE CASE
+		    	for(int i = 0; i < partySize; i++)
+		    	{
+		    		for(int j = 0; j < partySize; j++)
+		    		{
+
+		    			if(PartyColours[i] == PartyColours[j] && i != j) partyRedo = true;
+
+		    		}
+		    		if(PartyColours[i] >= 12) buffAmount++;
+		    	}
+
+		    	if(buffAmount > 1) partyRedo = true;
+
+	    	}while(partyRedo);
+
+	    	EnemyPartsColours = new int[EnemyParts.Length];
+	    	// KILL SEQUENCE RANGES FROM LENGTH OF 3 TO 8 HITS
+	    	EnemyKillSequence = new int[Random.Range((4-buffAmount), 8)];
+
+	    	EnemyPartsColours[0] = Random.Range(0, 15);
+			EnemyPartsColours[1] = Random.Range(0, 15);
+			EnemyPartsColours[2] = Random.Range(0, 12);
+			EnemyPartsColours[3] = Random.Range(0, 12);
+			EnemyPartsColours[4] = Random.Range(0, 12);
+
+	    	// COLOURS FOR KILL SEQUENCE ARE GENERATED HERE
+	    	for(int i = 0; i < EnemyKillSequence.Length; i++)
 	    	{
-	    		for(int j = 0; j < partySize; j++)
-	    		{
+	    		
+	    		do{
+	    			EnemyKillSequence[i] = Random.Range(0, 12);
+	    		}while(EnemyKillSequence[i] != PartyColours[0] &&
+	    			EnemyKillSequence[i] != PartyColours[1] &&
+	    			EnemyKillSequence[i] != PartyColours[2] &&
+	    			EnemyKillSequence[i] != PartyColours[3]);
+	    		
+	    		EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
 
-	    			if(PartyColours[i] == PartyColours[j] && i != j) partyRedo = true;
-
-	    		}
-	    		if(PartyColours[i] >= 12) buffAmount++;
 	    	}
 
-	    	if(buffAmount > 1) partyRedo = true;
+    	} else {
 
-    	}while(partyRedo);
+    		PartyColours[0] = SetPartyColours[0];
+	    	PartyColours[1] = SetPartyColours[1];
+	    	PartyColours[2] = SetPartyColours[2];
+	    	PartyColours[3] = SetPartyColours[3];
 
-    	EnemyPartsColours = new int[EnemyParts.Length];
-    	// KILL SEQUENCE RANGES FROM LENGTH OF 3 TO 8 HITS
-    	EnemyKillSequence = new int[Random.Range((4-buffAmount), 8)];
+	    	EnemyPartsColours = new int[SetEnemyColours.Length+2];
+	    	EnemyPartsColours[0] = SetEnemyColours[0];
+	    	EnemyPartsColours[1] = SetEnemyColours[1];
+	    	EnemyPartsColours[2] = SetEnemyColours[2];
+	    	EnemyPartsColours[3] = SetEnemyColours[3];
+	    	EnemyPartsColours[4] = SetEnemyColours[4];
 
-    	// COLOURS FOR KILL SEQUENCE ARE GENERATED HERE
-    	for(int i = 0; i < EnemyKillSequence.Length; i++)
-    	{
-    		
-    		do{
-    			EnemyKillSequence[i] = Random.Range(0, 12);
-    		}while(EnemyKillSequence[i] != PartyColours[0] &&
-    			EnemyKillSequence[i] != PartyColours[1] &&
-    			EnemyKillSequence[i] != PartyColours[2] &&
-    			EnemyKillSequence[i] != PartyColours[3]);
-    		
-    		EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
+	    	EnemyKillSequence = new int[SetKillSequence.Length];
+
+	    	for(int i = 0; i < SetKillSequence.Length; i++)
+	    	{
+	    		EnemyKillSequence[i] = SetKillSequence[i];
+	    	}
 
     	}
+
+    	EnemyPartsColours[5] = EnemyKillSequence[0];
+		EnemyPartsColours[6] = EnemyKillSequence[1];
 
     	EnemyBuilder();
 
@@ -924,8 +963,7 @@ public class GMScript : MonoBehaviour
 
     	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyAntenna[Random.Range(0, EnemyAntenna.Length)];
-
-    	EnemyPartsColours[0] = Random.Range(0, 15);
+    	
     	EnemyParts[0].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemyPartsColours[0]);
 
@@ -937,8 +975,7 @@ public class GMScript : MonoBehaviour
 
     	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyHead[Random.Range(0, EnemyHead.Length)];
-
-    	EnemyPartsColours[1] = Random.Range(0, 15);
+    	
     	EnemyParts[1].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemyPartsColours[1]);
 
@@ -950,8 +987,7 @@ public class GMScript : MonoBehaviour
 
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyBody[Random.Range(0, EnemyBody.Length)];
-
-    	EnemyPartsColours[2] = Random.Range(0, 12);
+    	
     	EnemyParts[2].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemyPartsColours[2]);
 
@@ -969,8 +1005,7 @@ public class GMScript : MonoBehaviour
 
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
-
-    	EnemyPartsColours[3] = Random.Range(0, 12);
+    	
     	EnemyParts[3].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemyPartsColours[3]);
 
@@ -982,8 +1017,7 @@ public class GMScript : MonoBehaviour
 
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyArm[Random.Range(0, EnemyArm.Length)];
-
-    	EnemyPartsColours[4] = Random.Range(0, 12);
+    	
     	EnemyParts[4].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemyPartsColours[4]);
 
@@ -995,11 +1029,9 @@ public class GMScript : MonoBehaviour
 
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyChest[Random.Range(0, EnemyChest.Length)];
-
-    	EnemyPartsColours[5] = EnemyKillSequence[0];
+    	
     	EnemyParts[5].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemyPartsColours[5]);
-			EnemyKillSequence[0] = EnemyPartsColours[5];
 
 		EnemyParts[5].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
 			Symbols[EnemyPartsColours[5]];
@@ -1010,10 +1042,8 @@ public class GMScript : MonoBehaviour
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = 
     		EnemyWeakness[Random.Range(0, EnemyWeakness.Length)];
 
-    	EnemyPartsColours[6] = EnemyKillSequence[1];
     	EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().color =
 			SetColour(EnemyPartsColours[6]);
-			EnemyKillSequence[1] = EnemyPartsColours[6];
 
 		EnemyParts[6].transform.GetChild(1).GetComponent<SpriteRenderer>().sprite =
 			Symbols[EnemyPartsColours[6]];

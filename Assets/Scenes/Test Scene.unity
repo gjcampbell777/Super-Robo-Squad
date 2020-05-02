@@ -3440,6 +3440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ddb46fe3434b3549b6676edc264ae0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isRandom: 1
+  SetPartyColours: 07000000070000000700000007000000
+  SetEnemyColours: 0400000004000000040000000400000004000000
+  SetKillSequence: 01000000010000000100000002000000
   PartyMembers:
   - {fileID: 2058067573}
   - {fileID: 617295556}
