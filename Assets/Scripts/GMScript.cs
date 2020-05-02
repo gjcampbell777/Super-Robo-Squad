@@ -46,8 +46,8 @@ public class GMScript : MonoBehaviour
 	private bool gameover = false;
 	private bool victory = false;
 	private int buffAmount = 0;
-	private int partyHealth = 16;
-	private int enemyHealth = 32;
+	private int partyHealth = 8;
+	private int enemyHealth = 16;
 	private int partyAttack = 2;
 	private int enemyAttack = 2;
 	private static int partySize = 4;
@@ -71,24 +71,6 @@ public class GMScript : MonoBehaviour
     void Start()
     {
 
-    	EnemyPartsColours = new int[EnemyParts.Length];
-    	// KILL SEQUENCE RANGES FROM LENGTH OF 2 TO 5 HITS
-    	EnemyKillSequence = new int[Random.Range(2, 5)];
-
-    	// COLOURS FOR KILL SEQUENCE ARE GENERATED HERE
-    	for(int i = 0; i < EnemyKillSequence.Length - 1; i++)
-    	{
-    		EnemyKillSequence[i] = Random.Range(0, 12);
-    	}
-
-    	EnemyBuilder();
-
-    	EnemyHealthText.text = enemyHealth.ToString();
-    	PartyHealthText.text = partyHealth.ToString();
-    	EnemyDamageText.text = null;
-    	PartyDamageText.text = null;
-     
-    	robotColour = Colours.Red;
 
     	// GENERATES PARTY MEMBER COLOURS
     	do{
@@ -118,6 +100,33 @@ public class GMScript : MonoBehaviour
 
     	}while(partyRedo);
 
+    	EnemyPartsColours = new int[EnemyParts.Length];
+    	// KILL SEQUENCE RANGES FROM LENGTH OF 3 TO 8 HITS
+    	EnemyKillSequence = new int[Random.Range((4-buffAmount), 8)];
+
+    	// COLOURS FOR KILL SEQUENCE ARE GENERATED HERE
+    	for(int i = 0; i < EnemyKillSequence.Length; i++)
+    	{
+    		
+    		do{
+    			EnemyKillSequence[i] = Random.Range(0, 12);
+    		}while(EnemyKillSequence[i] != PartyColours[0] &&
+    			EnemyKillSequence[i] != PartyColours[1] &&
+    			EnemyKillSequence[i] != PartyColours[2] &&
+    			EnemyKillSequence[i] != PartyColours[3]);
+    		
+    		EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
+
+    	}
+
+    	EnemyBuilder();
+
+    	EnemyHealthText.text = enemyHealth.ToString();
+    	PartyHealthText.text = partyHealth.ToString();
+    	EnemyDamageText.text = null;
+    	PartyDamageText.text = null;
+     
+    	robotColour = Colours.Red;
 
     	for(int i = 0; i < partySize; i++)
 		{
