@@ -36,6 +36,7 @@ public class GMScript : MonoBehaviour
 
 	public Sprite[] Symbols;
 
+	private bool partyRedo = false;
 	private bool cursorLock = false;
 	private bool noRepeat = true;
 	private bool shield = false;
@@ -44,6 +45,7 @@ public class GMScript : MonoBehaviour
 	private bool weakPointHit = false;
 	private bool gameover = false;
 	private bool victory = false;
+	private int buffAmount = 0;
 	private int partyHealth = 16;
 	private int enemyHealth = 32;
 	private int partyAttack = 2;
@@ -88,10 +90,31 @@ public class GMScript : MonoBehaviour
      
     	robotColour = Colours.Red;
 
-    	PartyColours[0] = Random.Range(0, 15);
-    	PartyColours[1] = Random.Range(0, 15);
-    	PartyColours[2] = Random.Range(0, 15);
-    	PartyColours[3] = Random.Range(0, 15);
+    	do{
+
+    		partyRedo = false;
+    		buffAmount = 0;
+
+    		PartyColours[0] = Random.Range(0, 15);
+	    	PartyColours[1] = Random.Range(0, 15);
+	    	PartyColours[2] = Random.Range(0, 15);
+	    	PartyColours[3] = Random.Range(0, 15);
+
+	    	for(int i = 0; i < partySize; i++)
+	    	{
+	    		for(int j = 0; j < partySize; j++)
+	    		{
+
+	    			if(PartyColours[i] == PartyColours[j] && i != j) partyRedo = true;
+
+	    		}
+	    		if(PartyColours[i] >= 12) buffAmount++;
+	    	}
+
+	    	if(buffAmount > 1) partyRedo = true;
+
+    	}while(partyRedo);
+
 
     	for(int i = 0; i < partySize; i++)
 		{
