@@ -197,15 +197,15 @@ public class GMScript : MonoBehaviour
 
 	    		if(PlayerPrefs.GetInt("Level") == 1)
 	    		{
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+	    			SeedParse(new int[] {7,8,6,9,4,4,4,4,4,3,2,2,2,0});
 	    		} else if(PlayerPrefs.GetInt("Level") == 2){
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+	    			SeedParse(new int[] {0,11,1,14,4,4,4,4,4,3,7,5,6,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 3){
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,3,2,2,2,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 4){
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,3,2,2,2,0});
     			} else if (PlayerPrefs.GetInt("Level") == 5){
-    				SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+    				SeedParse(new int[] {7,7,7,7,4,4,4,4,4,3,2,2,2,0});
 				} else if (PlayerPrefs.GetInt("Level") == 6){
 					SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 				} else if(PlayerPrefs.GetInt("Level") == 7){
