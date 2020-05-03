@@ -152,26 +152,15 @@ public class GMScript : MonoBehaviour
 
     	} else {
 
-    		PartyColours[0] = SetPartyColours[0];
-	    	PartyColours[1] = SetPartyColours[1];
-	    	PartyColours[2] = SetPartyColours[2];
-	    	PartyColours[3] = SetPartyColours[3];
-
-	    	EnemyPartsColours = new int[SetEnemyColours.Length+2];
-	    	EnemyPartsColours[0] = SetEnemyColours[0];
-	    	EnemyPartsColours[1] = SetEnemyColours[1];
-	    	EnemyPartsColours[2] = SetEnemyColours[2];
-	    	EnemyPartsColours[3] = SetEnemyColours[3];
-	    	EnemyPartsColours[4] = SetEnemyColours[4];
-
-	    	EnemyKillSequence = new int[SetKillSequence.Length];
-
-	    	for(int i = 0; i < SetKillSequence.Length; i++)
+    		if(PlayerPrefs.GetInt ("GameMode") == 0)
 	    	{
-	    		EnemyKillSequence[i] = SetKillSequence[i];
+	    		SeedParse("000000000466660");
 	    	}
 
-	    	modelNum = SetModelNum;
+    		if(PlayerPrefs.GetInt ("GameMode") == 2)
+	    	{
+	    		SeedParse("777744444422220");
+	    	}
 
     	}
 
@@ -995,6 +984,32 @@ public class GMScript : MonoBehaviour
     	display.SetActive(false);
 
     	SceneManager.LoadScene("Mode Select Scene");
+
+    }
+
+    void SeedParse(string seed)
+    {
+
+    	PartyColours[0] = (int)char.GetNumericValue(seed[0]);
+    	PartyColours[1] = (int)char.GetNumericValue(seed[1]);
+    	PartyColours[2] = (int)char.GetNumericValue(seed[2]);
+    	PartyColours[3] = (int)char.GetNumericValue(seed[3]);
+
+    	EnemyPartsColours = new int[7];
+    	EnemyPartsColours[0] = (int)char.GetNumericValue(seed[4]);
+    	EnemyPartsColours[1] = (int)char.GetNumericValue(seed[5]);
+    	EnemyPartsColours[2] = (int)char.GetNumericValue(seed[6]);
+    	EnemyPartsColours[3] = (int)char.GetNumericValue(seed[7]);
+    	EnemyPartsColours[4] = (int)char.GetNumericValue(seed[8]);
+
+    	EnemyKillSequence = new int[(int)char.GetNumericValue(seed[9])];
+
+    	for(int i = 0; i < (int)char.GetNumericValue(seed[9]); i++)
+    	{
+    		EnemyKillSequence[i] = (int)char.GetNumericValue(seed[10+i]);
+    	}
+
+    	modelNum = (int)char.GetNumericValue(seed[10+(int)char.GetNumericValue(seed[9])]);
 
     }
 
