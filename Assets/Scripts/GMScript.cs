@@ -164,17 +164,17 @@ public class GMScript : MonoBehaviour
 	    		
 	    		if(PlayerPrefs.GetInt("Level") == 1)
 	    		{
-	    			SeedParse("000000000466660");
+	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
 	    		} else if(PlayerPrefs.GetInt("Level") == 2){
-	    			SeedParse("000000000466660");
+	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 3){
-	    			SeedParse("000000000466660");
+	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 4){
-	    			SeedParse("000000000466660");
+	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
     			} else if (PlayerPrefs.GetInt("Level") == 5){
-    				SeedParse("000000000466660");
+    				SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
 				} else if (PlayerPrefs.GetInt("Level") >= 6){
-					SeedParse("000000000466660");
+					SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
 					SceneManager.LoadScene("Mode Select Scene");
 				}
 	    		
@@ -185,27 +185,27 @@ public class GMScript : MonoBehaviour
 	    		
 	    		if(PlayerPrefs.GetInt("Level") == 1)
 	    		{
-	    			SeedParse("777744444422220");
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 	    		} else if(PlayerPrefs.GetInt("Level") == 2){
-	    			SeedParse("777744444422220");
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 3){
-	    			SeedParse("777744444422220");
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 4){
-	    			SeedParse("777744444422220");
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
     			} else if (PlayerPrefs.GetInt("Level") == 5){
-    				SeedParse("777744444422220");
+    				SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 				} else if (PlayerPrefs.GetInt("Level") == 6){
-					SeedParse("777744444422220");
+					SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 				} else if(PlayerPrefs.GetInt("Level") == 7){
-	    			SeedParse("777744444422220");
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 8){
-	    			SeedParse("777744444422220");
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 9){
-	    			SeedParse("777744444422220");
+	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
     			} else if (PlayerPrefs.GetInt("Level") == 10){
-    				SeedParse("777744444422220");
+    				SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 				} else if (PlayerPrefs.GetInt("Level") >= 11){
-					SeedParse("777744444422220");
+					SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
 					SceneManager.LoadScene("Mode Select Scene");
 				}
 
@@ -1059,29 +1059,29 @@ public class GMScript : MonoBehaviour
     	
     }
 
-    void SeedParse(string seed)
+    void SeedParse(int[] seed)
     {
 
-    	PartyColours[0] = (int)char.GetNumericValue(seed[0]);
-    	PartyColours[1] = (int)char.GetNumericValue(seed[1]);
-    	PartyColours[2] = (int)char.GetNumericValue(seed[2]);
-    	PartyColours[3] = (int)char.GetNumericValue(seed[3]);
+    	PartyColours[0] = seed[0];
+    	PartyColours[1] = seed[1];
+    	PartyColours[2] = seed[2];
+    	PartyColours[3] = seed[3];
 
     	EnemyPartsColours = new int[7];
-    	EnemyPartsColours[0] = (int)char.GetNumericValue(seed[4]);
-    	EnemyPartsColours[1] = (int)char.GetNumericValue(seed[5]);
-    	EnemyPartsColours[2] = (int)char.GetNumericValue(seed[6]);
-    	EnemyPartsColours[3] = (int)char.GetNumericValue(seed[7]);
-    	EnemyPartsColours[4] = (int)char.GetNumericValue(seed[8]);
+    	EnemyPartsColours[0] = seed[4];
+    	EnemyPartsColours[1] = seed[5];
+    	EnemyPartsColours[2] = seed[6];
+    	EnemyPartsColours[3] = seed[7];
+    	EnemyPartsColours[4] = seed[8];
 
-    	EnemyKillSequence = new int[(int)char.GetNumericValue(seed[9])];
+    	EnemyKillSequence = new int[seed[9]];
 
-    	for(int i = 0; i < (int)char.GetNumericValue(seed[9]); i++)
+    	for(int i = 0; i < seed[9]; i++)
     	{
-    		EnemyKillSequence[i] = (int)char.GetNumericValue(seed[10+i]);
+    		EnemyKillSequence[i] = seed[10+i];
     	}
 
-    	modelNum = (int)char.GetNumericValue(seed[10+(int)char.GetNumericValue(seed[9])]);
+    	modelNum = seed[10+seed[9]];
 
     }
 
