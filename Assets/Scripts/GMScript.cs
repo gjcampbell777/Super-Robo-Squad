@@ -176,15 +176,15 @@ public class GMScript : MonoBehaviour
 	    		{
 	    			SeedParse(new int[] {0,1,11,13,0,6,8,0,0,3,6,5,7,0});
 	    		} else if(PlayerPrefs.GetInt("Level") == 2){
-	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
+	    			SeedParse(new int[] {0,4,8,12,4,5,9,1,10,3,2,6,10,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 3){
-	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
+	    			SeedParse(new int[] {2,6,10,7,12,0,8,11,5,4,1,4,0,8,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 4){
-	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
+	    			SeedParse(new int[] {4,10,1,14,14,1,0,5,8,5,10,4,7,10,7,0});
     			} else if (PlayerPrefs.GetInt("Level") == 5){
-    				SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
+    				SeedParse(new int[] {3,4,5,6,3,1,0,2,9,6,0,9,11,10,11,10,0});
 				} else if (PlayerPrefs.GetInt("Level") >= 6){
-					SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
+					SeedParse(new int[] {6,0,8,4,4,6,10,2,8,7,6,0,10,2,10,2,6,0});
 					SceneManager.LoadScene("Mode Select Scene");
 				}
 	    		
