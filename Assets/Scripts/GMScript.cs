@@ -32,6 +32,8 @@ public class GMScript : MonoBehaviour
 	public Text EnemyHealthText;
 	public Text PartyHealthText;
 	public Text LevelNumber;
+	public GameObject MaxLevelNumber;
+	public GameObject Divider;
 
 	public GameObject[] EnemyParts;
 
@@ -61,6 +63,7 @@ public class GMScript : MonoBehaviour
 	private int partyAttack = 2;
 	private int enemyAttack = 2;
 	private int level;
+	private int maxLevel;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
@@ -101,6 +104,8 @@ public class GMScript : MonoBehaviour
     	}
 
     	if(isRandom){
+
+    		maxLevel = 9999;
 
 	    	// GENERATES PARTY MEMBER COLOURS
 	    	do{
@@ -159,12 +164,17 @@ public class GMScript : MonoBehaviour
 
     	} else {
 
+    		Divider.SetActive(true);
+    		MaxLevelNumber.SetActive(true);
+
     		if(PlayerPrefs.GetInt("GameMode") == 0)
 	    	{
 	    		
+	    		maxLevel = 5;
+
 	    		if(PlayerPrefs.GetInt("Level") == 1)
 	    		{
-	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
+	    			SeedParse(new int[] {0,1,11,13,0,6,8,0,0,3,6,5,7,0});
 	    		} else if(PlayerPrefs.GetInt("Level") == 2){
 	    			SeedParse(new int[] {0,0,0,0,0,0,0,0,0,4,6,6,6,6,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 3){
@@ -183,6 +193,8 @@ public class GMScript : MonoBehaviour
     		if(PlayerPrefs.GetInt("GameMode") == 2)
 	    	{
 	    		
+	    		maxLevel = 10;
+
 	    		if(PlayerPrefs.GetInt("Level") == 1)
 	    		{
 	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
@@ -210,6 +222,8 @@ public class GMScript : MonoBehaviour
 				}
 
 	    	}
+
+	    	MaxLevelNumber.transform.GetChild(0).GetComponent<Text>().text = maxLevel.ToString();
 
     	}
 
@@ -336,6 +350,11 @@ public class GMScript : MonoBehaviour
 		    cursorLock = false;
 
 		    StartCoroutine(NextLevelDisplay(Victory));
+
+		    if(PlayerPrefs.GetInt("Level") >= maxLevel)
+		    {
+		    	StartCoroutine(BackToModeSelect());
+		    }
 
         }
 
@@ -518,7 +537,7 @@ public class GMScript : MonoBehaviour
 
 		}
 
-		if(!victory)
+		if(!victory && enemyHealth > 0)
 		{
 			yield return StartCoroutine(AttackEnemy());
 		}
@@ -1035,7 +1054,7 @@ public class GMScript : MonoBehaviour
 
     	display.SetActive(true);
 
-    	yield return new WaitForSeconds(5);
+    	yield return new WaitForSeconds(3);
 
     	display.SetActive(false);
 
@@ -1048,7 +1067,7 @@ public class GMScript : MonoBehaviour
 
     	display.SetActive(true);
 
-    	yield return new WaitForSeconds(5);
+    	yield return new WaitForSeconds(3);
 
     	display.SetActive(false);
 
@@ -1057,6 +1076,14 @@ public class GMScript : MonoBehaviour
 
     	SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     	
+    }
+
+    IEnumerator BackToModeSelect()
+    {
+
+    	yield return new WaitForSeconds(3);
+
+    	SceneManager.LoadScene("Mode Select Scene");
     }
 
     void SeedParse(int[] seed)
