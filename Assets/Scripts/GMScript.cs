@@ -31,6 +31,7 @@ public class GMScript : MonoBehaviour
 	public Text PartyDamageText;
 	public Text EnemyHealthText;
 	public Text PartyHealthText;
+	public Text LevelNumber;
 
 	public GameObject[] EnemyParts;
 
@@ -52,13 +53,14 @@ public class GMScript : MonoBehaviour
 	private bool buff = false;
 	private bool weakPointHit = false;
 	private bool gameover = false;
-	private bool victory = false;
+	private bool victory;
 	private int buffAmount = 0;
 	private int modelNum;
 	private int partyHealth = 8;
 	private int enemyHealth = 16;
 	private int partyAttack = 2;
 	private int enemyAttack = 2;
+	private int level;
 	private static int partySize = 4;
 	private string[] PartyMemberOrder = new string[partySize];
 	private int[] OrderNumbers = new int[partySize];
@@ -79,16 +81,21 @@ public class GMScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+    	victory = false;
+    	gameover = false;
+    	enemyHealth = 16;
+    	partyHealth = 8;
+    	level = PlayerPrefs.GetInt("Level");
 
-    	if(PlayerPrefs.GetInt ("GameMode") == 0 ||
-    	 PlayerPrefs.GetInt ("GameMode") == 2)
+    	if(PlayerPrefs.GetInt("GameMode") == 0 ||
+    	 PlayerPrefs.GetInt("GameMode") == 2)
     	{
     		isRandom = false;
     	} else {
     		isRandom = true;
     	}
 
-    	if(PlayerPrefs.GetInt ("GameMode") == 2)
+    	if(PlayerPrefs.GetInt("GameMode") == 2)
     	{
     		partyHealth = 1;
     	}
@@ -152,14 +159,56 @@ public class GMScript : MonoBehaviour
 
     	} else {
 
-    		if(PlayerPrefs.GetInt ("GameMode") == 0)
+    		if(PlayerPrefs.GetInt("GameMode") == 0)
 	    	{
-	    		SeedParse("000000000466660");
+	    		
+	    		if(PlayerPrefs.GetInt("Level") == 1)
+	    		{
+	    			SeedParse("000000000466660");
+	    		} else if(PlayerPrefs.GetInt("Level") == 2){
+	    			SeedParse("000000000466660");
+	    		} else if (PlayerPrefs.GetInt("Level") == 3){
+	    			SeedParse("000000000466660");
+	    		} else if (PlayerPrefs.GetInt("Level") == 4){
+	    			SeedParse("000000000466660");
+    			} else if (PlayerPrefs.GetInt("Level") == 5){
+    				SeedParse("000000000466660");
+				} else if (PlayerPrefs.GetInt("Level") >= 6){
+					SeedParse("000000000466660");
+					SceneManager.LoadScene("Mode Select Scene");
+				}
+	    		
 	    	}
 
-    		if(PlayerPrefs.GetInt ("GameMode") == 2)
+    		if(PlayerPrefs.GetInt("GameMode") == 2)
 	    	{
-	    		SeedParse("777744444422220");
+	    		
+	    		if(PlayerPrefs.GetInt("Level") == 1)
+	    		{
+	    			SeedParse("777744444422220");
+	    		} else if(PlayerPrefs.GetInt("Level") == 2){
+	    			SeedParse("777744444422220");
+	    		} else if (PlayerPrefs.GetInt("Level") == 3){
+	    			SeedParse("777744444422220");
+	    		} else if (PlayerPrefs.GetInt("Level") == 4){
+	    			SeedParse("777744444422220");
+    			} else if (PlayerPrefs.GetInt("Level") == 5){
+    				SeedParse("777744444422220");
+				} else if (PlayerPrefs.GetInt("Level") == 6){
+					SeedParse("777744444422220");
+				} else if(PlayerPrefs.GetInt("Level") == 7){
+	    			SeedParse("777744444422220");
+	    		} else if (PlayerPrefs.GetInt("Level") == 8){
+	    			SeedParse("777744444422220");
+	    		} else if (PlayerPrefs.GetInt("Level") == 9){
+	    			SeedParse("777744444422220");
+    			} else if (PlayerPrefs.GetInt("Level") == 10){
+    				SeedParse("777744444422220");
+				} else if (PlayerPrefs.GetInt("Level") >= 11){
+					SeedParse("777744444422220");
+					SceneManager.LoadScene("Mode Select Scene");
+				}
+
 	    	}
 
     	}
@@ -173,6 +222,7 @@ public class GMScript : MonoBehaviour
     	PartyHealthText.text = partyHealth.ToString();
     	EnemyDamageText.text = null;
     	PartyDamageText.text = null;
+    	LevelNumber.text = level.ToString();
      
     	robotColour = Colours.Red;
 
@@ -190,13 +240,16 @@ public class GMScript : MonoBehaviour
 
 		}
 
+		EnemyParts[5].SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-    	if(PlayerPrefs.GetInt ("GameMode") == 3)
+    	LevelNumber.text = level.ToString();
+
+    	if(PlayerPrefs.GetInt("GameMode") == 3)
     	{
     		partyHealth = 100;
     	}
@@ -271,19 +324,18 @@ public class GMScript : MonoBehaviour
 
         if(enemyHealth <= 0 || victory == true)
         {
-        	//enemyHealth = 0;
+        	enemyHealth = 0;
 
 		    GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");
-   			foreach(GameObject parts in enemy) GameObject.Destroy(parts);
+   			foreach(GameObject parts in enemy) parts.SetActive(false);
 
 		    //print("The enemy robot has been destroyed! Congrats!");
 
-		    victory = false;
 		    gameover = true;
 
 		    cursorLock = false;
 
-		    StartCoroutine(EndGameDisplay(Victory));
+		    StartCoroutine(NextLevelDisplay(Victory));
 
         }
 
@@ -466,7 +518,10 @@ public class GMScript : MonoBehaviour
 
 		}
 
-		yield return StartCoroutine(AttackEnemy());
+		if(!victory)
+		{
+			yield return StartCoroutine(AttackEnemy());
+		}
 
     }
 
@@ -740,6 +795,7 @@ public class GMScript : MonoBehaviour
 
     			EnemyParts[6].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
     			victory = true;
+    			enemyHealth = 0;
 
 			} else {
 
@@ -985,6 +1041,22 @@ public class GMScript : MonoBehaviour
 
     	SceneManager.LoadScene("Mode Select Scene");
 
+    }
+
+    IEnumerator NextLevelDisplay(GameObject display)
+    {
+
+    	display.SetActive(true);
+
+    	yield return new WaitForSeconds(5);
+
+    	display.SetActive(false);
+
+    	level++;
+    	PlayerPrefs.SetInt("Level", level);
+
+    	SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    	
     }
 
     void SeedParse(string seed)

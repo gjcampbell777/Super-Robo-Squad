@@ -7,13 +7,16 @@ public class SelectScript : MonoBehaviour
 {
 
 	private int gameMode;
+	private int level;
 
     // Start is called before the first frame update
     void Start()
     {
 
     	gameMode = 1;
+    	level = 1;
     	PlayerPrefs.SetInt("GameMode", gameMode);
+    	PlayerPrefs.SetInt("Level", level);
 
     }
 
