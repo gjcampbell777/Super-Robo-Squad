@@ -201,23 +201,23 @@ public class GMScript : MonoBehaviour
 	    		} else if(PlayerPrefs.GetInt("Level") == 2){
 	    			SeedParse(new int[] {0,11,1,14,4,4,4,4,4,3,7,5,6,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 3){
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,3,2,2,2,0});
+	    			SeedParse(new int[] {7,11,12,5,4,3,8,10,6,3,6,0,10,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 4){
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,3,2,2,2,0});
+	    			SeedParse(new int[] {10,8,9,5,0,1,2,3,4,3,3,2,1,0});
     			} else if (PlayerPrefs.GetInt("Level") == 5){
-    				SeedParse(new int[] {7,7,7,7,4,4,4,4,4,3,2,2,2,0});
+    				SeedParse(new int[] {8,5,7,5,5,6,7,8,9,3,2,11,1,0});
 				} else if (PlayerPrefs.GetInt("Level") == 6){
-					SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+					SeedParse(new int[] {0,4,8,6,10,11,4,1,5,11,10,2,0,6,0});
 				} else if(PlayerPrefs.GetInt("Level") == 7){
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+	    			SeedParse(new int[] {2,4,6,8,1,3,5,7,9,4,7,1,9,3,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 8){
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+	    			SeedParse(new int[] {1,3,5,7,2,4,6,8,10,4,10,0,6,11,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 9){
-	    			SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+	    			SeedParse(new int[] {6,2,10,4,1,1,2,3,5,4,8,10,0,4,0});
     			} else if (PlayerPrefs.GetInt("Level") == 10){
-    				SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+    				SeedParse(new int[] {11,3,1,5,0,1,3,6,2,4,7,9,11,5,0});
 				} else if (PlayerPrefs.GetInt("Level") >= 11){
-					SeedParse(new int[] {7,7,7,7,4,4,4,4,4,4,2,2,2,2,0});
+					SeedParse(new int[] {7,6,5,8,2,3,5,7,11,4,1,0,11,10,0});
 					SceneManager.LoadScene("Mode Select Scene");
 				}
 
