@@ -371,6 +371,11 @@ public class GMScript : MonoBehaviour
 		    	{
 		    		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 		    	}
+
+		    	if(hit.collider.gameObject.tag == "Back")
+		    	{
+		    		SceneManager.LoadScene("Mode Select Scene");
+		    	}
 			}
 		}
 
