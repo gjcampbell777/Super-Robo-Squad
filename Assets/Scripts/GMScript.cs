@@ -136,8 +136,27 @@ public class GMScript : MonoBehaviour
 	    	}while(partyRedo);
 
 	    	EnemyPartsColours = new int[EnemyParts.Length];
-	    	// KILL SEQUENCE RANGES FROM LENGTH OF 3 TO 8 HITS
-	    	EnemyKillSequence = new int[Random.Range((4-buffAmount), 8)];
+
+	    	if(PlayerPrefs.GetInt("GameMode") == 1)
+	    	{
+
+	    		if(level <= 3)
+	    		{
+	    			EnemyKillSequence = new int[4-buffAmount];
+	    		} else if(level > 3 && level <= 6) {
+	    			EnemyKillSequence = new int[Random.Range((4-buffAmount), 6)];
+	    		} else if(level > 6 && level <= 9) {
+	    			EnemyKillSequence = new int[Random.Range((4-buffAmount), 8)];
+	    		} else {
+	    			EnemyKillSequence = new int[Random.Range((4-buffAmount), 12)];
+	    		}
+
+	    	} else {
+
+	    		// KILL SEQUENCE RANGES FROM LENGTH OF 3 TO 8 HITS
+	    		EnemyKillSequence = new int[Random.Range((4-buffAmount), 12)];
+
+	    	}
 
 	    	EnemyPartsColours[0] = Random.Range(0, 15);
 			EnemyPartsColours[1] = Random.Range(0, 15);
@@ -167,7 +186,7 @@ public class GMScript : MonoBehaviour
 		    			(EnemyKillSequence[i] == ((EnemyKillSequence[i-1]+6)%12)));
     			}
 	    		
-	    		print((Colours)EnemyKillSequence[i]);
+	    		//print((Colours)EnemyKillSequence[i]);
 	    		EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
 
 	    	}
