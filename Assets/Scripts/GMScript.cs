@@ -148,14 +148,26 @@ public class GMScript : MonoBehaviour
 	    	// COLOURS FOR KILL SEQUENCE ARE GENERATED HERE
 	    	for(int i = 0; i < EnemyKillSequence.Length; i++)
 	    	{
+
+	    		if(i == 0)
+	    		{
+	    			do{
+		    			EnemyKillSequence[i] = Random.Range(0, 12);
+		    		}while(EnemyKillSequence[i] != PartyColours[0] &&
+		    			EnemyKillSequence[i] != PartyColours[1] &&
+		    			EnemyKillSequence[i] != PartyColours[2] &&
+		    			EnemyKillSequence[i] != PartyColours[3]);
+    			} else {
+		    		do{
+		    			EnemyKillSequence[i] = Random.Range(0, 12);
+		    		}while(EnemyKillSequence[i] != PartyColours[0] &&
+		    			EnemyKillSequence[i] != PartyColours[1] &&
+		    			EnemyKillSequence[i] != PartyColours[2] &&
+		    			EnemyKillSequence[i] != PartyColours[3] ||
+		    			(EnemyKillSequence[i] == ((EnemyKillSequence[i-1]+6)%12)));
+    			}
 	    		
-	    		do{
-	    			EnemyKillSequence[i] = Random.Range(0, 12);
-	    		}while(EnemyKillSequence[i] != PartyColours[0] &&
-	    			EnemyKillSequence[i] != PartyColours[1] &&
-	    			EnemyKillSequence[i] != PartyColours[2] &&
-	    			EnemyKillSequence[i] != PartyColours[3]);
-	    		
+	    		print((Colours)EnemyKillSequence[i]);
 	    		EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
 
 	    	}
