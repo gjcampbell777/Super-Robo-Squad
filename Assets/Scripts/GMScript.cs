@@ -164,32 +164,42 @@ public class GMScript : MonoBehaviour
 			EnemyPartsColours[3] = Random.Range(0, 12);
 			EnemyPartsColours[4] = Random.Range(0, 12);
 
-	    	// COLOURS FOR KILL SEQUENCE ARE GENERATED HERE
-	    	for(int i = 0; i < EnemyKillSequence.Length; i++)
-	    	{
+			do{
 
-	    		if(i == 0)
-	    		{
-	    			do{
-		    			EnemyKillSequence[i] = Random.Range(0, 12);
-		    		}while(EnemyKillSequence[i] != PartyColours[0] &&
-		    			EnemyKillSequence[i] != PartyColours[1] &&
-		    			EnemyKillSequence[i] != PartyColours[2] &&
-		    			EnemyKillSequence[i] != PartyColours[3]);
-    			} else {
-		    		do{
-		    			EnemyKillSequence[i] = Random.Range(0, 12);
-		    		}while(EnemyKillSequence[i] != PartyColours[0] &&
-		    			EnemyKillSequence[i] != PartyColours[1] &&
-		    			EnemyKillSequence[i] != PartyColours[2] &&
-		    			EnemyKillSequence[i] != PartyColours[3] ||
-		    			(EnemyKillSequence[i] == ((EnemyKillSequence[i-1]+6)%12)));
-    			}
-	    		
-	    		//print((Colours)EnemyKillSequence[i]);
-	    		EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
+		    	// COLOURS FOR KILL SEQUENCE ARE GENERATED HERE
+		    	for(int i = 0; i < EnemyKillSequence.Length; i++)
+		    	{
 
-	    	}
+		    		if(i == 0)
+		    		{
+		    			do{
+			    			EnemyKillSequence[i] = Random.Range(0, 12);
+			    		}while(EnemyKillSequence[i] != PartyColours[0] &&
+			    			EnemyKillSequence[i] != PartyColours[1] &&
+			    			EnemyKillSequence[i] != PartyColours[2] &&
+			    			EnemyKillSequence[i] != PartyColours[3]);
+	    			} else {
+			    		do{
+			    			EnemyKillSequence[i] = Random.Range(0, 12);
+			    		}while(EnemyKillSequence[i] != PartyColours[0] &&
+			    			EnemyKillSequence[i] != PartyColours[1] &&
+			    			EnemyKillSequence[i] != PartyColours[2] &&
+			    			EnemyKillSequence[i] != PartyColours[3] ||
+			    			(EnemyKillSequence[i] == ((EnemyKillSequence[i-1]+6)%12)));
+	    			}
+		    		
+		    		//print((Colours)EnemyKillSequence[i]);
+		    		EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
+
+		    	}
+
+		    }while(!SequenceCheck());
+
+		    // FOR DEBUGGING PURPOSES ONLY
+		    for(int i = 0; i < EnemyKillSequence.Length; i++)
+		    {
+		    	print((Colours)EnemyKillSequence[i]);
+		    }
 
 	    	modelNum = Random.Range(0, 5);
 
@@ -1145,6 +1155,82 @@ public class GMScript : MonoBehaviour
     	}
 
     	modelNum = seed[10+seed[9]];
+
+    }
+
+    bool SequenceCheck()
+    {
+
+    	for(int i = 0; i < EnemyKillSequence.Length; i++)
+		{
+
+			if(EnemyKillSequence.Length - i >= (4-buffAmount))
+			{
+
+				if((4-buffAmount) == 4)
+				{
+
+					for(int j = i; j < i+4; j++)
+					{
+
+						for(int k = j+1; k < i+4; k++)
+						{
+							if(EnemyKillSequence[j] == EnemyKillSequence[k])
+							{
+
+								return false;
+
+							} 
+						}
+					}
+
+					i += 3;
+
+				} else {
+
+					for(int j = i; j < i+3; j++)
+					{
+
+						for(int k = j+1; k < i+3; k++)
+						{
+							if(EnemyKillSequence[j] == EnemyKillSequence[k])
+							{
+
+								return false;
+
+							} 
+						}
+					}
+
+					i += 2;
+
+				}
+
+			} else {
+
+				int remainder = EnemyKillSequence.Length - i;
+
+				for(int j = i; j < i+remainder; j++)
+				{
+
+					for(int k = j+1; k < i+remainder; k++)
+					{
+						if(EnemyKillSequence[j] == EnemyKillSequence[k])
+						{
+
+							return false;
+
+						} 
+					}
+				}
+
+				i += 4;
+
+			}
+
+		}
+
+    	return true;
 
     }
 
