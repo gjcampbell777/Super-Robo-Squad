@@ -159,7 +159,7 @@ public class GMScript : MonoBehaviour
 	    	}
 
 	    	EnemyPartsColours[0] = Random.Range(0, 15);
-			EnemyPartsColours[1] = Random.Range(0, 15);
+			EnemyPartsColours[1] = Random.Range(0, 12);
 			EnemyPartsColours[2] = Random.Range(0, 12);
 			EnemyPartsColours[3] = Random.Range(0, 12);
 			EnemyPartsColours[4] = Random.Range(0, 12);
