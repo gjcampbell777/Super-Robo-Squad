@@ -185,23 +185,34 @@ public class GMScript : MonoBehaviour
 			    			EnemyKillSequence[i] != PartyColours[1] &&
 			    			EnemyKillSequence[i] != PartyColours[2] &&
 			    			EnemyKillSequence[i] != PartyColours[3] ||
-			    			(EnemyKillSequence[i] == ((EnemyKillSequence[i-1]+6)%12)));
+			    			(EnemyKillSequence[i] == EnemyKillSequence[i-1]));
 	    			}
 		    		
 		    		//print((Colours)EnemyKillSequence[i]);
-		    		EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
-
+		    		
 		    	}
 
 		    }while(!SequenceCheck());
 
-		    // FOR DEBUGGING PURPOSES ONLY
+		    modelNum = Random.Range(0, 4);
+
+		    // CHANGES COLOUR OF KILL SEQUENCE DEPENDENT ON MODEL NUMBER
 		    for(int i = 0; i < EnemyKillSequence.Length; i++)
 		    {
+		  		
+		    	switch(modelNum){
+	    			case(0):
+	    				EnemyKillSequence[i] = (EnemyKillSequence[i]+6)%12;
+	    			break;
+	    			case(1):
+	    				EnemyKillSequence[i] = (EnemyKillSequence[i]+3)%12;
+	    			break;
+	    			case(2):
+	    				EnemyKillSequence[i] = (EnemyKillSequence[i]+9)%12;
+	    			break;
+	    		}
 		    	print((Colours)EnemyKillSequence[i]);
 		    }
-
-	    	modelNum = Random.Range(0, 5);
 
     	} else {
 
@@ -823,7 +834,8 @@ public class GMScript : MonoBehaviour
 
     	// ATTACK MODIFIER BASED ON THE RELATION OF THE COLOUR OF THE PARTY MEMBER
     	// AND THE COLOUR OF THE ENEMY ROBOT BASE BODY COLOUR
-    	switch(colourModifier)
+    	
+		switch(colourModifier)
     	{
     		case(2):
     			modifier = 2;
@@ -1338,309 +1350,75 @@ public class GMScript : MonoBehaviour
     int ColourCompare(Colours AttackColour, Colours DefendColour)
     {
 
-    	switch(AttackColour)
+
+    	if(AttackColour != Colours.White &&
+    		AttackColour != Colours.Grey &&
+    		AttackColour != Colours.Black)
+    	{
+
+    		if(modelNum == 0 || modelNum == 3)
     		{
-    		// WHITE, GREY AND BLACK ARE NEITHER WEAK NOR STRONG AGAINST
-    		// DEFENDING COLOUR SINCE THEY ARE "NON-ATTACK" COLOURS
-    		case Colours.White:
-    			return 0;
-    		case Colours.Grey:
-    			return 0;
-    		case Colours.Black:
-    			return 0;
-    		case Colours.Red:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
+    			
     			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Brown:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Orange:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Amber:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Yellow:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Lime:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Green:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Cyan:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Blue:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Indigo:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Purple:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		case Colours.Pink:
-    			// DEFEND COLOUR HAS STRONG DEFENSE IF ATTACK COLOUR IS SAME
-    			if(DefendColour == AttackColour)
-    			{
-    				return -2;
-    			} 
-    			// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+1)%12))
-    			{
-    				return -1;
-    			} 
-    			// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
-    			else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
-    			{
-    				return 2;
-    			} 
-    			// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
-    			else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
-    				DefendColour == (Colours)(((int)AttackColour+7)%12))
-    			{
-    				return 1;
-    			}
-    			break;
-    		default:
-    			return 0;
+				{
+					if(modelNum == 0) return -2;
+					else return 2;
+				} 
+				// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+				else if (DefendColour == (Colours)(((int)AttackColour-1)%12) ||
+					DefendColour == (Colours)(((int)AttackColour+1)%12))
+				{
+					if(modelNum == 0) return -1;
+					else return 1;
+				} 
+				// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+				else if (DefendColour == (Colours)(((int)AttackColour+6)%12))
+				{
+					if(modelNum == 0) return 2;
+					else return -2;
+				} 
+				// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+				else if (DefendColour == (Colours)(((int)AttackColour+5)%12) ||
+					DefendColour == (Colours)(((int)AttackColour+7)%12))
+				{
+					if(modelNum == 0) return 1;
+					else return -1;
+				}
+
+    		} else {
+
+    			if(DefendColour == (Colours)(((int)AttackColour+3)%12))
+				{
+					if(modelNum == 2) return -2;
+					else return 2;
+				} 
+				// DEFEND COLOUR HAS GOOD DEFENSE IF ATTACK COLOUR IS AN ADJACENT COLOUR
+				else if (DefendColour == (Colours)(((int)AttackColour+2)%12) ||
+					DefendColour == (Colours)(((int)AttackColour+4)%12))
+				{
+					if(modelNum == 2) return -1;
+					else return 1;
+				} 
+				// DEFEND COLOUR HAS NO DEFENSE IF ATTACK COLOUR IS OPPOSITE
+				else if (DefendColour == (Colours)(((int)AttackColour+9)%12))
+				{
+					if(modelNum == 2) return 2;
+					else return -2;
+				} 
+				// DEFEND COLOUR HAS WEAK DEFENSE IF ATTACK COLOUR IS ADJACENT TO OPPOSITE COLOUR
+				else if (DefendColour == (Colours)(((int)AttackColour+8)%12) ||
+					DefendColour == (Colours)(((int)AttackColour+10)%12))
+				{
+					if(modelNum == 2) return 1;
+					else return -1;
+				}
+
     		}
+    		
+    	}
 
     	// IF AN ATTACKING COLOUR DOESN'T MATCH WITH ANY OF THE ABOVE PARAMETERS
+    	// (OR ATTACKING ROBOT IS AN ABILITY COLOUR)
     	// IT IS NEITHER WEAK NOR STRONG AGAINST THE DEFENDING COLOUR
     	return 0;
     }
