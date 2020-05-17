@@ -285,7 +285,7 @@ SpriteRenderer:
   m_SortingLayerID: 2135489387
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b647028e54aeb5548b5a03c7b036822f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee8faa73ff6fb6d40bf8652b17f95bca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -476,7 +476,7 @@ SpriteRenderer:
   m_SortingLayerID: 2135489387
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 670d0059ec327ed4b89bdfcc92237d5b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 90b0e2829bece1e44a9a86c3ea50e0b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -513,7 +513,7 @@ GameObject:
   - component: {fileID: 1914592251}
   - component: {fileID: 1914592250}
   m_Layer: 0
-  m_Name: Story Select
+  m_Name: Tutorial Select
   m_TagString: Story
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -584,7 +584,7 @@ SpriteRenderer:
   m_SortingLayerID: 2135489387
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6030caae93d2100459d12e0905041923, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 240d8677a4dfd90469f64652af0551c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -664,7 +664,7 @@ GameObject:
   - component: {fileID: 2089610060}
   - component: {fileID: 2089610059}
   m_Layer: 0
-  m_Name: Random Select
+  m_Name: Endless Select
   m_TagString: Random
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -735,7 +735,7 @@ SpriteRenderer:
   m_SortingLayerID: 2135489387
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e8afa9e9d1490264290d8e824e36314f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 26ea7129a4c7aa04d89173497e397ec1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
