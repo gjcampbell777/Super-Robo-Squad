@@ -3680,10 +3680,10 @@ MonoBehaviour:
   - {fileID: 1394857171}
   - {fileID: 1935397210}
   OrderSprites:
-  - {fileID: 21300000, guid: 973ce85c33d2b9144843a10b538fdb8d, type: 3}
-  - {fileID: 21300000, guid: b5658b40beb1f9f4fb8eb7d3cbaed4b3, type: 3}
-  - {fileID: 21300000, guid: 09aa42caedc343b48896a6d309612f25, type: 3}
-  - {fileID: 21300000, guid: 03ee63c97936fc842b2ae42ad6694abc, type: 3}
+  - {fileID: 21300000, guid: 1ce09d3217efca44eaaab8f1a51104ee, type: 3}
+  - {fileID: 21300000, guid: 9368218eac9199748aff00b9324f36b4, type: 3}
+  - {fileID: 21300000, guid: be3b100a503709a4082235b32fe99558, type: 3}
+  - {fileID: 21300000, guid: 49457f849b4fd6947b25da656b82bdeb, type: 3}
   Hit: {fileID: 76123733}
   EnemyHit: {fileID: 253373582}
   Shield: {fileID: 1797600398}
