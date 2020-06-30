@@ -71,6 +71,8 @@ public class GMScript : MonoBehaviour
 	private int[] EnemyPartsColours;
 	private int[] EnemyKillSequence;
 
+	private ShakeScript shake;
+
 	enum Colours {
 		Red, Brown, Orange,
 		Amber, Yellow, Lime,
@@ -89,6 +91,7 @@ public class GMScript : MonoBehaviour
     	enemyHealth = 16;
     	partyHealth = 8;
     	level = PlayerPrefs.GetInt("Level");
+    	shake = GameObject.FindGameObjectWithTag("ScreenShake").GetComponent<ShakeScript>();
 
     	if(PlayerPrefs.GetInt("GameMode") == 0 ||
     	 PlayerPrefs.GetInt("GameMode") == 2)
@@ -669,13 +672,12 @@ public class GMScript : MonoBehaviour
 				Hit.SetActive(true);
 
 				Animator hit = Hit.transform.GetComponent<Animator>();
-				hit.SetTrigger("HitTrigger");
 
+				shake.camShake();
 				yield return new WaitForSeconds(
 					hit.GetCurrentAnimatorStateInfo(0).length * 2
 					+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-				hit.SetTrigger("HitTrigger");
 				Hit.SetActive(false);
 			} else {
 
@@ -715,13 +717,11 @@ public class GMScript : MonoBehaviour
 			EnemyHit.SetActive(true);
 
 			Animator hit = EnemyHit.transform.GetComponent<Animator>();
-			hit.SetTrigger("HitTrigger");
 
 			yield return new WaitForSeconds(
 				hit.GetCurrentAnimatorStateInfo(0).length * 2
 				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-			hit.SetTrigger("HitTrigger");
 			EnemyHit.SetActive(false);
 			display.text = null;
 			
@@ -764,13 +764,11 @@ public class GMScript : MonoBehaviour
 			Hit.SetActive(true);
 
 			Animator hit = Hit.transform.GetComponent<Animator>();
-			hit.SetTrigger("HitTrigger");
 
 			yield return new WaitForSeconds(
 				hit.GetCurrentAnimatorStateInfo(0).length * 2
 				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-			hit.SetTrigger("HitTrigger");
 			EnemyDamageText.text = null;
 			Hit.SetActive(false);
 			
@@ -799,13 +797,12 @@ public class GMScript : MonoBehaviour
 				EnemyHit.SetActive(true);
 
 				Animator hit = EnemyHit.transform.GetComponent<Animator>();
-				hit.SetTrigger("HitTrigger");
 
+				shake.camShake();
 				yield return new WaitForSeconds(
 					hit.GetCurrentAnimatorStateInfo(0).length * 2
 					+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
-				hit.SetTrigger("HitTrigger");
 				EnemyHit.SetActive(false);
 			} else {
 
