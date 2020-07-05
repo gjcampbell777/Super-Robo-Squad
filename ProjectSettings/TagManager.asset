@@ -15,6 +15,7 @@ TagManager:
   - Back
   - ScreenShake
   - SideTrim
+  - Quit
   layers:
   - Default
   - TransparentFX

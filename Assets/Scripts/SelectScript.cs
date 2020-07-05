@@ -24,13 +24,13 @@ public class SelectScript : MonoBehaviour
 
     	SideTrimObject = new GameObject("SideTrimLeft");
 		SideTrimObject.AddComponent<SpriteRenderer>();
-		SideTrimObject.transform.position = new Vector3(-5.5f, 0f, 0f);
+		SideTrimObject.transform.position = new Vector3(-5.5f, -0.5f, 0f);
 		SideTrimObject.SetActive(false);
 		SideTrimObject.tag = "SideTrim";
 
 		SideTrimObjectFlip = new GameObject("SideTrimRight");
 		SideTrimObjectFlip.AddComponent<SpriteRenderer>();
-		SideTrimObjectFlip.transform.position = new Vector3(5.5f, 0f, 0f);
+		SideTrimObjectFlip.transform.position = new Vector3(5.5f, -0.5f, 0f);
 		SideTrimObjectFlip.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 		SideTrimObjectFlip.SetActive(false);
 		SideTrimObjectFlip.tag = "SideTrim";
@@ -104,6 +104,18 @@ public class SelectScript : MonoBehaviour
 		    		gameMode = 3;
 		    		PlayerPrefs.SetInt("GameMode", gameMode);
 		    		SceneManager.LoadScene("Battle Scene");
+		    	}
+	    	}
+
+	    	if(hit.collider.gameObject.tag == "Quit")
+	    	{
+
+	    		renderer.sprite = SideTrim[4];
+	    		rendererFlip.sprite = SideTrim[4];
+
+	    		if (Input.GetMouseButtonDown(0))
+	    		{
+		    		Application.Quit();
 		    	}
 	    	}
 
