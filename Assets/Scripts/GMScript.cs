@@ -47,6 +47,8 @@ public class GMScript : MonoBehaviour
 
 	public Sprite[] Symbols;
 
+	public AudioClip[] SoundEffects;
+
 	private bool partyRedo = false;
 	private bool cursorLock = false;
 	private bool noRepeat = true;
@@ -73,6 +75,8 @@ public class GMScript : MonoBehaviour
 
 	private ShakeScript shake;
 
+	private AudioSource audioPlayer;
+
 	enum Colours {
 		Red, Brown, Orange,
 		Amber, Yellow, Lime,
@@ -92,6 +96,9 @@ public class GMScript : MonoBehaviour
     	partyHealth = 8;
     	level = PlayerPrefs.GetInt("Level");
     	shake = GameObject.FindGameObjectWithTag("ScreenShake").GetComponent<ShakeScript>();
+    	audioPlayer = this.GetComponent<AudioSource>();
+
+    	GameObject.FindGameObjectWithTag("Music").GetComponent<MusicScript>().PlayMusic();
 
     	if(PlayerPrefs.GetInt("GameMode") == 0 ||
     	 PlayerPrefs.GetInt("GameMode") == 2)
@@ -343,6 +350,9 @@ public class GMScript : MonoBehaviour
 
 		    	if(hit.collider.gameObject.tag == "Party")
 		    	{
+
+		    		audioPlayer.PlayOneShot(SoundEffects[0]);
+
 		    		CheckParty(hit.collider.gameObject);
 
 			    	if(noRepeat)
@@ -357,6 +367,8 @@ public class GMScript : MonoBehaviour
 
 		    	if(hit.collider.gameObject.tag == "Attack" && PartyMemberOrder[0] != null)
 		    	{
+
+		    		audioPlayer.PlayOneShot(SoundEffects[1]);
 
      				cursorLock = true;
 
@@ -429,6 +441,7 @@ public class GMScript : MonoBehaviour
 
 		    	if(hit.collider.gameObject.tag == "Back")
 		    	{
+		    		audioPlayer.PlayOneShot(SoundEffects[1]);
 		    		SceneManager.LoadScene("Mode Select Scene");
 		    	}
 			}
@@ -567,6 +580,8 @@ public class GMScript : MonoBehaviour
 				Animator attack = PartyMembers[OrderNumbers[i]-1].transform.GetComponent<Animator>();
 				attack.SetTrigger("AttackTrigger");
 
+				audioPlayer.PlayOneShot(SoundEffects[2]);
+
 				yield return new WaitForSeconds(
 					attack.GetCurrentAnimatorStateInfo(0).length
 					+attack.GetCurrentAnimatorStateInfo(0).normalizedTime);
@@ -674,6 +689,7 @@ public class GMScript : MonoBehaviour
 				Animator hit = Hit.transform.GetComponent<Animator>();
 
 				shake.camShake();
+				audioPlayer.PlayOneShot(SoundEffects[3]);
 				yield return new WaitForSeconds(
 					hit.GetCurrentAnimatorStateInfo(0).length * 2
 					+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
@@ -719,6 +735,7 @@ public class GMScript : MonoBehaviour
 			Animator hit = EnemyHit.transform.GetComponent<Animator>();
 
 			yield return new WaitForSeconds(
+				//DIFFERENT SOUND EFFECT FOR ABILITY MOVES
 				hit.GetCurrentAnimatorStateInfo(0).length * 2
 				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
@@ -799,6 +816,7 @@ public class GMScript : MonoBehaviour
 				Animator hit = EnemyHit.transform.GetComponent<Animator>();
 
 				shake.camShake();
+				audioPlayer.PlayOneShot(SoundEffects[3]);
 				yield return new WaitForSeconds(
 					hit.GetCurrentAnimatorStateInfo(0).length * 2
 					+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
@@ -1048,11 +1066,16 @@ public class GMScript : MonoBehaviour
     	if((shield || enemyShield) && 
     		(displayColour != Colours.White 
     			&& displayColour != Colours.Grey 
-    			&& displayColour != Colours.Black)) ShieldHit.SetActive(true);
+    			&& displayColour != Colours.Black)) 
+    	{
+    		audioPlayer.PlayOneShot(SoundEffects[5]);
+    		ShieldHit.SetActive(true);
+    	}
 
     	if(weakPointHit) 
     	{
     		weakPointHit = false;
+    		audioPlayer.PlayOneShot(SoundEffects[4]);
     		WeakPointHit.SetActive(true);
     	}
 
@@ -1064,6 +1087,7 @@ public class GMScript : MonoBehaviour
 		Animator enemyAttackAnim = EnemyParts[arm].transform.GetComponent<Animator>();
 		enemyAttackAnim.SetTrigger("AttackTrigger");
 
+		audioPlayer.PlayOneShot(SoundEffects[2]);
 		yield return new WaitForSeconds(
 			enemyAttackAnim.GetCurrentAnimatorStateInfo(0).length
 			+enemyAttackAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);

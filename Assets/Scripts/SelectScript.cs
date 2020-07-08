@@ -35,6 +35,8 @@ public class SelectScript : MonoBehaviour
 		SideTrimObjectFlip.SetActive(false);
 		SideTrimObjectFlip.tag = "SideTrim";
 
+		GameObject.FindGameObjectWithTag("Music").GetComponent<MusicScript>().StopMusic();
+
     }
 
     // Update is called once per frame

@@ -16,6 +16,7 @@ TagManager:
   - ScreenShake
   - SideTrim
   - Quit
+  - Music
   layers:
   - Default
   - TransparentFX
