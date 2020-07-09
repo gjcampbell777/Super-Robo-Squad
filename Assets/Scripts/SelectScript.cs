@@ -8,10 +8,14 @@ public class SelectScript : MonoBehaviour
 
 	public Sprite[] SideTrim;
 
+	public AudioClip[] SelectionSounds;
+
 	private int gameMode;
 	private int level;
 	private GameObject SideTrimObject;
 	private GameObject SideTrimObjectFlip;
+
+	private AudioSource audioPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +38,8 @@ public class SelectScript : MonoBehaviour
 		SideTrimObjectFlip.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 		SideTrimObjectFlip.SetActive(false);
 		SideTrimObjectFlip.tag = "SideTrim";
+
+		audioPlayer = this.GetComponent<AudioSource>();
 
 		GameObject.FindGameObjectWithTag("Music").GetComponent<MusicScript>().StopMusic();
 
@@ -62,8 +68,8 @@ public class SelectScript : MonoBehaviour
 	    		if (Input.GetMouseButtonDown(0))
 	    		{
 		    		gameMode = 0;
-		    		PlayerPrefs.SetInt("GameMode", gameMode);
-		    		SceneManager.LoadScene("Battle Scene");
+		    		audioPlayer.PlayOneShot(SelectionSounds[0]);
+		    		StartCoroutine(Selection(gameMode));
 		    	}
 	    	}
 
@@ -76,8 +82,8 @@ public class SelectScript : MonoBehaviour
 	    		if (Input.GetMouseButtonDown(0))
 	    		{
 	    			gameMode = 1;
-		    		PlayerPrefs.SetInt("GameMode", gameMode);
-		    		SceneManager.LoadScene("Battle Scene");
+	    			audioPlayer.PlayOneShot(SelectionSounds[0]);
+		    		StartCoroutine(Selection(gameMode));
 		    	}
 	    	}
 
@@ -90,8 +96,8 @@ public class SelectScript : MonoBehaviour
 	    		if (Input.GetMouseButtonDown(0))
 	    		{
 	    			gameMode = 2;
-		    		PlayerPrefs.SetInt("GameMode", gameMode);
-		    		SceneManager.LoadScene("Battle Scene");
+	    			audioPlayer.PlayOneShot(SelectionSounds[0]);
+		    		StartCoroutine(Selection(gameMode));
 		    	}
 	    	}
 
@@ -104,8 +110,8 @@ public class SelectScript : MonoBehaviour
 	    		if (Input.GetMouseButtonDown(0))
 	    		{
 		    		gameMode = 3;
-		    		PlayerPrefs.SetInt("GameMode", gameMode);
-		    		SceneManager.LoadScene("Battle Scene");
+		    		audioPlayer.PlayOneShot(SelectionSounds[0]);
+		    		StartCoroutine(Selection(gameMode));
 		    	}
 	    	}
 
@@ -117,6 +123,7 @@ public class SelectScript : MonoBehaviour
 
 	    		if (Input.GetMouseButtonDown(0))
 	    		{
+	    			audioPlayer.PlayOneShot(SelectionSounds[0]);
 		    		Application.Quit();
 		    	}
 	    	}
@@ -131,6 +138,17 @@ public class SelectScript : MonoBehaviour
    			sidetrim.SetActive(false);
 
 		}
+
+    }
+
+    IEnumerator Selection(int selection)
+    {
+
+    	audioPlayer.PlayOneShot(SelectionSounds[selection+1]);
+    	yield return new WaitForSeconds(
+    		SelectionSounds[selection+1].length);
+    	PlayerPrefs.SetInt("GameMode", selection);
+		SceneManager.LoadScene("Battle Scene");
 
     }
 }
