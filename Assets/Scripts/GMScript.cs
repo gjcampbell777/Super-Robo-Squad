@@ -583,8 +583,7 @@ public class GMScript : MonoBehaviour
 				audioPlayer.PlayOneShot(SoundEffects[2]);
 
 				yield return new WaitForSeconds(
-					attack.GetCurrentAnimatorStateInfo(0).length
-					+attack.GetCurrentAnimatorStateInfo(0).normalizedTime);
+					attack.GetCurrentAnimatorStateInfo(0).length*0.45f);
 
 				attack.SetTrigger("AttackTrigger");
 
@@ -1089,10 +1088,10 @@ public class GMScript : MonoBehaviour
 
 		audioPlayer.PlayOneShot(SoundEffects[2]);
 		yield return new WaitForSeconds(
-			enemyAttackAnim.GetCurrentAnimatorStateInfo(0).length
-			+enemyAttackAnim.GetCurrentAnimatorStateInfo(0).normalizedTime);
+			enemyAttackAnim.GetCurrentAnimatorStateInfo(0).length*0.45f);
 
-		enemyAttackAnim.SetTrigger("AttackTrigger");
+		//enemyAttackAnim.SetTrigger("AttackTrigger");
+
     }
 
     IEnumerator PreAttackBuffAnimEnemy()
