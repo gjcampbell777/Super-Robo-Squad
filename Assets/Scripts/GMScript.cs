@@ -232,21 +232,30 @@ public class GMScript : MonoBehaviour
     		if(PlayerPrefs.GetInt("GameMode") == 0)
 	    	{
 	    		
-	    		maxLevel = 5;
+	    		maxLevel = 10;
 
 	    		if(PlayerPrefs.GetInt("Level") == 1)
 	    		{
-	    			SeedParse(new int[] {0,1,11,13,0,6,8,0,0,3,6,5,7,0});
+	    			SeedParse(new int[] {0,0,0,0,8,8,8,8,0,3,8,8,8,0});
 	    		} else if(PlayerPrefs.GetInt("Level") == 2){
-	    			SeedParse(new int[] {0,4,8,12,4,5,9,1,10,3,2,6,10,0});
+	    			SeedParse(new int[] {0,0,0,0,8,8,8,8,0,4,6,6,6,6,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 3){
-	    			SeedParse(new int[] {2,6,10,7,12,0,8,11,5,4,1,4,0,8,0});
+	    			SeedParse(new int[] {0,0,6,0,0,0,0,0,0,3,8,8,8,0});
 	    		} else if (PlayerPrefs.GetInt("Level") == 4){
-	    			SeedParse(new int[] {4,10,1,14,14,1,0,5,8,5,10,4,7,10,7,0});
+	    			SeedParse(new int[] {0,2,0,13,13,8,8,1,11,3,4,8,8,0});
     			} else if (PlayerPrefs.GetInt("Level") == 5){
-    				SeedParse(new int[] {3,4,5,6,3,1,0,2,9,6,0,9,11,10,11,10,0});
-				} else if (PlayerPrefs.GetInt("Level") >= 6){
-					SeedParse(new int[] {6,0,8,4,4,6,10,2,8,7,6,0,10,2,10,2,6,0});
+    				SeedParse(new int[] {0,2,0,12,12,0,8,11,1,3,4,8,8,0});
+    			} else if (PlayerPrefs.GetInt("Level") == 6){
+    				SeedParse(new int[] {0,0,0,14,14,8,8,0,0,3,8,8,8,0});
+    			} else if(PlayerPrefs.GetInt("Level") == 7){
+	    			SeedParse(new int[] {0,0,0,0,8,8,8,8,0,6,6,6,6,6,6,6,0});
+	    		} else if(PlayerPrefs.GetInt("Level") == 8){
+	    			SeedParse(new int[] {0,0,6,6,8,8,8,8,0,4,6,6,6,6,3});
+	    		} else if(PlayerPrefs.GetInt("Level") == 9){
+	    			SeedParse(new int[] {0,0,6,6,8,8,8,6,0,4,0,6,0,6,0});
+	    		} else if(PlayerPrefs.GetInt("Level") == 10){
+	    			SeedParse(new int[] {0,4,8,13,8,8,8,0,4,6,6,10,2,6,10,2,0});
+				} else if (PlayerPrefs.GetInt("Level") >= 11){
 					SceneManager.LoadScene("Mode Select Scene");
 				}
 	    		
@@ -279,7 +288,6 @@ public class GMScript : MonoBehaviour
     			} else if (PlayerPrefs.GetInt("Level") == 10){
     				SeedParse(new int[] {11,3,1,5,0,1,3,6,2,4,7,9,11,5,0});
 				} else if (PlayerPrefs.GetInt("Level") >= 11){
-					SeedParse(new int[] {7,6,5,8,2,3,5,7,11,4,1,0,11,10,0});
 					SceneManager.LoadScene("Mode Select Scene");
 				}
 
