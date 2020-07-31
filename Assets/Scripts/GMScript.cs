@@ -231,33 +231,42 @@ public class GMScript : MonoBehaviour
 
     		if(PlayerPrefs.GetInt("GameMode") == 0)
 	    	{
-	    		
-	    		PlayerPrefs.SetInt("Level", 10);
 
 	    		maxLevel = 10;
 
-	    		if(PlayerPrefs.GetInt("Level") == 1)
-	    		{
-	    			SeedParse(new int[] {0,0,0,0,8,8,8,8,0,3,8,8,8,0});
-	    		} else if(PlayerPrefs.GetInt("Level") == 2){
-	    			SeedParse(new int[] {0,0,0,0,8,8,8,8,0,4,6,6,6,6,0});
-	    		} else if (PlayerPrefs.GetInt("Level") == 3){
-	    			SeedParse(new int[] {0,0,6,0,0,0,0,0,0,3,8,8,8,0});
-	    		} else if (PlayerPrefs.GetInt("Level") == 4){
-	    			SeedParse(new int[] {0,2,0,13,13,8,8,1,11,3,4,8,8,0});
-    			} else if (PlayerPrefs.GetInt("Level") == 5){
-    				SeedParse(new int[] {0,2,0,12,12,0,8,11,1,3,4,8,8,0});
-    			} else if (PlayerPrefs.GetInt("Level") == 6){
-    				SeedParse(new int[] {0,0,0,14,14,8,8,0,0,3,8,8,8,0});
-    			} else if(PlayerPrefs.GetInt("Level") == 7){
-	    			SeedParse(new int[] {0,0,0,0,8,8,8,8,0,6,6,6,6,6,6,6,0});
-	    		} else if(PlayerPrefs.GetInt("Level") == 8){
-	    			SeedParse(new int[] {0,0,6,6,8,8,8,8,0,4,6,6,6,6,3});
-	    		} else if(PlayerPrefs.GetInt("Level") == 9){
-	    			SeedParse(new int[] {0,0,6,6,8,8,8,6,0,4,0,6,0,6,0});
-	    		} else if(PlayerPrefs.GetInt("Level") == 10){
-	    			SeedParse(new int[] {0,4,8,13,8,8,8,0,4,6,6,10,2,6,10,2,0});
-				}
+	    		switch (PlayerPrefs.GetInt("Level"))
+      			{
+      				case 1:
+      					SeedParse(new int[] {0,0,0,0,8,8,8,8,0,3,8,8,8,0});
+      					break;
+      				case 2:
+      					SeedParse(new int[] {0,0,0,0,8,8,8,8,0,4,6,6,6,6,0});
+      					break;
+      				case 3:
+      					SeedParse(new int[] {0,0,6,0,0,0,0,0,0,3,8,8,8,0});
+      					break;
+      				case 4:
+      					SeedParse(new int[] {0,2,0,13,13,8,8,1,11,3,4,8,8,0});
+      					break;
+      				case 5:
+      					SeedParse(new int[] {0,2,0,12,12,0,8,11,1,3,4,8,8,0});
+      					break;
+      				case 6:
+      					SeedParse(new int[] {0,0,0,14,14,8,8,0,0,3,8,8,8,0});
+      					break;
+      				case 7:
+      					SeedParse(new int[] {0,0,0,0,8,8,8,8,0,6,6,6,6,6,6,6,0});
+      					break;
+      				case 8:
+      					SeedParse(new int[] {0,0,6,6,8,8,8,8,0,4,6,6,6,6,3});
+      					break;
+      				case 9:
+      					SeedParse(new int[] {0,0,6,6,8,8,8,6,0,4,0,6,0,6,0});
+      					break;
+      				case 10:
+      					SeedParse(new int[] {0,4,8,13,8,8,8,0,4,6,6,10,2,6,10,2,0});
+      					break;
+      			}
 	    		
 	    	}
 
@@ -266,28 +275,39 @@ public class GMScript : MonoBehaviour
 	    		
 	    		maxLevel = 10;
 
-	    		if(PlayerPrefs.GetInt("Level") == 1)
-	    		{
-	    			SeedParse(new int[] {7,8,6,9,4,4,4,4,4,3,2,2,2,0});
-	    		} else if(PlayerPrefs.GetInt("Level") == 2){
-	    			SeedParse(new int[] {0,11,1,14,4,4,4,4,4,3,7,5,6,0});
-	    		} else if (PlayerPrefs.GetInt("Level") == 3){
-	    			SeedParse(new int[] {7,11,12,5,4,3,8,10,6,3,6,0,10,0});
-	    		} else if (PlayerPrefs.GetInt("Level") == 4){
-	    			SeedParse(new int[] {10,8,9,5,0,1,2,3,4,3,3,2,1,0});
-    			} else if (PlayerPrefs.GetInt("Level") == 5){
-    				SeedParse(new int[] {8,5,7,5,5,6,7,8,9,3,2,11,1,0});
-				} else if (PlayerPrefs.GetInt("Level") == 6){
-					SeedParse(new int[] {0,4,8,6,10,11,4,1,5,11,10,2,0,6,0});
-				} else if(PlayerPrefs.GetInt("Level") == 7){
-	    			SeedParse(new int[] {2,4,6,8,1,3,5,7,9,4,7,1,9,3,0});
-	    		} else if (PlayerPrefs.GetInt("Level") == 8){
-	    			SeedParse(new int[] {1,3,5,7,2,4,6,8,10,4,10,0,6,11,0});
-	    		} else if (PlayerPrefs.GetInt("Level") == 9){
-	    			SeedParse(new int[] {6,2,10,4,1,1,2,3,5,4,8,10,0,4,0});
-    			} else if (PlayerPrefs.GetInt("Level") == 10){
-    				SeedParse(new int[] {11,3,1,5,0,1,3,6,2,4,7,9,11,5,0});
-				}
+	    		switch (PlayerPrefs.GetInt("Level"))
+      			{
+      				case 1:
+      					SeedParse(new int[] {7,8,6,9,4,4,4,4,4,3,2,2,2,0});
+      					break;
+      				case 2:
+      					SeedParse(new int[] {0,11,1,14,4,4,4,4,4,3,7,5,6,0});
+      					break;
+      				case 3:
+      					SeedParse(new int[] {7,11,12,5,4,3,8,10,6,3,6,0,10,0});
+      					break;
+      				case 4:
+      					SeedParse(new int[] {10,8,9,5,0,1,2,3,4,3,3,2,1,0});
+      					break;
+      				case 5:
+      					SeedParse(new int[] {8,5,7,5,5,6,7,8,9,3,2,11,1,0});
+      					break;
+      				case 6:
+      					SeedParse(new int[] {0,4,8,6,10,11,4,1,5,11,10,2,0,6,0});
+      					break;
+      				case 7:
+      					SeedParse(new int[] {2,4,6,8,1,3,5,7,9,4,7,1,9,3,0});
+      					break;
+      				case 8:
+      					SeedParse(new int[] {1,3,5,7,2,4,6,8,10,4,10,0,6,11,0});
+      					break;
+      				case 9:
+      					SeedParse(new int[] {6,2,10,4,1,1,2,3,5,4,8,10,0,4,0});
+      					break;
+      				case 10:
+      					SeedParse(new int[] {11,3,1,5,0,1,3,6,2,4,7,9,11,5,0});
+      					break;
+      			}
 
 	    	}
 
