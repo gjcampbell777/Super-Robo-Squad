@@ -232,6 +232,8 @@ public class GMScript : MonoBehaviour
     		if(PlayerPrefs.GetInt("GameMode") == 0)
 	    	{
 	    		
+	    		PlayerPrefs.SetInt("Level", 10);
+
 	    		maxLevel = 10;
 
 	    		if(PlayerPrefs.GetInt("Level") == 1)
@@ -255,8 +257,6 @@ public class GMScript : MonoBehaviour
 	    			SeedParse(new int[] {0,0,6,6,8,8,8,6,0,4,0,6,0,6,0});
 	    		} else if(PlayerPrefs.GetInt("Level") == 10){
 	    			SeedParse(new int[] {0,4,8,13,8,8,8,0,4,6,6,10,2,6,10,2,0});
-				} else if (PlayerPrefs.GetInt("Level") >= 11){
-					SceneManager.LoadScene("Mode Select Scene");
 				}
 	    		
 	    	}
@@ -287,8 +287,6 @@ public class GMScript : MonoBehaviour
 	    			SeedParse(new int[] {6,2,10,4,1,1,2,3,5,4,8,10,0,4,0});
     			} else if (PlayerPrefs.GetInt("Level") == 10){
     				SeedParse(new int[] {11,3,1,5,0,1,3,6,2,4,7,9,11,5,0});
-				} else if (PlayerPrefs.GetInt("Level") >= 11){
-					SceneManager.LoadScene("Mode Select Scene");
 				}
 
 	    	}
@@ -428,6 +426,7 @@ public class GMScript : MonoBehaviour
 
 		    if(PlayerPrefs.GetInt("Level") >= maxLevel)
 		    {
+		    	PlayerPrefs.SetInt("TutorialComplete", 1);
 		    	StartCoroutine(BackToModeSelect());
 		    }
 

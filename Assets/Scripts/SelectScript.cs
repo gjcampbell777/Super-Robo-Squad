@@ -10,6 +10,9 @@ public class SelectScript : MonoBehaviour
 
 	public AudioClip[] SelectionSounds;
 
+	public GameObject PreTutorial;
+	public GameObject PostTutorial;
+
 	private int gameMode;
 	private int level;
 	private GameObject SideTrimObject;
@@ -53,6 +56,15 @@ public class SelectScript : MonoBehaviour
 	    Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
 	    RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+	    if(PlayerPrefs.GetInt("TutorialComplete") == 1)
+	    {
+	    	PreTutorial.SetActive(false);
+	    	PostTutorial.SetActive(true);
+	    } else {
+	    	PreTutorial.SetActive(true);
+	    	PostTutorial.SetActive(false);
+	    }
     	
         if (hit.collider != null) {
 
