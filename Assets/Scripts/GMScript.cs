@@ -153,12 +153,17 @@ public class GMScript : MonoBehaviour
 	    		if(level <= 3)
 	    		{
 	    			EnemyKillSequence = new int[4-buffAmount];
+	    			modelNum = 0;
 	    		} else if(level > 3 && level <= 6) {
 	    			EnemyKillSequence = new int[Random.Range((4-buffAmount), 6)];
+	    			modelNum = Random.Range(0, 2);
+	    			if (modelNum == 1) modelNum = 3; 
 	    		} else if(level > 6 && level <= 9) {
 	    			EnemyKillSequence = new int[Random.Range((4-buffAmount), 8)];
+	    			modelNum = Random.Range(0, 4);
 	    		} else {
 	    			EnemyKillSequence = new int[Random.Range((4-buffAmount), 12)];
+	    			modelNum = Random.Range(0, 4);
 	    		}
 
 	    	} else {
@@ -203,8 +208,6 @@ public class GMScript : MonoBehaviour
 		    	}
 
 		    }while(!SequenceCheck());
-
-		    modelNum = Random.Range(0, 4);
 
 		    // CHANGES COLOUR OF KILL SEQUENCE DEPENDENT ON MODEL NUMBER
 		    for(int i = 0; i < EnemyKillSequence.Length; i++)
