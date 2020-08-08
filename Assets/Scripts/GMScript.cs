@@ -226,7 +226,8 @@ public class GMScript : MonoBehaviour
 	    				EnemyKillSequence[i] = (EnemyKillSequence[i]+9)%12;
 	    			break;
 	    		}
-		    	print((Colours)EnemyKillSequence[i]);
+	    		//DEBUG OUTPUT LINE
+		    	//print((Colours)EnemyKillSequence[i]);
 		    }
 
     	} else {
