@@ -161,9 +161,11 @@ public class GMScript : MonoBehaviour
 	    		} else if(level > 6 && level <= 9) {
 	    			EnemyKillSequence = new int[Random.Range((4-buffAmount), 8)];
 	    			modelNum = Random.Range(0, 4);
+	    			enemyHealth = 20;
 	    		} else {
 	    			EnemyKillSequence = new int[Random.Range((4-buffAmount), 12)];
 	    			modelNum = Random.Range(0, 4);
+	    			enemyHealth = 24;
 	    		}
 
 	    	} else {
