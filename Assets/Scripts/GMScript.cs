@@ -489,7 +489,7 @@ public class GMScript : MonoBehaviour
 				    }else if(PlayerPrefs.GetInt("GameMode") == 2 && level > PlayerPrefs.GetInt("ChallengeHighScore")){
 				    	PlayerPrefs.SetInt("ChallengeHighScore", level-1);
 				    }
-		    		
+
 		    		audioPlayer.PlayOneShot(SoundEffects[1]);
 		    		SceneManager.LoadScene("Mode Select Scene");
 		    	}
@@ -730,7 +730,7 @@ public class GMScript : MonoBehaviour
 
 			DisplayDamageText((int)damage, display, partyMember);
 			
-			if(!shield && !enemyShield)
+			if(!shield && !enemyShield && damage != 0)
 			{
 				Hit.SetActive(true);
 
@@ -745,7 +745,7 @@ public class GMScript : MonoBehaviour
 				Hit.SetActive(false);
 			} else {
 
-				yield return new WaitForSeconds(1);
+				yield return new WaitForSeconds(1.5f);
 
 			}
 
@@ -857,7 +857,7 @@ public class GMScript : MonoBehaviour
 
 			DisplayDamageText(attack, PartyDamageText, (Colours)attackColour);
 
-			if(!shield && !enemyShield)
+			if(!shield && !enemyShield && attack != 0)
 			{
 				EnemyHit.SetActive(true);
 
@@ -872,7 +872,7 @@ public class GMScript : MonoBehaviour
 				EnemyHit.SetActive(false);
 			} else {
 
-				yield return new WaitForSeconds(1);
+				yield return new WaitForSeconds(1.5f);
 
 			}
 
