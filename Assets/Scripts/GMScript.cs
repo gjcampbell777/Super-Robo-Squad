@@ -360,6 +360,7 @@ public class GMScript : MonoBehaviour
     	}
 
     	noRepeat = true;
+    	//CHECK IF GAME OBJECT EXISTS BEFORE DOING THIS TO PREVENT ERRORS
     	EnemyHealthText.text = enemyHealth.ToString();
     	PartyHealthText.text = partyHealth.ToString();
 
@@ -424,6 +425,13 @@ public class GMScript : MonoBehaviour
 
 		    //print("The Super Robo Squad has been destroyed! Try again!");
 
+		    if(PlayerPrefs.GetInt("GameMode") == 1 && level > PlayerPrefs.GetInt("EndlessHighScore"))
+		    {
+		    	PlayerPrefs.SetInt("EndlessHighScore", level-1);
+		    }else if(PlayerPrefs.GetInt("GameMode") == 2 && level > PlayerPrefs.GetInt("ChallengeHighScore")){
+		    	PlayerPrefs.SetInt("ChallengeHighScore", level-1);
+		    }
+
 		    gameover = true;
 
 		    cursorLock = false;
@@ -449,6 +457,9 @@ public class GMScript : MonoBehaviour
 
 		    if(PlayerPrefs.GetInt("Level") >= maxLevel)
 		    {
+
+		    	if(PlayerPrefs.GetInt("GameMode") == 2) PlayerPrefs.SetInt("ChallengeHighScore", 10);
+
 		    	PlayerPrefs.SetInt("TutorialComplete", 1);
 		    	StartCoroutine(BackToModeSelect());
 		    }
@@ -471,6 +482,14 @@ public class GMScript : MonoBehaviour
 
 		    	if(hit.collider.gameObject.tag == "Back")
 		    	{
+
+		    		if(PlayerPrefs.GetInt("GameMode") == 1 && level > PlayerPrefs.GetInt("EndlessHighScore"))
+				    {
+				    	PlayerPrefs.SetInt("EndlessHighScore", level-1);
+				    }else if(PlayerPrefs.GetInt("GameMode") == 2 && level > PlayerPrefs.GetInt("ChallengeHighScore")){
+				    	PlayerPrefs.SetInt("ChallengeHighScore", level-1);
+				    }
+		    		
 		    		audioPlayer.PlayOneShot(SoundEffects[1]);
 		    		SceneManager.LoadScene("Mode Select Scene");
 		    	}

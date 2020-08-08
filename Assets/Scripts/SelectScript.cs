@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class SelectScript : MonoBehaviour
@@ -13,10 +14,14 @@ public class SelectScript : MonoBehaviour
 	public GameObject PreTutorial;
 	public GameObject PostTutorial;
 
+	public GameObject Title;
+	public GameObject Highscore;
+
 	private int gameMode;
 	private int level;
 	private GameObject SideTrimObject;
 	private GameObject SideTrimObjectFlip;
+	private Text Score;
 
 	private AudioSource audioPlayer;
 
@@ -41,6 +46,8 @@ public class SelectScript : MonoBehaviour
 		SideTrimObjectFlip.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
 		SideTrimObjectFlip.SetActive(false);
 		SideTrimObjectFlip.tag = "SideTrim";
+
+		Score = GameObject.Find("Text").GetComponent<Text>();
 
 		audioPlayer = this.GetComponent<AudioSource>();
 
@@ -90,6 +97,9 @@ public class SelectScript : MonoBehaviour
 
 	    		renderer.sprite = SideTrim[1];
 	    		rendererFlip.sprite = SideTrim[1];
+	    		Title.SetActive(false);
+	   			Highscore.SetActive(true);
+	   			Score.text = PlayerPrefs.GetInt("EndlessHighScore").ToString();
 
 	    		if (Input.GetMouseButtonDown(0))
 	    		{
@@ -104,6 +114,9 @@ public class SelectScript : MonoBehaviour
 
 	    		renderer.sprite = SideTrim[2];
 	    		rendererFlip.sprite = SideTrim[2];
+	    		Title.SetActive(false);
+	   			Highscore.SetActive(true);
+	   			Score.text = PlayerPrefs.GetInt("ChallengeHighScore").ToString();
 
 	    		if (Input.GetMouseButtonDown(0))
 	    		{
@@ -148,6 +161,10 @@ public class SelectScript : MonoBehaviour
 			GameObject[] sideTrims = GameObject.FindGameObjectsWithTag("SideTrim");
    			foreach(GameObject sidetrim in sideTrims)
    			sidetrim.SetActive(false);
+
+   			Title.SetActive(true);
+   			Highscore.SetActive(false);
+   			Score.text = null;
 
 		}
 
