@@ -99,6 +99,9 @@ public class GMScript : MonoBehaviour
     	shake = GameObject.FindGameObjectWithTag("ScreenShake").GetComponent<ShakeScript>();
     	audioPlayer = this.GetComponent<AudioSource>();
 
+    	Text TutorialText = GameObject.Find("TutorialText").GetComponent<Text>();
+    	TutorialText.text = null;
+
     	GameObject.FindGameObjectWithTag("Music").GetComponent<MusicScript>().PlayMusic();
 
     	if(PlayerPrefs.GetInt("GameMode") == 0 ||
@@ -235,6 +238,7 @@ public class GMScript : MonoBehaviour
 
     		Divider.SetActive(true);
     		MaxLevelNumber.SetActive(true);
+    		TutorialText.text = null;
 
     		if(PlayerPrefs.GetInt("GameMode") == 0)
 	    	{
@@ -245,33 +249,62 @@ public class GMScript : MonoBehaviour
       			{
       				case 1:
       					SeedParse(new int[] {0,0,0,0,8,8,8,8,0,3,8,8,8,0});
+      					TutorialText.text = "Hi! :D I'm tutorial bot! I'm here to help you get through the tutorial."+ 
+      					" Simply pick an attack order for the robots in your party and then click 'Go!' to fight."+
+      					" Get the enemy robots health down to zero to win.";
       					break;
       				case 2:
       					SeedParse(new int[] {0,0,0,0,8,8,8,8,0,4,6,6,6,6,0});
+      					TutorialText.text = "You can also sequence break an enemy by hitting its weakpiont with the correct robot."+ 
+      					" Hitting a weakpoint does no addition damage, but hitting all weakpoints in a sequence results in an instant victory!";
       					break;
       				case 3:
       					SeedParse(new int[] {0,0,6,0,0,0,0,0,0,3,8,8,8,0});
+      					TutorialText.text = "Each colour has its own strengths and weakness when against other colours."+ 
+      					" For instance, a reb robot will do no damage agains the red body of an enemy (and vice versa)."+
+      					" I wonder what robot could help in this situation? ;)";
       					break;
       				case 4:
       					SeedParse(new int[] {0,2,0,13,13,8,8,1,11,3,4,8,8,0});
+      					TutorialText.text = "Some robots use abilities instead of attacking."+ 
+      					" Just be sure to have the sheild robot go last so he doesn't block your attacks!"+
+      					" (Enemy robots can also use abilities if their antenna is the correct colour)";
       					break;
       				case 5:
       					SeedParse(new int[] {0,2,0,12,12,0,8,11,1,3,4,8,8,0});
+      					TutorialText.text = "Heal bot can be used in any part of your attack order unlike sheild bot."+ 
+      					" My scanners indicate that your orange bot will do less damage than your last fight."+
+      					" I wonder why that is?";
       					break;
       				case 6:
       					SeedParse(new int[] {0,0,0,14,14,8,8,0,0,3,8,8,8,0});
+      					TutorialText.text = "Use buff bot at the beginning of an attack to give your party an attack boost!"+ 
+      					" Unfotunately, the same ability can be used by your enemy! :O"+
+      					" (However, a buff can't be applied to an attack if it already does no damage)";
       					break;
       				case 7:
       					SeedParse(new int[] {0,0,0,0,8,8,8,8,0,6,6,6,6,6,6,6,0});
+      					TutorialText.text = "Hmmm... I'm getting Déjà vu."+ 
+      					" Just a quick reminder that some weakpoint sequences can be longer than your number of party members and will require multiple attacks to complete."+
+      					" Not that that information is important for this fight or anything. ;D";
       					break;
       				case 8:
       					SeedParse(new int[] {0,0,6,6,8,8,8,8,0,4,6,6,6,6,3});
+      					TutorialText.text = "Looks like the model of this robot is a different version number."+ 
+      					" (The version number is the roman numeral on an enemies face.)"+
+      					" Changing the version number will result in completely different strengths and weaknesses for every aspect of an enemy robot!";
       					break;
       				case 9:
-      					SeedParse(new int[] {0,0,6,6,8,8,8,6,0,4,0,6,0,6,0});
+      					SeedParse(new int[] {0,11,6,5,8,8,8,6,0,4,0,6,11,5,0});
+      					TutorialText.text = "In the field the enemies you face will do their best to scramble their weakpoint sequences to confuse you."+ 
+      					" As long as you use your party in the correct order you should be able to sequence break them."+
+      					" Here's an example of what a fight like that might look like.";
       					break;
       				case 10:
-      					SeedParse(new int[] {0,4,8,13,8,8,8,0,4,6,6,10,2,6,10,2,0});
+      					SeedParse(new int[] {0,4,8,13,8,8,8,0,4,6,6,2,10,6,2,10,0});
+      					TutorialText.text = "I've taught you everything you need to know! :D"+ 
+      					" Here's one last battle to prove yourself, good luck with endless and challenge mode!"+
+      					" Now if you'll excuse me, I have to go see a particular magical legume show off their games at a particular game dev meet up ;)";
       					break;
       			}
 	    		
