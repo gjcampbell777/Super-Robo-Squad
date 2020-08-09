@@ -177,6 +177,13 @@ public class GMScript : MonoBehaviour
 	    		// KILL SEQUENCE RANGES FROM LENGTH OF 3 TO 8 HITS
 	    		EnemyKillSequence = new int[Random.Range((4-buffAmount), 12)];
 
+	    		if(level <= 3)
+	    		{
+	    			modelNum = 0;
+	    		} else {
+	    			modelNum = Random.Range(0, 4);
+	    		}
+
 	    	}
 
 	    	EnemyPartsColours[0] = Random.Range(0, 15);
