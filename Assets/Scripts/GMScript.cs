@@ -1188,6 +1188,8 @@ public class GMScript : MonoBehaviour
 		yield return new WaitForSeconds(
 			enemyAttackAnim.GetCurrentAnimatorStateInfo(0).length*0.45f);
 
+		enemyAttackAnim.SetTrigger("AttackTrigger");
+
     }
 
     IEnumerator PreAttackBuffAnimEnemy()
