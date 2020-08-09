@@ -22,6 +22,7 @@ public class GMScript : MonoBehaviour
 	public GameObject EnemyShield;
 
 	public GameObject Victory;
+	public GameObject WeakPointVictory;
 	public GameObject GameOver;
 	public GameObject AttackStopSign;
 	public GameObject ShieldHit;
@@ -1194,10 +1195,12 @@ public class GMScript : MonoBehaviour
     {
 
     	display.SetActive(true);
+    	if(victory || enemyHealth > 0) WeakPointVictory.SetActive(true);
 
     	yield return new WaitForSeconds(3);
 
     	display.SetActive(false);
+    	WeakPointVictory.SetActive(false);
 
     	level++;
     	PlayerPrefs.SetInt("Level", level);
