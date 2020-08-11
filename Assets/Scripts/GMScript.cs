@@ -460,14 +460,6 @@ public class GMScript : MonoBehaviour
 			}
         }
 
-        if(partyHealth < 3)
-        {
-        	//LOW HEALTH SOUND GOES GOES HERE
-        	//Gonna have to add some sloppy checking to get this to work properly without adding a new audiosource
-        	//Might just wanna add a new audio source
-			//audioPlayer.PlayOneShot();
-        }
-
         if(partyHealth <= 0 && gameover == false)
         {
         	partyHealth = 0;
@@ -492,7 +484,7 @@ public class GMScript : MonoBehaviour
 
         }
 
-        if(enemyHealth <= 0 || victory == true)
+        if((enemyHealth <= 0 || victory == true) && gameover == false)
         {
         	enemyHealth = 0;
 
@@ -834,8 +826,7 @@ public class GMScript : MonoBehaviour
 
 			Animator hit = EnemyHit.transform.GetComponent<Animator>();
 
-			//ABILITY AUDIO GOES HERE
-			//audioPlayer.PlayOneShot();
+			audioPlayer.PlayOneShot(SoundEffects[6]);
 
 			yield return new WaitForSeconds(
 				hit.GetCurrentAnimatorStateInfo(0).length * 2
@@ -884,8 +875,8 @@ public class GMScript : MonoBehaviour
 
 			Animator hit = Hit.transform.GetComponent<Animator>();
 
-			//ABILITY AUDIO GOES HERE
-			//audioPlayer.PlayOneShot();
+			audioPlayer.PlayOneShot(SoundEffects[6]);
+
 			yield return new WaitForSeconds(
 				hit.GetCurrentAnimatorStateInfo(0).length * 2
 				+hit.GetCurrentAnimatorStateInfo(0).normalizedTime);
@@ -1237,10 +1228,9 @@ public class GMScript : MonoBehaviour
 
     	display.SetActive(true);
 
-    	//DEFEAT SOUND GOES HERE
-		//audioPlayer.PlayOneShot();
+		audioPlayer.PlayOneShot(SoundEffects[8]);
 
-    	yield return new WaitForSeconds(3);
+    	yield return new WaitForSeconds(SoundEffects[8].length);
 
     	display.SetActive(false);
 
@@ -1254,10 +1244,9 @@ public class GMScript : MonoBehaviour
     	display.SetActive(true);
     	if(victory || enemyHealth > 0) WeakPointVictory.SetActive(true);
 
-    	//VICTORY SOUND GOES HERE
-		//audioPlayer.PlayOneShot();
+		audioPlayer.PlayOneShot(SoundEffects[7]);
 
-    	yield return new WaitForSeconds(3);
+    	yield return new WaitForSeconds(SoundEffects[7].length);
 
     	display.SetActive(false);
     	WeakPointVictory.SetActive(false);
